@@ -1,0 +1,52 @@
+here::here()
+
+# READ IN DATA ------------------------------------------------------------
+
+#sequence table from DADA2
+seqtab_treeholes<-readRDS('seqtab_treeholes.RDS')
+sample_data<-read.csv('samdf.csv')
+taxa_wsp<-read.csv('taxa')
+
+nrow(seqtab_treeholes)
+
+# FILTER SEQUENCES --------------------------------------------------------
+
+#remove OTUs with less than 100 reads across all samples
+seqtab_treeholes<-seqtab_treeholes[,-which(colSums(seqtab_treeholes)<100)]
+ncol(seqtab_treeholes)
+
+#remove OTUs occurring in less than 10 samples
+seqtab_treeholes<-seqtab_treeholes[,-which(colSums(seqtab_treeholes>0)<10)]
+ncol(seqtab_treeholes)
+
+#remove communities with less than 10,000 sequences
+seqtab_treeholes<-seqtab_treeholes[which(rowSums(seqtab_treeholes[,-1])>10000),]
+ncol(seqtab_treeholes)
+
+# FILTER THE SAMPLE METADATA AND TAXA TABLE ACCORDING TO REMAINING COMMUNITIES AND ASVS, respectively -------------------------------------------------------------------------
+
+
+sample_data
+
+rownames(seqtab_treeholes[,1])
+
+
+
+
+
+# WRITE NEW SEQTABLE AS CSV AND FASTA -----------------------------------------------------------
+
+ASV_names<-paste('ASV',1:ncol(seqtab_treeholes), sep='_')
+
+#write a table that is a key to convert asv names into sequences
+ASVnames_and_sequences<-as.data.frame(cbind(ASV_name=ASV_names,sequence=colnames(seqtab_treeholes)))
+write.csv(ASVnames_and_sequences, 'ASVnames_and_sequences.csv', row.names = F)
+
+ASV_sequences<-as.list(ASVnames_and_sequences$sequence)
+
+#write a fasta file
+seqinr::write.fasta(sequences=ASV_sequences, names=ASV_names,'seqtable_nochim_treeholes_rarespremoved.fasta', open = "w", nbchar = 60, as.string = FALSE)
+
+#rename the sequence colnames in the seqtab to shorthand ASV names
+colnames(seqtab_treeholes)<-ASV_names
+write.csv(seqtab_treeholes,'seqtable_nochim_treeholes_rarespremoved.csv')

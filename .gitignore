@@ -1,0 +1,16 @@
+# Large excluded files
+*dada_output.RDS
+*seqtab.csv
+*seqtab.nochim.csv
+*silva*
+5_treeholes/seqtab_treeholes.csv
+8_PICRUSt2/KO_metagenome_out/pred_metagenome_unstrat.tsv
+8_PICRUSt2_bak.bzip2
+8_PICRUSt2/intermediate/
+4_dada2/DECIPHER_2.20.0/
+# figures
+*.pdf
+# private stuff
+*private*
+10_functionink/
+

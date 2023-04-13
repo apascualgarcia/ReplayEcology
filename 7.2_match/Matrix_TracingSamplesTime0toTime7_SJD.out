@@ -1,0 +1,13 @@
+# >> TraceSamples_fromPartTime0toPartTime7.pl <<
+# >> Running at date: 21:34:19, Tue May 17, 2022
+# >> Running directory: /home/apascual/Nextcloud/Research/Projects/FunctionalGroups/Repositories/convergence/Partial_Matt_pipeline/7.2_match
+# >> Zürich, ETH, A.P-G.
+# >> Input file: ../7.1_classes/metadata_Time0D-7D-4M_May2022_wJSDpart.csv
+# >> This output file: Matrix_TracingSamplesTime0toTime7_SJD.out
+Rep1.Par1	Rep1.Par2	Rep2.Par1	Rep2.Par2	Rep3.Par1	Rep3.Par2	Rep4.Par1	Rep4.Par2
+Rep0.Par1	86	6	82	10	83	9	80	11
+Rep0.Par2	4	17	4	17	4	17	5	15
+Rep0.Par3	26	49	29	46	26	47	35	39
+Rep0.Par4	84	2	78	8	76	10	71	15
+Rep0.Par5	4	6	4	6	3	7	6	4
+Rep0.Par6	0	0	0	0	0	0	0	0

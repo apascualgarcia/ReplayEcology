@@ -1,0 +1,13 @@
+# Data  Groups  anosim  pval
+All starting vs final   0.029   1e-03   ("Experiment" it includes time 0 and the four replicates as different groups)
+All starting vs final   0.237   1e-03   ("time" it includes time 0 and time 7 as different groups)
+All Parents 0.656   1e-03
+Starting    Classes 0.643   1e-03
+Final   Replicates  0.004   3e-03
+Final   Classes 0.780    1e-03  (exactly the mean of the values for the four replicates)
+Final   Parents 0.716   1e-03
+Replicate 1 Classes 0.707   1e-03
+Replicate 2 Classes 0.793   1e-03
+Replicate 3 Classes 0.784   1e-03
+Replicate 4 Classes 0.839   1e-03   
+

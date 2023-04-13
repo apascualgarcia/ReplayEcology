@@ -1,0 +1,26 @@
+{
+    "id": "007FBB2D",
+    "path": "C:/Users/mlj206/OneDrive - University of Exeter/convergence/pipeline_2021/src/filter_seqtable.R",
+    "project_path": null,
+    "type": "r_source",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1651830155383.0,
+    "source_on_save": false,
+    "relative_order": 2,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "8,0",
+        "scrollLine": "0"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1651831676,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1651831676422,
+    "read_only": false,
+    "read_only_alternatives": []
+}

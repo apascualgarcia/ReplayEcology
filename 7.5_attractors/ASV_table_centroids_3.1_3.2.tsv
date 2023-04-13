@@ -1,0 +1,21 @@
+
+> mes1 = paste0("The number of times where the minimum distance is found at the child was ", nchild_min,
+...               "out of ", nchild, " (",nch .... [TRUNCATED] 
+
+> cat(mes1)
+The number of times where the minimum distance is found at the child was 120out of 284 (42.2535211267606%)
+> mes2 = paste0("The ranking quantiles are: ")
+
+> cat(mes2)
+The ranking quantiles are: 
+> (q)
+    0%     5%    25%    50%    75%    95%   100% 
+  1.00   1.00   1.00   3.00  20.00 137.85 221.00 
+
+> cat("Representing the top X%")
+Representing the top X%
+> (q/nchild*100)
+        0%         5%        25%        50%        75%        95%       100% 
+ 0.3521127  0.3521127  0.3521127  1.0563380  7.0422535 48.5387324 77.8169014 
+
+> sink()

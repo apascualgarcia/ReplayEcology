@@ -1,0 +1,34 @@
+Loading required package: Rcpp
+393 out of 3949 were assigned to the species level.
+Of which 338 had genera consistent with the input table.189 out of 3950 were assigned to the species level.
+Of which 155 had genera consistent with the input table.127 out of 3950 were assigned to the species level.
+Of which 107 had genera consistent with the input table.101 out of 3950 were assigned to the species level.
+Of which 81 had genera consistent with the input table.79 out of 3950 were assigned to the species level.
+Of which 62 had genera consistent with the input table.73 out of 3949 were assigned to the species level.
+Of which 59 had genera consistent with the input table.61 out of 3949 were assigned to the species level.
+Of which 53 had genera consistent with the input table.72 out of 3949 were assigned to the species level.
+Of which 56 had genera consistent with the input table.57 out of 3949 were assigned to the species level.
+Of which 50 had genera consistent with the input table.58 out of 3949 were assigned to the species level.
+Of which 51 had genera consistent with the input table.43 out of 3949 were assigned to the species level.
+Of which 40 had genera consistent with the input table.64 out of 3949 were assigned to the species level.
+Of which 55 had genera consistent with the input table.41 out of 3949 were assigned to the species level.
+Of which 34 had genera consistent with the input table.51 out of 3949 were assigned to the species level.
+Of which 47 had genera consistent with the input table.42 out of 3949 were assigned to the species level.
+Of which 35 had genera consistent with the input table.39 out of 3949 were assigned to the species level.
+Of which 34 had genera consistent with the input table.31 out of 3949 were assigned to the species level.
+Of which 28 had genera consistent with the input table.20 out of 3949 were assigned to the species level.
+Of which 19 had genera consistent with the input table.20 out of 3949 were assigned to the species level.
+Of which 19 had genera consistent with the input table.     Kingdom    Phylum           Class                 Order             
+[1,] "Bacteria" "Proteobacteria" "Gammaproteobacteria" "Enterobacterales"
+[2,] "Bacteria" "Proteobacteria" "Gammaproteobacteria" "Enterobacterales"
+[3,] "Bacteria" "Proteobacteria" "Gammaproteobacteria" "Enterobacterales"
+[4,] "Bacteria" "Firmicutes"     "Bacilli"             "Paenibacillales" 
+[5,] "Bacteria" "Proteobacteria" "Gammaproteobacteria" "Pseudomonadales" 
+[6,] "Bacteria" "Proteobacteria" "Gammaproteobacteria" "Pseudomonadales" 
+     Family               Genus          
+[1,] NA                   NA             
+[2,] "Enterobacteriaceae" "Citrobacter"  
+[3,] "Enterobacteriaceae" "Klebsiella"   
+[4,] "Paenibacillaceae"   "Paenibacillus"
+[5,] "Pseudomonadaceae"   "Pseudomonas"  
+[6,] "Pseudomonadaceae"   "Pseudomonas"  

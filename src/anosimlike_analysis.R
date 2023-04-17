@@ -1,8 +1,8 @@
 ##################################################
 # anosimlike_analysis.R
 ##################################################
-# In this script I compare the betadiversity variability
-# between samples sharing a commong factor, such as 
+# In this script I compare the beta diversity variability
+# between samples sharing a common factor, such as 
 # belonging to the same class and replicate, same
 # class independently of the replicate, or same parent
 # community, among other possibilities.
@@ -17,18 +17,19 @@ library(vegan)
 
 # START EDITING -----------
 # --- Set the files needed
-file.meta="metadata_Time0D-7D-4M_May2022_wJSDpart.csv" # metadata with partitions
+file.meta="metadata_Time0D-7D-4M_May2022_wJSDpart-merged.csv" # metadata with partitions
 fileDist="Dist_JSD_Time0D-7D-4M.RDS" # beta diversity distance
 
 # --- Select category to classify the distances and prepare structures
-category="parent" # "partition" #"time" #"experiment.location" #"replicate.partition"# "Experiment"
+category="Time0D_7D" # "partition" #"time" #"experiment.location" # Time0D_7D # Part_Time0D_17
+                  #"replicate.partition"# "Experiment" # "parent"
 
 # --- Select a method to analyse the variance between groups
 setMethod="anosim" # One of "anosim", "adonis2" or "mrpp"
-Nperm0 = 999 # number of permutations to run the test
+Nperm0 = 99 # number of permutations to run the test
 
 # --- Experiments to purge (optionally, 4M and class 6 will always be purged)
-purge = "0D" # one of "0D", "7D" or "none"
+purge = "none" # one of "0D", "7D" or "none"
 
 # --- Replicate to keep (if you want to analyse a single replicate)
 keep = "none" # one of "Rep1", "Rep2", "Rep3", "Rep4" or "none"
@@ -72,7 +73,7 @@ sample_metadata=sample_metadata[matched,]
 # --- Optional experiments to purge
 
 if(purge != "none"){
-  id.keep = as.character(sample_metadata$sampleid[which(sample_metadata$Experiment != purge)])
+  id.keep = as.character(sample_metadata$sampleid[which(sample_metadata$time != purge)])
   matched=match(id.keep, sample_metadata$sampleid)
   sample_metadata=sample_metadata[matched,]
 }
@@ -85,8 +86,14 @@ if(keep != "none"){
   sample_metadata=sample_metadata[matched,]
 }
 
+# --- Control that there are not NA in the partition selected
+# .... this may happen if, in one of the analysis, a sample was excluded because (e.g.
+#      it had < 10K reads) but it was still present in the original metadata table,
+#      because, when we merged into a single file, a NA will appear in that field for that sample
+sample_metadata = sample_metadata[!is.na(sample_metadata[[category]]), ]
 
 # --- Extract distance matrix with desired samples
+# ..... This is a very inefficient way to extract the distances, it takes several minutes   
 Nsamples=dim(sample_metadata)[1]
 dist.tmp = matrix(data = NA, nrow = Nsamples, ncol = Nsamples)
 for(i in 1:Nsamples){
@@ -107,7 +114,6 @@ for(i in 1:Nsamples){
 dist.tmp = as.dist(dist.tmp)
 
 # Start comparison -----
-
 partition=sample_metadata[[category]] # this is a vector
 if(setMethod=="anosim"){
   AA=anosim(dist.tmp, as.factor(partition), permutations = Nperm0)

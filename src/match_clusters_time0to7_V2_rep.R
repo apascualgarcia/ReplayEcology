@@ -1,7 +1,7 @@
 ################################################# 
 #        match_clusters_time0to7_V2.R
 ################################################# 
-#  In this version the match has been already done
+#  In this version the match has already been done
 #  with the Perl script  TraceSamples_fromPartTime0toPartTime7.pl,
 #  and here we create a matrix plot with the number of communities in partitions
 #  at time 0 going to partitions in time 7

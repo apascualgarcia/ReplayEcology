@@ -40,7 +40,7 @@ fileOTU="seqtable_readyforanalysis.csv"
 
 # ..... Metadata
 dirMD = "../7.1_classes"
-fileMD="metadata_Time0D-7D-4M_May2022_wJSDpart.csv"
+fileMD="metadata_Time0D-7D-4M_May2022_wJSDpart-merged_ext.csv"
 
 # .... describe here the factors and levels needed to extract each subset
 #      you should create lists if needed although current implementation considers
@@ -49,7 +49,7 @@ fileMD="metadata_Time0D-7D-4M_May2022_wJSDpart.csv"
 #      be compared, finding for them their centroid and closest member.
 sample.id = "sampleid" # column for the samples
 factor.vec.subsets = c("Experiment", "replicate.partition", "replicate.partition") # one element (or list) for each subset
-level.vec.subsets = c("0D", "4.1", "4.2") # the correspondent level
+level.vec.subsets = c("0D", "Rep4.Class1", "Rep4.Class2") # the correspondent level
 
 # ... Output directory
 dirOut = "../7.5_attractors"
@@ -250,12 +250,17 @@ for(i in 1:dim(ASV.ref.relAb)[1]){
   id.keep = which(sample_md$replicate[id.sample] != 0)
   partitions = sample_md$partition[id.sample]
   partitions = partitions[id.keep]
-  length.part = rle(partitions)
-  N.tmp = max(length.part$lengths)
-  id.tmp = which.max(length.part$lengths)
-  part.tmp = length.part$values[id.tmp]
-  Nsame.part = c(Nsame.part, N.tmp)
-  part.id = c(part.id, part.tmp)
+  # ... new version using table to account for new level ids.
+  #length.part = table(partitions)
+  #N.tmp = max(length.part)
+  #part.tmp = names(which.max(length.part))
+  # ... commented older version that was using other level ids
+   length.part = rle(partitions)
+   N.tmp = max(length.part$lengths)
+   id.tmp = which.max(length.part$lengths)
+   part.tmp = length.part$values[id.tmp]
+   Nsame.part = c(Nsame.part, N.tmp)
+   part.id = c(part.id, part.tmp)
 }
 dist.df = dist.df[sample.keep, ]
 dist.df$Nsame.class = Nsame.part
@@ -356,11 +361,11 @@ for(i in 1:length(varx.vec)){
   scale_shape_manual(labels = c("1", "2"),
                      values = c(16, 17))+
     scale_color_manual(labels = c("1", "2","both"),
-                       values = c(2, 3, 4))+
+                       values = c("blue", "green4", "magenta1"))+
   xlab(xlab)+ylab(ylab)+
-  labs(color = "Converging to class",
+  labs(color = "Converge final class",
       shape = "Closest centroid",
-      size = "Num. rep. converging")+
+      size = "Num. rep. converge")+
     theme_bw()+
    theme(axis.title = element_text(size = 16),
          axis.text = element_text(size = 12),

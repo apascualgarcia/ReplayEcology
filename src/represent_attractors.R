@@ -19,10 +19,37 @@ library(usedist)
 
 # START EDITING -----------
 # --- Set the files needed
-file.meta = "metadata_Time0D-7D-4M_May2022_wJSDpart_ext.csv" # new metadata with combinations of columns
+file.meta = "metadata_Time0D-7D-4M_May2022_wJSDpart-merged_ext.csv" # new metadata with combinations of columns
 file.attr = "Distances_from0D_to_4.1_4.2.tsv" # additional info about the attractors
 fileOTU="seqtable_readyforanalysis.csv" # ASVs table
 rep.id = "Rep4" # choose the replicate to use to confront
+
+# --- Prepare plot features
+axesby=c(1,3) # axes to represent
+
+# .... Color of points
+#colorby="DominantClass"; colorlab = "Final class"
+#labelsColor = c("Goes to 1", "Goes to 2","Goes to both",
+#                "1", "2")
+colorby="exp.partition"; colorlab = "Local class"
+labelsColor = c("Final / 1", "Final / 2", "Starting / 1", "Starting / 2","Starting / 3",
+                "Starting / 4", "Starting / 5")
+# .... vectors of colors you can use
+# colors=c("#F8766D","#7CAE00","#00B0F6","red","#00C1A3")
+#colors = c(2, 3, 4, 5 ,6)
+colors = c("blue", "green4","red", "green", "cyan", "grey" , "gold")
+valuesColor = colors
+
+shapeby="Experiment"; shapelab = "Communities"
+sizeby="MaxReplicates"
+#library(scales)
+#show_col(hue_pal()(20))
+# --- Labels also are manually set
+labelsShape = c("Starting", "Final")
+valuesShape = c(16,17)
+
+# ... Represent trajectories? 
+trajectories = T # If T a random subset of trajectories will be represented
 # STOP EDITING -----------
 
 # --- Set the main directory
@@ -98,31 +125,47 @@ dist="jsd"
 
 # .... These are all # (or matched, depending on your choice)
 setwd("../7.5_attractors")
-treeholes.ord = ordinate(treeholes.rar, method=method,distance=dist) #dist.rar)#, "unifrac")
 fileOrd=paste0("Ordination_jsd_PCoA_StartVs",rep.id,".RDS")
-saveRDS(treeholes.ord,file=fileOrd)
-#treeholes.ord=readRDS(fileOrd)
+#treeholes.ord = ordinate(treeholes.rar, method=method,distance=dist) #dist.rar)#, "unifrac")
+#saveRDS(treeholes.ord,file=fileOrd)
+treeholes.ord=readRDS(fileOrd)
 
 #stop()
 
 # ... Plot all replicates
 treeholes.rar@sam_data$DominantClass = as.factor(treeholes.rar@sam_data$DominantClass)
-# ... prepare plot features
-colorby="DominantClass"; colorlab = "Final class"
-shapeby="Experiment"; shapelab = "Communities"
-sizeby="MaxReplicates"
-#library(scales)
-#show_col(hue_pal()(20))
-colors=c("#F8766D","#7CAE00","#00B0F6","red","#00C1A3")
 
+# Plot -----------------
 # ... prepare labels
-axesby=c(1,2)
-labaxes="Axes1-2"
+labaxes=paste0("Axes", paste(axesby[1], axesby[2], sep = "-"))
 explainX = round(treeholes.ord$values[axesby[1],2] * 100, digits = 2)
 explainY = round(treeholes.ord$values[axesby[2],2]* 100, digits = 2)
 xlab = paste0("PCoA, component ", axesby[1]," [",explainX,"%]")
 ylab = paste0("PCoA, component ", axesby[2]," [",explainY,"%]")
 labelOut=paste0("StartVs",rep.id)
+
+if(trajectories == T){
+  set.seed("20042023") # seed 19, 20, 21 stands for the first two digits
+  # take some points from starting communities
+  id.start = which(sample_metadata$ExpCompact == "Starting")
+  # randomly take a subset
+  id.start = sample(id.start, size = length(id.start)/10, replace = F)
+  sample.start = sample_metadata$sampleid[id.start]
+  # identify the child
+  id.end = which(sample_metadata$ExpCompact == "Final")
+  # match parent and child
+  matched = match(sample.start, sample_metadata$parent[id.end])
+  sample.end = sample_metadata$sampleid[id.end[matched]]
+  # take coordinates
+  ord.coor = treeholes.ord$vectors[,axesby]
+  matched = match(sample.start, rownames(ord.coor))
+  ord.coor.start = ord.coor[matched,]; 
+  colnames(ord.coor.start) = c("x_start","y_start") 
+  matched = match(sample.end, rownames(ord.coor))
+  ord.coor.end = ord.coor[matched,]
+  colnames(ord.coor.end) = c("x_end","y_end")
+  ord.coor.samp = as.data.frame(cbind(ord.coor.start, ord.coor.end))
+}
 
 # ... prepare output file
 plotTitle=paste("Plot",method,"_",dist,"_By",colorby,"_",labelOut,"_",labaxes,".pdf",sep="")
@@ -142,10 +185,24 @@ p = p + geom_point(size = 3, alpha = 0.7) + #ggtitle(title)+
         strip.text=element_text(size=18),
         legend.title = element_text(size=18),
         legend.text=element_text(size=16))+
-  scale_shape_manual(labels = c("Starting", "Final"),
-                     values = c(16, 17))+
-  scale_color_manual(labels = c("Goes to 1", "Goes to 2","Split",
-                                "1", "2"),
-                     values = colors)
+  scale_shape_manual(labels = labelsShape,
+                     values = valuesShape)+
+  scale_color_manual(labels = labelsColor,
+                     values = valuesColor) #colors)
+if(trajectories == T){
+  p = p + geom_segment(data = ord.coor.samp,
+                       aes(x = x_start, y = y_start,
+                           xend = x_end, yend = y_end, alpha=1),# colour = class),
+                       color= "grey18", # "grey50",
+                       lineend = "round", linejoin = "mitre",
+                       #curvature = 2,
+                       arrow = arrow(ends = "last", # first last or both
+                                     angle = 15,
+                                     length=unit(0.2,"cm"),
+                                     type = "closed"),
+                       inherit.aes = FALSE,
+                       show.legend = FALSE)
+}
 print(p)
 dev.off()
+

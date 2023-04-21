@@ -16,6 +16,7 @@ library(reshape2)
 library(ggplot2)
 library(usedist)
 library(plyr)
+library(stringr)
 
 # START EDITING -----------
 # --- Set the files needed
@@ -29,12 +30,13 @@ fileDist = "Dist_JSD_Time0D-7D-4M.RDS" # beta diversity distance
 set="all" #"matched" # or all
 
 # select the name of the partition to create the barplots
-sel_partition = "Time0D_7D" # defaults to "partition", which is the clustering of each set made independently
+sel_partition = "partition" # defaults to "partition", which is the clustering of each set made independently
                                     # the factor selected will override "partition"
 # select how points in the pcoa will be differentiated
-colorby="partition" # "exp.partition" # "partition" "parent" "Location" replicate.partition
+colorby="exp.partition" # "exp.partition" # "partition" "parent" "Location" replicate.partition
                       # if you selected in sel_partition a factor different than "partition" and
                       # you want to color by that factor, you can set here "partition"
+shapeby="Time0D_7D" # keep empty if you don't want to change shapes
 # STOP EDITING -----------
 
 # --- Set the main directory
@@ -66,6 +68,7 @@ for(exp in experiments){
 sample_metadata$exp.replicate.partition=as.factor(paste(sample_metadata$ExpCompact,".",sample_metadata$replicate.partition,sep=""))
 sample_metadata$exp.partition=as.factor(paste(sample_metadata$ExpCompact,".",sample_metadata$partition,sep=""))
 write.table(sample_metadata,file = file.meta.out,sep="\t",quote=F,row.names = F) # overwrite old metadata
+
 # --- Load beta diversity distance
 #dist=readRDS(fileDist) # finally used the one computed internally in ordinate, see below
 
@@ -213,8 +216,8 @@ col_vector2 = c(brewer.pal(6,"Spectral"),brewer.pal(4,"Accent"), brewer.pal(12,"
 #col_vector2=col_vector[seq(from=1,to=length(col_vector),by=2)] # Select between the list jumping
 col_vector = c(col_vector,col_vector2)
 # ... And a vector for the partitions
-colorCodes = c("Class1"="red1", "Class2"="green4", "Class3"="pink", "Class4"="grey50","Class5"="deepskyblue1", "Class6"="gold")
-colorCodes2 = c("Rep0.Class1"="red", "Rep0.Class2"="green", "Rep0.Class3"="pink", "Rep0.Class4"="grey50",
+colorCodes = c("Class1"="red1", "Class2"="green4", "Class3"="magenta1", "Class4"="grey50","Class5"="deepskyblue1", "Class6"="gold")
+colorCodes2 = c("Rep0.Class1"="red", "Rep0.Class2"="green", "Rep0.Class3"="magenta1", "Rep0.Class4"="grey50",
                "Rep0.Class5"="deepskyblue1", "Rep0.Class6"="gold","Rep1.Class1"="red1","Rep1.Class2"="green1",
                "Rep2.Class1"="red2","Rep2.Class2"="green2","Rep3.Class1"="red3","Rep3.Class2"="green3",
                "Rep4.Class1"="red4","Rep4.Class2"="green4") # barplot bar species coloured by partition
@@ -302,39 +305,76 @@ treeholes.rar.time0=subset_samples(treeholes.rar,replicate=="Rep0")
 if(colorby=="partition"){
    Npart = length(levels(treeholes.rar@sam_data$partition))
    usecolor=colorCodes[1:Npart]
-   colorlab="Class"
+   if(length(shapeby) == 0){
+     colorlab="Class"
+   }else{
+     colorlab = "Local class"
+     shapelab = "Global class"
+   }
 }else{
   if(colorby == "replicate.partition"){
-    colorlab="Replicate / Class"
+    if(length(shapeby) == 0){
+      colorlab="Replicate / Class"
+    }else{
+      colorlab = "Set / Local class"
+      shapelab = "Global class"
+    }
+    usecolor=col_vector
   }else if(colorby == "Location"){
     colorlab="Location"
+    usecolor=col_vector
   }else if(colorby == "exp.partition"){
-    colorlab="Experiment / Class"
+    if(length(shapeby) == 0){
+      colorlab="Experiment / Class"
+    }else{
+      colorlab = "Set / Local class"
+      shapelab = "Global class"
+      treeholes.rar@sam_data$exp.partition = as.factor(str_replace(
+        treeholes.rar@sam_data$exp.partition,".Class"," / "))
+      Npart = length(levels(treeholes.rar@sam_data$exp.partition))
+      usecolor=col_vector
+      
+    }
   }
-  usecolor=col_vector
 }
-# ... prepare labels
+
+# ... Set the plot you want
+axesby=c(1,3)
+
+# ... Create labels
 labfacets=c("Starting communities","Final, Replicate 1","Final, Replicate 2",
             "Final, Replicate 3","Final, Replicate 4")
 names(labfacets)=c("Rep0","Rep1","Rep2","Rep3","Rep4")
-axesby=c(1,2)
-labaxes="Axes1-2"
+labaxes=paste0("Axes",paste(axesby[1],axesby[2],sep = "-"))
 explainX = round(treeholes.ord$values[axesby[1],2] * 100, digits = 2)
 explainY = round(treeholes.ord$values[axesby[2],2]* 100, digits = 2)
 xlab = paste0("PCoA, component ", axesby[1]," [",explainX,"%]")
 ylab = paste0("PCoA, component ", axesby[2]," [",explainY,"%]")
 
 # ... prepare plot
-plotTitle=paste("Plot",method,"_",dist,"_Par",sel_partition,"_By",colorby,"_",labelOut,"_",labaxes,".pdf",sep="")
-pdf(file=plotTitle,width=22,height=6)
 title=paste(method," of ",dist," distance",sep="")
 treeholes.ord$vectors[, "Axis.2"] = -1*treeholes.ord$vectors[, "Axis.2"]
+if(length(shapeby) == 0){
+  plotTitle=paste("Plot",method,"_",dist,"_Par",sel_partition,
+                  "_By",colorby,"_",labelOut,"_",labaxes,".pdf",sep="")
+  p = plot_ordination(treeholes.rar, treeholes.ord, color = colorby,
+                      axes=axesby) #,label="parent")#,shape="partition")
+}else{
+  plotTitle=paste("Plot",method,"_",dist,"_Par",sel_partition,
+                  "_By",colorby,"-shape",shapeby,"_",labelOut,"_",labaxes,".pdf",sep="")
+  treeholes.rar@sam_data$Time0D_7D = as.factor(treeholes.rar@sam_data$Time0D_7D)
+  p = plot_ordination(treeholes.rar, treeholes.ord, color = colorby,
+                      shape=shapeby,
+                      axes=axesby) #,label="parent")#,shape="partition")
+}
 
-# ... plot
-p = plot_ordination(treeholes.rar, treeholes.ord, color = colorby,
-                    axes=axesby) #,label="parent")#,shape="partition")
-p = p + geom_point(size = 4.0, alpha = 0.7) + ggtitle(title)+ 
-  labs(color = colorlab)+xlab(xlab)+ylab(ylab)+
+p = p + geom_point(size = 4.0, alpha = 0.7) + ggtitle(title)
+if(length(shapeby) == 0){
+    p = p + labs(color = colorlab)
+  }else{
+    p = p + labs(color = colorlab, shape = shapelab)
+}
+p = p + xlab(xlab)+ylab(ylab)+
   theme_bw()+
   theme(axis.title = element_text(size=24),
         title=element_blank(), #element_text(size=16),
@@ -342,9 +382,14 @@ p = p + geom_point(size = 4.0, alpha = 0.7) + ggtitle(title)+
         strip.text=element_text(size=22),
         legend.title = element_text(size=22),
         legend.text=element_text(size=20))
-p + facet_wrap(~replicate,nrow=1,ncol=5,
+p = p + facet_wrap(~replicate,nrow=1,ncol=5,
                labeller=labeller(replicate=labfacets))+
   scale_color_manual(values = usecolor) #scale_color_hue()# scale_color_brewer(palette="Accent")
+
+
+# .... print
+pdf(file=plotTitle,width=22,height=6)
+print(p)
 dev.off()
 
 

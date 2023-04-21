@@ -40,7 +40,7 @@ fileOTU="seqtable_readyforanalysis.csv"
 
 # ..... Metadata
 dirMD = "../7.1_classes"
-fileMD="metadata_Time0D-7D-4M_May2022_wJSDpart-merged_ext.csv"
+fileMD="metadata_Time0D-7D-4M_May2022_wJSDpart-merged.csv"
 
 # .... describe here the factors and levels needed to extract each subset
 #      you should create lists if needed although current implementation considers
@@ -49,7 +49,7 @@ fileMD="metadata_Time0D-7D-4M_May2022_wJSDpart-merged_ext.csv"
 #      be compared, finding for them their centroid and closest member.
 sample.id = "sampleid" # column for the samples
 factor.vec.subsets = c("Experiment", "replicate.partition", "replicate.partition") # one element (or list) for each subset
-level.vec.subsets = c("0D", "Rep4.Class1", "Rep4.Class2") # the correspondent level
+level.vec.subsets = c("0D", "4.1", "4.2") # the correspondent level
 
 # ... Output directory
 dirOut = "../7.5_attractors"

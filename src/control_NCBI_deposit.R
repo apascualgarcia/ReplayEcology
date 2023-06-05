@@ -28,7 +28,7 @@ fileNCBI = "NCBI_df.csv"
 
 nreads = 10000 # minimum number of reads to consider a sample
 exclude_exp = c("4M") # A vector of characters with the experiments that should be excluded
-match_exp = TRUE # Set to true if only starting communities that were resurrected should be included
+match_exp = FALSE # Set to true if only starting communities that were resurrected should be included
 
 # STOP EDITING -----------
 
@@ -42,13 +42,14 @@ setwd(dirSrc)
 setwd(dirData)
 ASV.table = read.table(fileASV)
 head(ASV.table)[1:5,1:5]
-NCBI.df = read.table(fileNCBI, sep = ",", header = T)
-head(NCBI.df)[1:5,1:5]
+NCBI.df = read.table(fileNCBI, sep = ",", header = T,as.is = T)
+head(NCBI.df)[71:75,1:5]
 
 # ..... read metadata
 setwd(dirMD)
 fileMD="metadata_Time0D-7D-4M_May2022.csv"
 sample_md<-read.table(fileMD,sep="\t",header=TRUE)
+#grep("SAC09",sample_md$sampleid)
 
 # Clean data   ------
 # check that indeed the table is already clean
@@ -108,6 +109,7 @@ dim(NCBI.df)
 # --- create a sampleid matching the ones we use in the tables
 NCBI.df$sampleid = sapply(NCBI.df$library_ID, 
                           FUN = function(x){sub("(.+?\\.)(.*)", "\\2", x)})
+
 # ...... I observed some names where inconsistent
 id.inconsistent = grep("day", NCBI.df$sampleid, value = F)
 list.inconsistent = grep("day", NCBI.df$sampleid, value = T)
@@ -117,17 +119,23 @@ NCBI.df$library_ID[id.inconsistent] = paste(NCBI.df$library_ID[id.inconsistent],
 NCBI.df$sampleid = sapply(NCBI.df$library_ID, 
                           FUN = function(x){sub("(.+?\\.)(.*)", "\\2", x)})
 
+
 # ..... Finally match
 
 matched = match(rownames(ASV.table), NCBI.df$sampleid)
 list.notfound = rownames(ASV.table)[is.na(matched)]
 
+matched = match(NCBI.df$sampleid, rownames(ASV.table))
+list.notfound.back = NCBI.df$sampleid[is.na(matched)]
+
+grep("AE49", rownames(ASV.table))
+
 # Report results ----
 dim(NCBI.df) # 1426    7
-dim(ASV.table) #  1375 1458
-dim(sample_md) # 1375    9
+dim(ASV.table) #  1375 1458 if match exp = TRUE, 2056 1468 if FALSE
+dim(sample_md) # 1375    9 if match exp = TRUE, 2056 if FALSE
 length(which(sample_md$Experiment == "4M")) # 0
-length(which(sample_md$Experiment == "0D")) # 275
+length(which(sample_md$Experiment == "0D")) # 275 if match exp = TRUE, 658 if FALSE
 length(which(sample_md$Experiment == "7D_rep1")) # 275
 length(which(sample_md$Experiment == "7D_rep2")) # 275
 length(which(sample_md$Experiment == "7D_rep3")) # 275

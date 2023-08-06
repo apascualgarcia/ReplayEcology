@@ -6,7 +6,7 @@
 This repository contains scripts and data to reproduce results of the article:
 
 ```
-Pascual-García, A., Rivett, D., Jones, M.J., Bell, T., Replaying the tape of ecology to domesticate wild microbiota (2023)
+Pascual-García, A., Rivett, D., Jones, M. L., & Bell, T. (2023). Replaying the tape of ecology to domesticate wild microbiomes. bioRxiv, 2023-07. [doi: 10.1101/2023.07.07.548163](https://doi.org/10.1101/2023.07.07.548163)
 ```
 
 ### Organization of the repository
@@ -30,7 +30,11 @@ To keep the repository as light as possible, a number of files were excluded. Th
 
 ### Input data
 
-* Raw sequences are available in XXXX under accession number XXXX. Users interested in reproducing the whole pipeline should download the file(s) XXX in the folder(s) XXXX and then execute the dada2 pipeline (see scripts description below).
+* Sequences associated with this study are deposited at NCBI under BioProject accession number PRJNA989519. This project contains the 16S rRNA amplicon sequencing data associated with each of the communities at day 0
+(SUB13586664), as well as at day 7 for the four replicate growth experiments (SUB13586665-8). 
+
+* Users interested in reproducing the whole pipeline should **details in progress**.
+
 * Users interested in the processed data will find: 
     * `seqtable_readyforanalysis.csv`: ASV vs samples table, found in directory `6_finalfiles`.
     * `metadata_Time0D-7D-4M_May2022.csv`: starting metadata table, found in directory `4_dada2`. During the analysis, this table will be extended. Therefore, other metadata tables can be found in subsequent folders.
@@ -40,13 +44,13 @@ To keep the repository as light as possible, a number of files were excluded. Th
 
 Most scripts have a header describing their usage. All of them were coded considering the structure of the repository, so there is no need to modify the paths, hence are hard-coded relative to the root of the repository. Please note that to make the scripts portable some functions to recover the user's path are used which, in the case of R scripts, require executing the script from Rstudio. Some scripts have different options for the analysis, indicated in variables. The main scripts are:
 
-**Include here dada2 stuff**
+**dada2 details in progress**
 
 * `main_find_classes.R` Computes the all-against-all JSD for all samples and looks for the optimal partition (output in `7.1_classes`).
 * `main_find_classes_exp-split.R` Same analysis for each experiment and replicate independently (output in `7.1_classes`).
 * `merge_metadata.R` Script to merge metadata tables obtained with the previous scripts (output in `7.1_classes`).
 * `compare_classes.R` Generates a heatmap of the mean beta-diversity of each class and cluster classes (output in `7.1_classes`).
-* `TraceSamples_fromPartTime0toPartTime7.pl` Performs statistics between starting and final classes (output in `7.2_match`).
+* `match_classes.R` and `TraceSamples_fromPartTime0toPartTime7.pl` Performs statistics between starting and final classes (output in `7.2_match`).
 * `match_clusters_time0to7_V2.R` Represent the above statistics (output in `7.2_match`).
 * `phyloseq_analysis.R` Creates bar plots and some ordinations (output in `7.3_phyloseq`).
 * `anosimlike_analysis.R` Provides a quantitative estimation of samples' similarity between the different categorical groups through the ANOSIM statistics (output in `7.4_variance`)

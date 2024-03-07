@@ -25,7 +25,7 @@ fileOTU="seqtable_readyforanalysis.csv" # ASVs table
 rep.id = "Rep4" # choose the replicate to use to confront
 
 # --- Prepare plot features
-axesby=c(1,3) # axes to represent
+axesby=c(1,2) # axes to represent
 
 # .... Color of points
 #colorby="DominantClass"; colorlab = "Final class"
@@ -37,7 +37,9 @@ labelsColor = c("Final / 1", "Final / 2", "Starting / 1", "Starting / 2","Starti
 # .... vectors of colors you can use
 # colors=c("#F8766D","#7CAE00","#00B0F6","red","#00C1A3")
 #colors = c(2, 3, 4, 5 ,6)
-colors = c("blue", "green4","red", "green", "cyan", "grey" , "gold")
+#colors = c("blue", "green4","red", "green", "cyan", "grey" , "gold")
+colors = c("chocolate4","chartreuse",
+  "red1", "green4", "magenta1", "gold2","deepskyblue1", "black")
 valuesColor = colors
 
 shapeby="Experiment"; shapelab = "Communities"
@@ -193,7 +195,7 @@ if(trajectories == T){
   p = p + geom_segment(data = ord.coor.samp,
                        aes(x = x_start, y = y_start,
                            xend = x_end, yend = y_end, alpha=1),# colour = class),
-                       color= "grey18", # "grey50",
+                       color= "grey50", # "grey50",
                        lineend = "round", linejoin = "mitre",
                        #curvature = 2,
                        arrow = arrow(ends = "last", # first last or both

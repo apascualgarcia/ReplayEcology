@@ -15,6 +15,12 @@
 #        same order than factors (i.e. both vectors are paired).
 #    sample.id = A string with the name of the column where the
 #        names of the samples are found in the metadata table
+#    split.mode = A string defining the type of subset that the
+#        function should perform:
+#         "AND" : The final subset has all the pairs (factor, level)
+#                 included in the strings (default)
+#         "OR"  : The final subset has any of the pairs (factor, level)
+#                 included in the strings.
 # OUTPUT
 #    A ASV table with the desired samples.
 ########################################
@@ -24,11 +30,12 @@
 
 extract_subset = function(ASV.table, sample.md = data.frame(), 
                             factor.vec = c(), level.vec = c(),
-                            sample.id = c()){
+                            sample.id = c(), split.mode = "AND"){
+  #browser()
   if(dim(sample.md)[1] != 0){ # subset
     Nfact = length(factor.vec)
     Nlev = length(level.vec)
-    Nsamp = length(sample.id)
+    Nsamp = length(sample.md[, sample.id])
     if((Nfact == 0) | (Nlev == 0)){
       mes = "paired vectors of factors and their levels are needed to subset"
       stop(mes)
@@ -39,19 +46,32 @@ extract_subset = function(ASV.table, sample.md = data.frame(),
       mes = "the name of the column where the samples should be found must be provided"
       stop(mes)
     }
-    sample.md.tmp = sample.md
+    if(split.mode == "AND"){
+      sample.md.tmp = sample.md
+    }
     i=0
     for(fact in factor.vec){
       i=i+1
       level = level.vec[i]
-      id.extract = which(sample.md.tmp[, fact] == level)
-      sample.md.tmp = sample.md.tmp[id.extract, ]
+      if(split.mode == "OR"){
+        id.extract = which(sample.md[, fact] == level)
+        if(i == 1){
+          sample.md.tmp = sample.md[id.extract, ]
+        }else{
+          sample.md.tmp = rbind(sample.md.tmp, sample.md[id.extract, ])
+        }
+      }else{ # default, split.mode == AND
+        id.extract = which(sample.md.tmp[, fact] == level)
+        sample.md.tmp = sample.md.tmp[id.extract, ]
+      }
+
     }
     samples = as.character(sample.md.tmp[, sample.id])
     ASV.sub = ASV.table[samples, ]
   }else{ # do nothing
     ASV.sub = ASV.table
   }
-
+  # remove unseen ASVs
+  ASV.sub = ASV.sub[,which(colSums(ASV.sub) > 0)]
   return(ASV.sub)
 }

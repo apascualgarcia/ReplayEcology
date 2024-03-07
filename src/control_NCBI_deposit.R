@@ -28,7 +28,7 @@ fileNCBI = "NCBI_df.csv"
 
 nreads = 10000 # minimum number of reads to consider a sample
 exclude_exp = c("4M") # A vector of characters with the experiments that should be excluded
-match_exp = FALSE # Set to true if only starting communities that were resurrected should be included
+match_exp = TRUE # Set to true if only starting communities that were resurrected should be included
 
 # STOP EDITING -----------
 
@@ -54,9 +54,21 @@ sample_md<-read.table(fileMD,sep="\t",header=TRUE)
 # Clean data   ------
 # check that indeed the table is already clean
 dim(ASV.table)
+#remove OTUs with less than 100 reads across all samples
+ASV.table  = ASV.table[,-which(colSums(ASV.table) < 100)]
+ncol(ASV.table)
+
+#remove OTUs occurring in less than 10 samples
+ASV.table = ASV.table[,-which(colSums(ASV.table > 0) < 10)]
+ncol(ASV.table)
+
+# remove samples with less than nreads reads
 ASV.table=ASV.table[,colSums(ASV.table) > 0]
 ASV.table=ASV.table[rowSums(ASV.table) > nreads, ]
-dim(ASV.table) # nothing changed
+
+
+
+dim(ASV.table) # 4 samples were gone
 which(is.na(ASV.table))
 
 # .... exclude samples that didn't pass previous controls (e.g. core communities, not present in samples metadata)
@@ -113,17 +125,20 @@ NCBI.df$sampleid = sapply(NCBI.df$library_ID,
 # ...... I observed some names where inconsistent
 id.inconsistent = grep("day", NCBI.df$sampleid, value = F)
 list.inconsistent = grep("day", NCBI.df$sampleid, value = T)
-NCBI.df$library_ID[id.inconsistent] = paste(NCBI.df$library_ID[id.inconsistent],
-                                            "X99", sep = ".")
+NCBI.df$library_ID[id.inconsistent] = sub("_","_X99.",NCBI.df$library_ID[id.inconsistent])
+
+#NCBI.df$library_ID[id.inconsistent] = paste(NCBI.df$library_ID[id.inconsistent],
+#                                            "X99", sep = ".")
 # ...... Now repeat
 NCBI.df$sampleid = sapply(NCBI.df$library_ID, 
                           FUN = function(x){sub("(.+?\\.)(.*)", "\\2", x)})
 
 
 # ..... Finally match
-
 matched = match(rownames(ASV.table), NCBI.df$sampleid)
 list.notfound = rownames(ASV.table)[is.na(matched)]
+id.notfound = match(list.notfound, NCBI.df$community)
+NCBI.df$sampleid[id.notfound]
 
 matched = match(NCBI.df$sampleid, rownames(ASV.table))
 list.notfound.back = NCBI.df$sampleid[is.na(matched)]
@@ -131,15 +146,15 @@ list.notfound.back = NCBI.df$sampleid[is.na(matched)]
 grep("AE49", rownames(ASV.table))
 
 # Report results ----
-dim(NCBI.df) # 1426    7
+dim(NCBI.df) # 2178    8
 dim(ASV.table) #  1375 1458 if match exp = TRUE, 2056 1468 if FALSE
 dim(sample_md) # 1375    9 if match exp = TRUE, 2056 if FALSE
 length(which(sample_md$Experiment == "4M")) # 0
 length(which(sample_md$Experiment == "0D")) # 275 if match exp = TRUE, 658 if FALSE
-length(which(sample_md$Experiment == "7D_rep1")) # 275
-length(which(sample_md$Experiment == "7D_rep2")) # 275
-length(which(sample_md$Experiment == "7D_rep3")) # 275
-length(which(sample_md$Experiment == "7D_rep4")) # 275
+length(which(sample_md$Experiment == "7D_rep1")) # 275 if match exp = TRUE, 348 if FALSE
+length(which(sample_md$Experiment == "7D_rep2")) # 275 if match exp = TRUE, 353 if FALSE
+length(which(sample_md$Experiment == "7D_rep3")) # 275 if match exp = TRUE, 349 if FALSE
+length(which(sample_md$Experiment == "7D_rep4")) # 275 if match exp = TRUE, 348 if FALSE
 
 setwd(dirData)
 file.notfound = "Samples_notFound.list"

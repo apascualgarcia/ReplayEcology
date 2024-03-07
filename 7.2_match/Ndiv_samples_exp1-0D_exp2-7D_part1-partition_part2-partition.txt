@@ -1,0 +1,3 @@
+Number of divergent samples =  69 
+Diverging only one =  63 
+Diverging two =  6 

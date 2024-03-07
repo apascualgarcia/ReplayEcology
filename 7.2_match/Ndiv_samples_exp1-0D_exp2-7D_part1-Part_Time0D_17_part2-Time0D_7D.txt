@@ -1,0 +1,3 @@
+Number of divergent samples =  49 
+Diverging only one =  41 
+Diverging two =  8 

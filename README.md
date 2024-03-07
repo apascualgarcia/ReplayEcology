@@ -3,10 +3,10 @@
 ## README
 
 
-This repository contains scripts and data to reproduce results of the article:
+This repository contains scripts and data to reproduce results of the [article](https://doi.org/10.1101/2023.07.07.548163):
 
 ```
-Pascual-García, A., Rivett, D., Jones, M. L., & Bell, T. (2023). Replaying the tape of ecology to domesticate wild microbiomes. bioRxiv, 2023-07. [doi: 10.1101/2023.07.07.548163](https://doi.org/10.1101/2023.07.07.548163)
+Pascual-García, A., Rivett, D., Jones, M. L., & Bell, T. (2023). Replaying the tape of ecology to domesticate wild microbiomes. bioRxiv, 2023-07. (https://doi.org/10.1101/2023.07.07.548163)
 ```
 
 ### Organization of the repository
@@ -39,6 +39,38 @@ To keep the repository as light as possible, a number of files were excluded. Th
     * `seqtable_readyforanalysis.csv`: ASV vs samples table, found in directory `6_finalfiles`.
     * `metadata_Time0D-7D-4M_May2022.csv`: starting metadata table, found in directory `4_dada2`. During the analysis, this table will be extended. Therefore, other metadata tables can be found in subsequent folders.
     * `taxa_wsp_readyforanalysis.csv`: Taxonomy, also found in directory `6_finalfiles`.
+    
+    
+#### Description metadata table
+
+The most comprehensive metadata table possibly is `metadata_Time0D-7D-4M_May2022_wJSDpart_ext.csv`, located in the directory `7.3_phyloseq/`. Please note that this metadata contains information of samples used in experiments related to these communities but not presented in this work. In addition, all starting communities presented in Pascual-García & Bell, _Nature Commun._ 2020 are also available in this repository, although only a subset of them were revived for this work. We describe below how to identify this subset.
+
+Metadata contain the following fields:
+
+* `sampleid`: Id of samples
+* `Name.2`: Alternative Id for some samples **(not used in this work)**
+* `Community`: **Ignore, not used in this work.**
+* `Species`: **Ignore, not used in this work.**
+* `replicate`: Replicate of the experiment. Starting communities are labelled as Rep0
+* `BreakingBag`: **Ignore, not used in this work.**
+* `parent`: ID of the starting communities from which final communities departed. For example, final community with id `WYT14.1` is the replicate 1 of starting community `WYT14`, which is the ID indicated in this field. 
+* `Location`: Sampling field from which the starting communities were sampled.
+* `Experiment`: Either starting communities (`0D`) or final communities (`7D_rep$`) were "$" = 1-4 depending on the replicate. **Samples belonging to experiment `4M` should be ignored.**
+* `Part_Time0D_17`: Id of the class the starting communities belong to, corresponding to the maximum of the Calinski-Harabasz index found considering starting communities only. (1 to 17 and NA for samples not belonging to the set)
+* `Part_Time0D_6`:  Id of the class the starting communities belong to, corresponding to the second maximum of the Calinski-Harabasz index found considering starting communities only (analysed in this work) (runs from 1 to 6 and NA for samples not belonging to the set)
+* `Part_Time4M_64`:  **Ignore, not used in this work.**
+* `Part_Time7D_rep1_2`: Id of the class the first replicate of final communities belong to, corresponding to the maximum of the Calinski-Harabasz index.  (1 to 2 and NA for samples not belonging to the set)
+* `Part_Time7D_rep2_2`:  Id of the class the second replicate of final communities belong to, corresponding to the maximum of the Calinski-Harabasz index. (1 to 2 and NA for samples not belonging to the set)
+* `Part_Time7D_rep3_2`:  Id of the class the third replicate of final communities belong to, corresponding to the maximum of the Calinski-Harabasz index. (1 to 2 and NA for samples not belonging to the set)
+* `Part_Time7D_rep4_2`:  Id of the class the fourth replicate of final communities belong to, corresponding to the maximum of the Calinski-Harabasz index. (1 to 2 and NA for samples not belonging to the set)
+* `replicate.partition`: Combination of the replicate and partition ids. Note that the ids obtained for each replicate independently (1 and 2 for each replicate) can be considered paired across replicates, since we showed they have similar compositions. Also note that Rep0.Class1 and Rep0.Class2 are ids used in Experiments `0D` and `4M`. Therefore, those belonging to `Experiment = 4M` should be ignored.
+* `partition`: Only the class. As in the previous field, one should exclude samples in `Experiment = 4M`.
+* `ExpCompact`: Another identifier for the experiment, in which the 4 replicates of final communities have the same id (note that in the field `Experiment` the different replicates were differentiated). Levels are `Starting`, `Final` (and `Evolved` should be excluded).
+* `exp.replicate.partition`: Combination of `ExpCompact`, and `replicate.partition`
+* `exp.partition`: Combination of `ExpCompact`, and `partition`
+
+
+
 
 ### Scripts
 

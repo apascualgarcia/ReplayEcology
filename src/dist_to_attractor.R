@@ -267,6 +267,10 @@ dist.df$Nsame.class = Nsame.part
 dist.df$Class = part.id
 id.tie = which(Nsame.part == 2)
 dist.df$Class[id.tie] = "none"
+dist.df$Converge = as.character(dist.df$Nsame.class)
+dist.df$Converge[which(dist.df$Converge == 4)] = 1
+dist.df$Converge[which(dist.df$Converge != 1)] = 0
+dist.df$Converge = as.factor(dist.df$Converge)
 
 # Inspect ---------------
 
@@ -345,6 +349,8 @@ ylab.vec = c("Mean","Minimum","Mean","Minimum")
 xlab.label = "distance to borders"
 ylab.label = "distance to centroids"
 alpha = 0.75
+size.Nconverge = FALSE # If true, it will represent three shapes, one for each category 
+# of replicates converging. If false, it will represent two categories, = 4 and otherwise
 for(i in 1:length(varx.vec)){
   varx = varx.vec[i]
   vary = vary.vec[i]
@@ -353,15 +359,26 @@ for(i in 1:length(varx.vec)){
   file.plot = paste0("Plot_",varx,"_VS_",vary,label_subsets,".pdf")
   pdf(file.plot, width = 7, height = 5)
   gg = ggplot(dist.df, aes_string(x = varx,
-                                  y = vary))+
-    geom_point(aes_string(color = "Class", 
-                          shape = "id.DminToC",
-                          size = "Nsame.class"),alpha = alpha) +
-  scale_size_manual(values=c("2" = 1.5,"3" = 2.3,"4" = 3.2))+
-  scale_shape_manual(labels = c("1", "2"),
+                                  y = vary))
+  if(size.Nconverge == TRUE){
+    gg = gg +
+      geom_point(aes_string(color = "Class", 
+                            shape = "id.DminToC",
+                            size = "Nsame.class"),alpha = alpha) +
+      scale_size_manual(values=c("2" = 1.5,"3" = 2.3,"4" = 3.2))
+  }else{
+    gg = gg +
+      geom_point(aes_string(color = "Class", 
+                            shape = "id.DminToC",
+                            size = "Converge"),alpha = alpha) +
+      scale_size_manual(values=c("1" = 3.2,"0" = 1.5),
+                        labels=c("1" = "= 4","0" = "< 4"))
+  }
+
+  gg = gg + scale_shape_manual(labels = c("1", "2"),
                      values = c(16, 17))+
     scale_color_manual(labels = c("1", "2","both"),
-                       values = c("blue", "green4", "magenta1"))+
+                       values = c("chocolate4","chartreuse","blue"))+ #c("red", "blue", "gold"))+
   xlab(xlab)+ylab(ylab)+
   labs(color = "Converge final class",
       shape = "Closest centroid",

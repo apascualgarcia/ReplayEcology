@@ -33,6 +33,17 @@ matched=match(colnames(ASV.table),ASV.chloro$V1)
 ASV.table.clean=ASV.table[,is.na(matched)]
 dim(ASV.table.clean)
 
+# --- Read list  of Mitochondria
+fileMito="ASVs_Mitochondria.list"
+ASV.mito=read.table(fileMito)
+dim(ASV.mito)
+
+# --- Remove them from the table
+matched=match(colnames(ASV.table.clean),ASV.mito$V1)
+ASV.table.clean=ASV.table.clean[,is.na(matched)]
+dim(ASV.table.clean)
+
+
 # --- Write old OTU table renamed and the new one with the old name
 fileOTUold="seqtable_readyforanalysis_wChloroplasts.csv"
 write.table(ASV.table,file=fileOTUold,quote=FALSE,sep="\t")

@@ -18,7 +18,7 @@ The repository has a folder containing all the scripts (`src`) and several folde
 
 To keep the repository as light as possible, a number of files were excluded. These files can be regenerated using the scripts provided.
 
-* Folders 1 to 3 are completely empty because they should contain the raw sequencing data and a number of large output files from dada2. 
+* Folders 0 to 3 are completely empty because they should contain the raw sequencing data and a number of large output files from dada2. 
 * The following files are also excluded (included in `.gitignore`):
     * `dada_output.RDS`, `seqtab.csv` and `seqtab.nochim.csv`.
     * `silva*`.
@@ -31,16 +31,16 @@ To keep the repository as light as possible, a number of files were excluded. Th
 ### Input data
 
 * Sequences associated with this study are deposited at NCBI under BioProject accession number PRJNA989519. This project contains the 16S rRNA amplicon sequencing data associated with each of the communities at day 0
-(SUB13586664), as well as at day 7 for the four replicate growth experiments (SUB13586665-8). 
+(SUB13586664), as well as at day 7 for the four replicate growth experiments (SUB13586665-8).
 
 * Users interested in reproducing the whole pipeline should **details in progress**.
 
-* Users interested in the processed data will find: 
+* Users interested in the processed data will find:
     * `seqtable_readyforanalysis.csv`: ASV vs samples table, found in directory `6_finalfiles`.
     * `metadata_Time0D-7D-4M_May2022.csv`: starting metadata table, found in directory `4_dada2`. During the analysis, this table will be extended. Therefore, other metadata tables can be found in subsequent folders.
     * `taxa_wsp_readyforanalysis.csv`: Taxonomy, also found in directory `6_finalfiles`.
-    
-    
+
+
 #### Description metadata table
 
 The most comprehensive metadata table possibly is `metadata_Time0D-7D-4M_May2022_wJSDpart_ext.csv`, located in the directory `7.3_phyloseq/`. Please note that this metadata contains information of samples used in experiments related to these communities but not presented in this work. In addition, all starting communities presented in Pascual-García & Bell, _Nature Commun._ 2020 are also available in this repository, although only a subset of them were revived for this work. We describe below how to identify this subset.
@@ -53,7 +53,7 @@ Metadata contain the following fields:
 * `Species`: **Ignore, not used in this work.**
 * `replicate`: Replicate of the experiment. Starting communities are labelled as Rep0
 * `BreakingBag`: **Ignore, not used in this work.**
-* `parent`: ID of the starting communities from which final communities departed. For example, final community with id `WYT14.1` is the replicate 1 of starting community `WYT14`, which is the ID indicated in this field. 
+* `parent`: ID of the starting communities from which final communities departed. For example, final community with id `WYT14.1` is the replicate 1 of starting community `WYT14`, which is the ID indicated in this field.
 * `Location`: Sampling field from which the starting communities were sampled.
 * `Experiment`: Either starting communities (`0D`) or final communities (`7D_rep$`) were "$" = 1-4 depending on the replicate. **Samples belonging to experiment `4M` should be ignored.**
 * `Part_Time0D_17`: Id of the class the starting communities belong to, corresponding to the maximum of the Calinski-Harabasz index found considering starting communities only. (1 to 17 and NA for samples not belonging to the set)
@@ -90,6 +90,3 @@ Most scripts have a header describing their usage. All of them were coded consid
 * `represent_attractors.R` Some visualizations of the results obtained with `distance_to_attractor.R` (output in `7.5_attractors`).
 * `pathways_to_heatmap.R` Creates some plots of PICRUSt results (output in `8_PICRUSt`).
 * `community_superposition.R` Looks for the optimal superposition between starting communities and one of the replicates, performs a prediction and compares with the remaining replicates (output in `9_predictions`).
-
-
-

@@ -1,4 +1,4 @@
-###################################
+ ###################################
 ## communities_superposition.R
 ###################################
 # Given two sets of starting and final
@@ -53,7 +53,7 @@ fileOTU="seqtable_readyforanalysis.csv"
 
 # ..... Metadata
 dirMD = "../7.1_classes"
-fileMD="metadata_Time0D-7D-4M_May2022_wJSDpart.csv"
+fileMD="metadata_Time0D-7D-4M_May2022_wJSDpart-merged.csv"
 
 # .... describe here the factors and levels needed to extract each subset
 #      you should create lists if needed although current implementation considers
@@ -66,7 +66,7 @@ level.vec.subsets = c("0D", "7D_rep1", "7D_rep2", "7D_rep3", "7D_rep4") # the co
 Rep = 4 # Replicate used for the transformation
 
 # .... Compute confidence intervals for rmsd and cross-covariance
-compute_CI = F # it takes several minutes, computed only once
+compute_CI = T # it takes several minutes, computed only once
 
 # ... Output directory
 dirOut = "../9_predictions"
@@ -159,6 +159,26 @@ for(i in 2:length(ASV.sub.rel.list)){
 lapply(ASV.sub.list, dim)
 dim(ASV.ref.relAb)
 
+# --- Work only with ASVs observed in both datasets:
+ASV.ref.relAb.tmp = ASV.ref.relAb
+ASV.ref.sub.tmp = ASV.ref.sub
+for(i in 2:length(ASV.sub.rel.list)){
+ matched = match(colnames(ASV.ref.relAb.tmp), colnames(ASV.sub.rel.list[[i]]))
+ ASV.ref.relAb.tmp = ASV.ref.relAb.tmp[, !is.na(matched)]
+ ASV.ref.sub.tmp = ASV.ref.sub.tmp[, !is.na(matched)]
+}
+dim(ASV.ref.relAb.tmp)
+for(i in 2:length(ASV.sub.rel.list)){
+  matched = match(colnames(ASV.ref.relAb.tmp), colnames(ASV.sub.rel.list[[i]]))
+  ASV.sub.rel.list[[i]] = ASV.sub.rel.list[[i]][, matched]
+  ASV.sub.list[[i]] = ASV.sub.list[[i]][, matched]
+}
+ASV.ref.relAb = ASV.ref.relAb.tmp
+ASV.ref.sub = ASV.ref.sub.tmp
+lapply(ASV.sub.rel.list, dim)
+lapply(ASV.sub.list, dim)
+dim(ASV.ref.relAb)
+
 # Start computation -------
 # --- Compute the transformation matrix
 Pbas =  ASV.ref.sub
@@ -169,7 +189,7 @@ dim(P); dim(Q)
 superimp = kabsch_R(Q, P) # Find optimal rotation
 
 # ..... extract quantities
-rmsd = superimp$rmsd
+(rmsd = superimp$rmsd) # 0.4860083
 U = superimp$U
 Prot = superimp$Prot 
 rownames(Prot) = rownames(P)
@@ -241,28 +261,78 @@ if(compute_CI == T){ # Estimate confidence intervals, this routine may take seve
   Nrnd = 50
   set.seed(131222)
   # ... Create a function to use boot function, we want to directly recover the rmsd
-  rmsd_fun = function(data, Q, indices){
-    d = data[indices, ] # randomize samples
+  rmsd_fun_boot = function(data, indices, Q){
+    d = data[indices, ] # bootstrap samples in both matrices (paired)
+    Q = Q[indices, ]
     superimp = kabsch_R(Q, d)
     rmsd = superimp$rmsd
     return(rmsd)
   }
-  # -- Bootstrap (this takes several minutes)
-  reps = boot(data=P, statistic=rmsd_fun, R=Nrnd, Q = Q)
-  
+  rmsd_fun_halfboot = function(data, indices, Q){
+    d = data[indices, ] # bootstrap samples only in starting
+    superimp = kabsch_R(Q, d)
+    rmsd = superimp$rmsd
+    return(rmsd)
+  }
+  rmsd_fun_rnd = function(data, Q){
+    # randomize all cells so the result should be fully random
+    indices = sample(seq(1, dim(data)[1]*dim(data)[2]))
+    d = matrix(data[indices], nrow = dim(data)[1], 
+               ncol = dim(data)[2]) # 
+    superimp = kabsch_R(Q, d)
+    rmsd = superimp$rmsd
+    return(rmsd)
+  }
+  rmsd_fun_fullrnd = function(data, Q){
+    # generate a fully random matrix
+    Nrand = dim(data)[1]*dim(data)[2]
+    d = matrix(rnorm(Nrand, mean = 0.5, sd = 0.1), nrow = dim(data)[1], 
+               ncol = dim(data)[2]) # 
+    superimp = kabsch_R(Q, d)
+    rmsd = superimp$rmsd
+    return(rmsd)
+  }
+  # -- Bootstrap and randomize (this takes several minutes)
+  reps_boot = boot(data=P, statistic=rmsd_fun_boot, R=Nrnd, Q = Q)
+  reps_halfboot = boot(data=P, statistic=rmsd_fun_halfboot, R=Nrnd, Q = Q)
+  reps_rand = vector(mode = "numeric", length = Nrnd)
+  reps_full_rand = vector(mode = "numeric", length = Nrnd)
+  for(i in 1:Nrnd){
+    reps_rand[i] = rmsd_fun_rnd(P, Q)
+    reps_full_rand[i] = rmsd_fun_fullrnd(P, Q)
+  }
+
   # ... write summary
-  fileBootRMSD = paste0("Bootstrap_rmsd_summary_StartingVsRep",Rep,".txt")
+  fileBootRMSD = paste0("Summary_Bootstrap_rmsd_summary_StartingVsRep",Rep,".txt")
   sink(file = fileBootRMSD)
-  (quantile(reps$t,probs =  c(0.95,0.05))) # [0.54, 0.51]
+  (quantile(reps_boot$t,probs =  c(0.95,0.5,0.05))) # [0.47, 0.44]
   (rmsd) # 0.48
   sink()
-  
+  fileHalfBootRMSD = paste0("Summary_BootstrapHalf_rmsd_summary_StartingVsRep",Rep,".txt")
+  sink(file = fileHalfBootRMSD)
+  (quantile(reps_halfboot$t,probs =  c(0.95,0.5,0.05))) # [0.54, 0.51]
+  (rmsd) # 0.48
+  sink()
+  fileRandRMSD = paste0("Summary_Rand_rmsd_summary_StartingVsRep",Rep,".txt")
+  sink(file = fileRandRMSD)
+  (quantile(reps_rand,probs =  c(0.95,0.5,0.05))) # [0.559, 0.542]
+  (rmsd) # 0.48
+  sink()
+  fileFullRandRMSD = paste0("Summary_FullRand_rmsd_summary_StartingVsRep",Rep,".txt")
+  sink(file = fileFullRandRMSD)
+  (quantile(reps_full_rand, probs =  c(0.95,0.5,0.05))) # [2.39, 2.38]
+  (rmsd) # 0.48
+  sink()
   # ... plot results
   fileBootPlot = paste0("Plot_bootstrap_rmsd_summary_StartingVsRep",Rep,".txt")
   pdf(file = fileBootPlot)
-  plot(reps)
+  plot(reps_boot)
   dev.off()
-  
+  fileHalfBootPlot = paste0("Plot_halfbootstrap_rmsd_summary_StartingVsRep",Rep,".txt")
+  pdf(file = fileHalfBootPlot)
+  plot(reps_halfboot)
+  dev.off()
+  #stop()
   # --- Estimate a confidence interval for the cross-covariance
   # Cross.boot.mean = matrix(0, nrow = nrow(Cross), ncol = ncol(Cross))
   # Cross.boot.var = matrix(0, nrow = nrow(Cross), ncol = ncol(Cross))
@@ -384,7 +454,7 @@ sv.df.gg = reshape_df_to_ggplot(sv.df, x.vec = c("Rot_sv1"),
 colnames(sv.df.gg)
 xlab = "SVD, component 1 (prediction)"
 ylab = "SVD, component 1 (experiments)"
-filePlot1 = "Plot_SVD1_predictionVsExperiments.pdf"
+filePlot1 = "Plot_SVD1_predictionVsExperiments_tmp.pdf"
 pdf(file = filePlot1, width = 10)
 g = ggplot(sv.df.gg,aes(x = x.out, y = y.out, color = new_factor1))+
   geom_point(alpha = 0.7, size = 5)+

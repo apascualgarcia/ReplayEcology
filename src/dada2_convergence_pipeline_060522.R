@@ -10,7 +10,7 @@ library(dada2); packageVersion("dada2")
 
 # GETTING READY: READ IN FILES --------------------------------------------
 
-path <- '2_demultiplexed/corrected' #CHANGE ME to the directory containing your demultiplexed fastq files
+path <- '1_demultiplexed/corrected' #CHANGE ME to the directory containing your demultiplexed fastq files
 path
 fns <- list.files(path, pattern="fastq.gz", recursive = T) # CHANGE if different file extensions
 length(fns)

@@ -1,31 +1,34 @@
 # INSTALL DADA2 -----------------------------------------------------------
 
+#NB TO USE DADA 3.14 AND REPRODUCE THE PIPELINE EXACTLY, YOU NEED TO FIRST INSTALL AND RUN R VERSION 4.1 
+
+#unhash to install dada2 3.14
 #if (!requireNamespace("BiocManager", quietly = TRUE))
 #  install.packages("BiocManager")
 #BiocManager::install("dada2", version = "3.14")
 
 # GETTING READY: LOAD DADA2 ---------------------------------------------------
 
+#loads DADA2 and returns the package version you're running (should be 3.14 for complete reproducibility)
 library(dada2); packageVersion("dada2")
 
 # GETTING READY: READ IN FILES --------------------------------------------
 
-path <- '1_demultiplexed/corrected' #CHANGE ME to the directory containing your demultiplexed fastq files
+path <- '1_demultiplexed' #directory containing the demultiplexed fastq files that were  deposited at NCBI under BioProject accession number PRJNA989519
 path
 fns <- list.files(path, pattern="fastq.gz", recursive = T) # CHANGE if different file extensions
 length(fns)
 
 # GETTING READY: EXRACT SAMPLE NAMES --------------------------------------
 
+#write file names to sample.names
 sample.names<-sub("^(.*)[.].*", "\\1", fns)
-sample.names<-sub("^(.*)[.].*", "\\1", sample.names)
-sample.names
 
-#sample.names<-stringr::str_extract(fns, "[^_]+")
+#remove the extension
+sample.names<-sub("^(.*)[.].*", "\\1", sample.names)
+
 #replace forward slash with _
 sample.names<-gsub("\\/", "_", sample.names)
-#replace period with _
-#sample.names<-gsub("\\.", "_", sample.names)
 
 # INSPECT READ QUALITY PROFILES -------------------------------------------
 

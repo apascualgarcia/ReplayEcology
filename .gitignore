@@ -15,3 +15,5 @@
 10_functionink/
 *Rhistory*
 .Rproj.user
+/1_demultiplexed/run1
+/1_demultiplexed/run2

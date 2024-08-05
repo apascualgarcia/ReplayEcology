@@ -1,8 +1,10 @@
 rm(list=ls())
-#setwd("/home/apascual/Nextcloud/Research/Projects/FunctionalGroups/Repositories/convergence/Partial_Matt_pipeline")
+#setwd("/home/apascual/Nextcloud/Research/Projects/FunctionalGroups/Repositories/convergence/Partial_Matt_pipeline/src")
 library(stringi)
 library(stringr)
-dirSrc=here::here()
+# --- Directories
+this.dir=strsplit(rstudioapi::getActiveDocumentContext()$path, "/src/")[[1]][1] # don't edit, just comment it if problems...
+dirSrc=paste(this.dir,"/src/",sep="") # Directory where the code is
 setwd(dirSrc)
 
 # --- Load objects from Dada

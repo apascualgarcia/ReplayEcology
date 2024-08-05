@@ -3,19 +3,31 @@ rm(list=ls())
 library(stringi)
 library(stringr)
 # --- Directories
-this.dir=strsplit(rstudioapi::getActiveDocumentContext()$path, "/src/")[[1]][1] # don't edit, just comment it if problems...
-dirSrc=paste(this.dir,"/src/",sep="") # Directory where the code is
+this.dir = strsplit(rstudioapi::getActiveDocumentContext()$path, "/src/")[[1]][1] # don't edit, just comment it if problems...
+dirSrc = paste(this.dir,"/src/",sep="") # Directory where the code is
+dirDada2 = paste(this.dir,"/4_dada2/",sep="") # Dir of ASV table
+dirOut = paste(this.dir,"/6_finalfiles/",sep="") # Dir of ASV table
 setwd(dirSrc)
 
+# --- Define objects
+
+file.in.seq = 'seqtab.nochim.RDS'
+file.in.df = 'samdf.csv'
+file.in.taxa = 'taxa_wsp.csv'
+file.in.meta = 'metadata_Time0D-7D-4M_May2022.csv'
+file.out.taxa = 'taxa_wsp_readyforanalysis.csv'
+file.out.fasta = 'seqtable_readyforanalysis.fasta'
+file.out.seqtable = 'seqtable_readyforanalysis.csv'
+
 # --- Load objects from Dada
-seqtab_treeholes <-readRDS('../4_dada2/seqtab.nochim.RDS')
+setwd(dirDada2)
+seqtab_treeholes <-readRDS(file.in.seq)
 #sample df table froM DADA2
-samdf_treeholes <-read.csv('../4_dada2/samdf.csv')
-taxa_wsp<-read.csv('../4_dada2/taxa_wsp.csv')
+samdf_treeholes <-read.csv(file.in.df)
+taxa_wsp<-read.csv(file.in.taxa)
 
 #  --- Load metadata
-sample_md<-read.table('../4_dada2/metadata_Time0D-7D-4M_May2022.csv',
-                      sep="\t",header=TRUE)
+sample_md<-read.table(file.in.meta,sep="\t",header=TRUE)
 head(sample_md)[1:5,]
 nrow(seqtab_treeholes)
 nrow(samdf_treeholes) # 2843
@@ -55,10 +67,10 @@ rownames(seqtab_treeholes_rest)[c(1:10,1000:1010)]
 
 # --- Merge both 4M and remainder dfs
 seqtab_treeholes=rbind(seqtab_treeholes_4M,seqtab_treeholes_rest)
-samdf_treholes=rbind(seqtab_treeholes_4M,seqtab_treeholes_rest)
+samdf_treeholes=rbind(seqtab_treeholes_4M,seqtab_treeholes_rest)
 
 dim(seqtab_treeholes)
-dim(samdf_treholes)
+dim(samdf_treeholes)
 
 # FILTER SEQUENCES --------------------------------------------------------
 
@@ -78,9 +90,9 @@ nrow(seqtab_treeholes)
 # FILTER THE SAMPLE METADATA AND TAXA TABLE ACCORDING TO REMAINING COMMUNITIES AND ASVS, respectively -------------------------------------------------------------------------
 
 #list communities in samdf which are still in seqtab_treeholes after filtering
-samples_to_keep<-which(samdf_treeholes$filename%in%rownames(seqtab_treeholes))
+#samples_to_keep<-which(samdf_treeholes$filename%in%rownames(seqtab_treeholes))
 #filter them out
-samdf_treeholes<-samdf_treeholes[samples_to_keep,]
+#samdf_treeholes<-samdf_treeholes[samples_to_keep,]
 
 #list sequences/ASVs in samdf which are still in seqtab_treeholes after filtering
 sequences_to_keep<-which(taxa_wsp$X%in%colnames(seqtab_treeholes))
@@ -88,20 +100,20 @@ sequences_to_keep<-which(taxa_wsp$X%in%colnames(seqtab_treeholes))
 taxa_wsp<-taxa_wsp[sequences_to_keep,]
 
 # WRITE NEW SEQTABLE AS CSV AND FASTA -----------------------------------------------------------
-
+setwd(dirOut)
 ASV_sequences<-as.list(colnames(seqtab_treeholes))
 ASV_names<-paste('ASV',1:ncol(seqtab_treeholes), sep='_')
 
 taxa_wsp<-cbind(ASV_names,taxa_wsp)
 colnames(taxa_wsp)[which(colnames(taxa_wsp)=='X')]<-'sequence'
-write.table(taxa_wsp,'../6_finalfiles/taxa_wsp_readyforanalysis.csv', row.names=F,quote = FALSE)
+write.table(taxa_wsp,file.out.taxa, row.names=F,quote = FALSE, sep = "\t")
 
 #write a fasta file
-seqinr::write.fasta(sequences=ASV_sequences, names=ASV_names,'../6_finalfiles/seqtable_readyforanalysis.fasta', open = "w", nbchar = 60, as.string = FALSE)
+seqinr::write.fasta(sequences=ASV_sequences, names=ASV_names,file.out.fasta, open = "w", nbchar = 60, as.string = FALSE)
 
 #rename the sequence colnames in the seqtab to shorthand ASV names
 colnames(seqtab_treeholes)<-ASV_names
 # rename the samples to match the metadata
 rownames(seqtab_treeholes)[1:10]
-write.table(seqtab_treeholes,'../6_finalfiles/seqtable_readyforanalysis.csv',sep="\t",quote=FALSE)
+write.table(seqtab_treeholes,file.out.seqtable,sep="\t",quote=FALSE)
 

@@ -6,13 +6,13 @@ dirSrc=here::here()
 setwd(dirSrc)
 
 # --- Load objects from Dada
-seqtab_treeholes <-readRDS('../4_dada2/seqtab.nochim.RDS')
+seqtab_treeholes <-readRDS('4_dada2/seqtab.nochim.RDS')
 #sample df table froM DADA2
-samdf_treeholes <-read.csv('../4_dada2/samdf.csv')
-taxa_wsp<-read.csv('../4_dada2/taxa_wsp.csv')
+samdf_treeholes <-read.csv('4_dada2/samdf.csv')
+taxa_wsp<-read.csv('4_dada2/taxa_wsp.csv')
 
 #  --- Load metadata
-sample_md<-read.table('../4_dada2/metadata_Time0D-7D-4M_May2022.csv',
+sample_md<-read.table('4_dada2/metadata_Time0D-7D-4M_May2022.csv',
                       sep="\t",header=TRUE)
 head(sample_md)[1:5,]
 nrow(seqtab_treeholes)

@@ -13,10 +13,9 @@ dirSrc=paste(this.dir,"/src/",sep="") # Directory where the code is
 #dirSrc=here::here() # src of the repository
 setwd(dirSrc)
 
-
 # --- Read ASVs table
 setwd("../6_finalfiles")
-fileOTU="seqtable_readyforanalysis.csv"
+fileOTU="seqtable_matchedandfiltered.csv"
 ASV.table=read.table(fileOTU,sep="\t")
 dim(ASV.table)
 ASV.table=as.matrix(ASV.table)
@@ -43,13 +42,9 @@ matched=match(colnames(ASV.table.clean),ASV.mito$V1)
 ASV.table.clean=ASV.table.clean[,is.na(matched)]
 dim(ASV.table.clean)
 
-
-# --- Write old OTU table renamed and the new one with the old name
-fileOTUold="seqtable_readyforanalysis_wChloroplasts.csv"
-write.table(ASV.table,file=fileOTUold,quote=FALSE,sep="\t")
-
+# --- Write final ASV table
+fileOTU="seqtable_readyforanalysis.csv"
 write.table(ASV.table.clean,file=fileOTU,quote=FALSE,sep="\t")
 
 fileOTUt="seqtable_readyforanalysis.t.csv"
 write.table(t(ASV.table.clean),file=fileOTUt,quote=FALSE,sep="\t")
-

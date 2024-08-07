@@ -92,7 +92,7 @@ ASV_names<-paste('ASV',1:ncol(seqtab_treeholes), sep='_')
 
 taxa_wsp<-cbind(ASV_names,taxa_wsp)
 colnames(taxa_wsp)[which(colnames(taxa_wsp)=='X')]<-'sequence'
-write.table(taxa_wsp,'6_finalfiles/taxa_wsp_matchedandfiltered.csv', row.names=F,quote = FALSE)
+write.table(taxa_wsp,'6_finalfiles/taxa_wsp_matchedandfiltered.csv', row.names=F, col.names = T, sep="\t", quote = FALSE)
 
 #write a fasta file
 seqinr::write.fasta(sequences=ASV_sequences, names=ASV_names,'6_finalfiles/seqtable_matchedandfiltered.fasta', open = "w", nbchar = 60, as.string = FALSE)

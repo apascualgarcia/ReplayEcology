@@ -92,14 +92,14 @@ ASV_names<-paste('ASV',1:ncol(seqtab_treeholes), sep='_')
 
 taxa_wsp<-cbind(ASV_names,taxa_wsp)
 colnames(taxa_wsp)[which(colnames(taxa_wsp)=='X')]<-'sequence'
-write.table(taxa_wsp,'../6_finalfiles/taxa_wsp_readyforanalysis.csv', row.names=F,quote = FALSE)
+write.table(taxa_wsp,'6_finalfiles/taxa_wsp_matchedandfiltered.csv', row.names=F,quote = FALSE)
 
 #write a fasta file
-seqinr::write.fasta(sequences=ASV_sequences, names=ASV_names,'../6_finalfiles/seqtable_readyforanalysis.fasta', open = "w", nbchar = 60, as.string = FALSE)
+seqinr::write.fasta(sequences=ASV_sequences, names=ASV_names,'6_finalfiles/seqtable_matchedandfiltered.fasta', open = "w", nbchar = 60, as.string = FALSE)
 
 #rename the sequence colnames in the seqtab to shorthand ASV names
 colnames(seqtab_treeholes)<-ASV_names
 # rename the samples to match the metadata
 rownames(seqtab_treeholes)[1:10]
-write.table(seqtab_treeholes,'../6_finalfiles/seqtable_readyforanalysis.csv',sep="\t",quote=FALSE)
+write.table(seqtab_treeholes,'6_finalfiles/seqtable_matchedandfiltered.csv',sep="\t",quote=FALSE)
 

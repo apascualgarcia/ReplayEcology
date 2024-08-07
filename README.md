@@ -18,7 +18,7 @@ The repository has a folder containing all the scripts (`src`) and several folde
 
 To keep the repository as light as possible, a number of files were excluded. These files can be regenerated using the scripts provided.
 
-* Folders 0 to 3 are completely empty because they should contain the raw sequencing data and a number of large output files from dada2. 
+* Folders 0 to 3 are completely empty because they should contain the raw sequencing data and a number of large output files from dada2.
 * The following files are also excluded (included in `.gitignore`):
     * `dada_output.RDS`, `seqtab.csv` and `seqtab.nochim.csv`.
     * `silva*`.
@@ -33,7 +33,7 @@ To keep the repository as light as possible, a number of files were excluded. Th
 * Sequences associated with this study are deposited at NCBI under BioProject accession number PRJNA989519. This project contains the 16S rRNA amplicon sequencing data associated with each of the communities at day 0
 (SUB13586664), as well as at day 7 for the four replicate growth experiments (SUB13586665-8).
 
-* Users interested in reproducing the whole pipeline should **details in progress**.
+* Users interested in reproducing the whole pipeline should download all the FASTQ files in NCBI to `2_demultiplexed`
 
 * Users interested in the processed data will find:
     * `seqtable_readyforanalysis.csv`: ASV vs samples table, found in directory `6_finalfiles`.
@@ -76,8 +76,7 @@ Metadata contain the following fields:
 
 Most scripts have a header describing their usage. All of them were coded considering the structure of the repository, so there is no need to modify the paths, hence are hard-coded relative to the root of the repository. Please note that to make the scripts portable some functions to recover the user's path are used which, in the case of R scripts, require executing the script from Rstudio. Some scripts have different options for the analysis, indicated in variables. The main scripts are:
 
-**dada2 details in progress**
-
+* `dada2_convergence_pipeline_060522.R` Runs the DADA2 pipeline, processing the demultiplexed fastq files uploaded to NCBI into a table of ASVs and associated files
 * `main_find_classes.R` Computes the all-against-all JSD for all samples and looks for the optimal partition (output in `7.1_classes`).
 * `main_find_classes_exp-split.R` Same analysis for each experiment and replicate independently (output in `7.1_classes`).
 * `merge_metadata.R` Script to merge metadata tables obtained with the previous scripts (output in `7.1_classes`).
@@ -90,3 +89,141 @@ Most scripts have a header describing their usage. All of them were coded consid
 * `represent_attractors.R` Some visualizations of the results obtained with `distance_to_attractor.R` (output in `7.5_attractors`).
 * `pathways_to_heatmap.R` Creates some plots of PICRUSt results (output in `8_PICRUSt`).
 * `community_superposition.R` Looks for the optimal superposition between starting communities and one of the replicates, performs a prediction and compares with the remaining replicates (output in `9_predictions`).
+
+### Bioinformatic pipeline
+
+#### Preliminary processing steps
+
+Code for preliminary processing steps pre-ASV inference are **included in the repository for methodological transparency, but are not able to be run** because the necessary input files (sequence files at every stage of processing) have not been deposited in public repositories for practical reasons (it is standard to deposit filtered sequence files).
+
+##### 1. Demultiplexing
+
+Sequences for the 2844 samples were generated in two sequencing jobs performed by the sequencing company. Day 0 samples were included in the first job (052214DR16s), and day 7 samples in the second (021216DR515F), alongside samples from other projects in the lab group. These sequences were received from the sequencing company in batched files containing multiple samples, and hence needed to be demultiplexed using custom scripts.
+
+* **scripts**: `demultiplex_day0.sh`; `demultiplex_day7.sh` - Scripts to demultiplex files received from sequencing company into one file per  individual samples.
+
+* **inputs**: `1_raw/`
+
+  - `day0`: *12 batch files for the first job (e.g. 052214DR16s-Sam1-80-pr.fastq)* -  These are not deposited in any public repository.
+  - `day7`: *26 batch files for the second job (e.g. 021216DR515FSAM1-8a-pr.fastq)* - These are not deposited in any public repository.
+
+
+* **outputs**: `2_demultiplexed/day0`;`2_demultiplexed/day7` - 2844 sequencing files for each sample (e.g. A01.AE49_052214DR16s-Sam476-550.fastq), deposited in two folders "day0" and "day7" (though note that files from other studies are included in each of these, to which this nomenclature does not apply).
+
+#### 2. Removal of problematic reads
+
+ A very small minority of the reads (i.e. 4 lines) in each of the demultiplexed FASTQ files had quality scores that were a different length to the sequences. This is odd but seems to be how the data arrived from the sequencing company. The problem seems restricted to day 0 data/first sequencing run. Online discussions suggest it is due to some file corruption (https://www.biostars.org/p/180310/; https://www.biostars.org/p/231090/; https://forum.qiime2.org/t/fastq-gz-and-quality-score-length-do-not-match-using-type-emppairedendsequences-from-miseq/14142/7), perhaps occurring at the sequencing center, and that these records can be removed. Therefore, we removed this very small minority of problematic reads from the demultiplexed FASTQs in order to enable downstream analysis with these FASTQs.
+
+ * **scripts**: `remove_problematicreads.R` - Reads in the FASTQ files, compares sequence and quality lengths, then removes those the reads for which they don't match for each of the files.
+
+ * **inputs**: `2_demultiplexed/day0`;`2_demultiplexed/day7` - 2844 sequencing files for each sample (e.g. A01.AE49_052214DR16s-Sam476-550.fastq), deposited in two folders "day0" and "day7" (though note that files from other studies are included in each of these, to which this nomenclature does not apply).
+
+ * **outputs**: `2_demultiplexed/corrected/day0`;`2_demultiplexed/corrected/day7` - 2844 corrected sequencing files for each sample (e.g. A01.AE49_052214DR16s-Sam476-550.fastq), deposited in two folders "day0" and "day7" (though note that files from other studies are included in each of these, to which this nomenclature does not apply).
+
+##### 3. Filtering using DADA2
+
+* **script**: `dada2_filter_sequences.R` - This script filters and trims the 2844 sequencing files using standard parameters of DADA2, truncating reads at the first instance of a quality score less than 11 and after a length of 240 bases.
+
+* **inputs**: `2_demultiplexed/corrected/day0`;`2_demultiplexed/corrected/day7` - 2844 corrected sequencing files for each sample (e.g. A01.AE49_052214DR16s-Sam476-550.fastq), deposited in two folders "day0" and "day7" (though note that files from other studies are included in each of these, to which this nomenclature does not apply).
+
+* **outputs**: `3_filtered` - 2843 filtered sequencing files (e.g. day0_A01.AE49_052214DR16s-Sam476-550_filt.fastq). There is no filtered file for one sample (H11.BWd08_052214DR16s-Sam321-400-pr.fastq.gz) because there were no reads after filtering (ttps://github.com/benjjneb/dada2/issues/1279).
+
+##### 4. Organising the files
+
+The 2843 filtered sequence files were sorted based on study and (for this study) replicate within study, in order to facilitate their deposition at NCBI (given only 1000 files can be deposited in one submission) and potential users' future interaction with them. For reproducibility purposes, it was necessary to deposit all 2843 files (even those not specific to this study) because ASV inference was performed on all samples (see below). This process required the use of text processing in R, given there was no explicit label for study in the filenames.
+
+* **scripts**: `prepare_NCBIupload_filtered.R` - This complicated R script extracts sample names from the file names and then matches lists of strings specific to each known project to sort the files into studies.
+
+* **inputs**:
+
+ - `4_dada2/metadata_Time0D-7D-4M_May2022.csv` - This file contains the metadata of the samples, and is used to select/sort the samples Alberto used for analysis downstream of DADA2.
+
+ - `1_raw/geographical_attributes.csv` - This contains the geographical information on the samples (particularly GPS locations) needed for NCBI upload.
+
+ - `3_filtered` - Filenames of all the 2843 filtered sequence files, which are unsorted in the `3_filtered` folder after DADA2 filtering.
+
+* **outputs**: `3_filtered`
+
+  - **8 sub-folders**  pertaining to 5 groups of samples for this study (organised by sampling day/rep), 1 group of samples for the Scheuerl study, 1 group of samples for the Mombrikotb study, and 1 group of miscellaneous samples (duplicate files, 'core' communities, and samples from unknown studies)
+  - **8 NCBI dataframes** for each of the 8 groups of files, containing the basic metadata that feeds into the final BioSample Attributes/SRA metadata Excel files
+
+
+  8 NCBI BioSample Attributes/SRA metadata Excel files  were then made based on the NCBI dataframes outputted from the code, to enable the sequences to be deposited at NCBI. These are in the 8 sub-folders in the directory.
+
+#### Reproducible pipeline
+
+##### 1. ASV inference
+
+The bioinformatic pipeline is reproducible from the post-filtering point, using the filtered sequence files deposited at NCBI under BioProject accession number PRJNA989519. To start this process, users must first download all the filtered sequence files from NCBI in the 8 submissions to each of their respective 8 sub-folders. All 2843 files from the 8 submissions must be downloaded to fully reproduce the pipeline because ASV inference was performed on the entire set of samples [1]. Users can work with just the samples from this study if they wish, but should be aware that the results may be slightly different.
+
+After the files have been downloaded, users should open `ReplayEcology.RProj` in the home directory to open the project in RStudio. Finally, users should check they are running R version 4.1 and DADA2 version 3.14 (if not, they may need to install and load them - this can be done for DADA2 v3.14 using the hashed-out lines of the script 5-8) before running ASV (amplicon sequence variant) inference as follows.
+
+* **scripts**: `dada2_infer_ASVs.R` - This is the script used to infer ASVs from the filtered sequences. Following the standard DADA2 pipeline, the script learns the error rate of the 2843 sequences, infers ASVS, construct a sequence table, removes chimeras, assigns taxonomy to the chimera-free ASVs, and then writes a metadata table for the samples.
+
+* **inputs**:
+
+- `3_filtered` - Filenames of all the 2843 downloaded filtered sequence files, which are organised into 8 sub-folders.
+
+- `4_dada2/silva_nr99_v138.1_train_set.fa.gz` - SILVA database v138.1 of sequences aligned to taxonomy, used for assigning taxonomy to ASVs to genus level.
+
+- `4_dada2/silva_species_assignment_v138.1.fa.gz` - SILVA database v138.1 of sequences aligned to taxonomy at species level, used for assigning taxonomy to ASVs at species level.
+
+* **outputs**: `4_dada2/`
+
+- `err.RDS` - Error rate information needed as the input to dada2::dada(). This is the output of dada2::learnErrors().
+
+- `dada_output.RDS` - Output of the main dada2 ASV inference function dada2::dada().
+
+- `seqtab.RDS/csv` - ASV vs samples table, the output of the dada2 function dada2::makeSequenceTable().
+
+- `seqtab_nochim.RDS/csv` - ASV vs samples table, containing 75,035 ASVs from 2843 samples, the output of the dada2 function dada2::removeBimeraDenovo().
+
+- `taxa.RDS.csv` - Table containing inferred taxonomy of the ASVs, the output of the dada2 function dada2::assignTaxonomy().
+
+- `taxa_wsp.RDS/csv` - Table containing inferred species-level taxonomy of the 1480 ASVs, the output of the dada2 function dada2::assignTaxonomy().
+
+- `samdf.csv` - Table containing sample metadata of the 2843 samples.
+
+##### 2. Matching and filtering of samples for analysis in this study
+
+* **scripts**: `match_sets_and_filter.R` - This script performs an initial filtering of the sequence table down to those samples that contain the names of communities used in this study (see outputs note 2). It then filters out the least abundant ASVs (to reduce number of ASVs/spurious ASVs), and removes samples with less than 10K sequences, in line with our previous work.
+
+* **inputs**:
+
+- `seqtab_nochim.RDS` - ASV vs samples table, containing 75,035 ASVs from 2843 samples, the output of the dada2 function dada2::removeBimeraDenovo().
+
+- `taxa_wsp.RDS/csv` - Table containing inferred species-level taxonomy of the 1480 ASVs, the output of the dada2 function dada2::assignTaxonomy().
+
+ - `4_dada2/metadata_Time0D-7D-4M_May2022.csv` - This file contains the metadata of the samples, and is used to select/sort the samples APG used for analysis downstream of DADA2.
+
+* **outputs**:
+
+- `seqtab_matchedandfiltered.RDS/csv` - ASV vs samples table, restricted to the 2156 treehole communities (rows) and 1480 ASVs remaining after matching and filtering. Please not that this is not the final set of communities upon which APG's analysis was performed, since this initial filtering also picked up some samples from the Scheuerl study (which used some of the same communities with the same IDs). APG therefore performed a further filtering step downstream.
+
+- `taxa_wsp_matchedandfiltered.RDS/csv` - Table containing inferred species-level taxonomy of the 1480 remaining ASVs, matched with ASVs in seqtable.
+
+##### 3. Removal of chloroplasts
+
+* **scripts**: `remove_Chloroplasts.R` - This script removes chloroplast and mitochondrial ASVs before writing the final ASV tables.
+
+* **inputs**:
+
+- `seqtab_matchedandfiltered.RDS/csv` - ASV vs samples table, restricted to the 2156 treehole communities (rows) and 1480 ASVs remaining after matching and filtering. Please not that this is not the final set of communities upon which APG's analysis was performed, since this initial filtering also picked up some samples from the Scheuerl study (which used some of the same communities with the same IDs). APG therefore performed a further filtering step downstream.
+
+- `taxa_wsp_matchedandfiltered.RDS/csv` - Table containing inferred species-level taxonomy of the 1480 ASVs remaining after matching and filtering.
+
+- `ASVs_Chloroplasts.list` - List of chloroplast ASVS
+- `ASVs_Mitochondria.list` - List of mitochondrial ASVS
+
+* **outputs**:
+
+- `seqtable_readyforanalysis.RDS/csv` - ASV vs samples table of 1454 ASVs, after chloroplast and mitochondria removal communities (rows). Please not that this is not the final set of communities upon which APG's analysis was performed, since this initial filtering also picked up some samples from the Scheuerl study (which used some of the same communities with the same IDs). APG therefore performed a further filtering step downstream.
+
+- `taxa_wsp_readyforanalysis.RDS/csv` - Table containing inferred species-level taxonomy of the 1454 ASVs remaining after chlroplast/mitochondria removal.
+
+
+
+
+
+
+1. Sequences associated with this paper are deposited at NCBI under BioProject accession number PRJNA989519. This project contains the 16S amplicon sequencing data associated with each of the communities at day 0 (SUB13586664), as well as at day 7 for the four replicate growth experiments (SUB13586665-SUB13586668). Additionally, the project contains samples associated with other projects and/or run on the same sequencing runs (SUB13586669-SUB13586671), which should also be downloaded and run through the DADA2 pipeline with the sequences related to this study, if one desires to reproduce this analysis exactly.

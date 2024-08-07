@@ -13,8 +13,14 @@ dirSrc=paste(this.dir,"/src/",sep="") # Directory where the code is
 #dirSrc=here::here() # src of the repository
 setwd(dirSrc)
 
-# --- Read ASVs table
 setwd("../6_finalfiles")
+
+# --- Read taxa table
+filetaxa="taxa_wsp_matchedandfiltered.csv"
+taxa.table=read.table(filetaxa,sep="\t", header = 1)
+
+# --- Read ASVs table
+
 fileOTU="seqtable_matchedandfiltered.csv"
 ASV.table=read.table(fileOTU,sep="\t")
 dim(ASV.table)
@@ -48,3 +54,15 @@ write.table(ASV.table.clean,file=fileOTU,quote=FALSE,sep="\t")
 
 fileOTUt="seqtable_readyforanalysis.t.csv"
 write.table(t(ASV.table.clean),file=fileOTUt,quote=FALSE,sep="\t")
+
+# --- Write final taxa table
+
+#match ASVs in final ASV table to those in taxa table
+matched=match(taxa.table$ASV_names, colnames(ASV.table.clean))
+#remove non-matches to get final taxa table
+taxa.table.clean=taxa.table[!is.na(matched),]
+
+filetaxa="taxa_wsp_readyforanalysis.csv"
+write.table(taxa.table.clean,file=filetaxa,quote=FALSE,sep="\t")
+
+

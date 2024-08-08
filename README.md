@@ -222,6 +222,10 @@ After matching and filtering, some ASVs were identified that were taxonomically 
 
   - `taxa_wsp_readyforanalysis.RDS/csv` - Table containing inferred species-level taxonomy of the 1454 ASVs remaining after chlroplast/mitochondria removal.
 
-## Notes
+### Statistical analysis pipeline
+
+To be completed by APG. Note that the Bioinformatic pipeline all works based on the R Project. If the statistical analysis pipeline is incompatible with this, please make this clear.
+
+### Notes
 
 1. Sequences associated with this paper are deposited at NCBI under BioProject accession number PRJNA989519. This project contains the 16S amplicon sequencing data associated with each of the communities at day 0 (SUB13586664), as well as at day 7 for the four replicate growth experiments (SUB13586665-SUB13586668). Additionally, the project contains samples associated with other projects and/or run on the same sequencing runs (SUB13586669-SUB13586671), which should also be downloaded and run through the DADA2 pipeline with the sequences related to this study, if one desires to reproduce this analysis exactly.

@@ -73,7 +73,7 @@ Metadata contain the following fields:
 
 ### Scripts
 
-Most scripts have a header describing their usage. All of them were coded considering the structure of the repository, so there is no need to modify the paths, hence are hard-coded relative to the root of the repository. Please note that to make the scripts portable some functions to recover the user's path are used which, in the case of R scripts, require executing the script from Rstudio. Some scripts have different options for the analysis, indicated in variables. The main scripts are:
+Most scripts have a header describing their usage. All of them were coded considering the structure of the repository, so there is no need to modify the paths, hence are hard-coded relative to the root of the repository. Please note that to make the scripts portable,  R Projects and/or some functions to recover the user's path are used which, in the case of R scripts, require executing the script from RStudio. Some scripts have different options for the analysis, indicated in variables. The main scripts are:
 
 * `dada2_convergence_pipeline_060522.R` Runs the DADA2 pipeline, processing the demultiplexed fastq files uploaded to NCBI into a table of ASVs and associated files
 * `main_find_classes.R` Computes the all-against-all JSD for all samples and looks for the optimal partition (output in `7.1_classes`).

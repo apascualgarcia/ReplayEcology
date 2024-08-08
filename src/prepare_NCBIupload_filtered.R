@@ -3,14 +3,14 @@ library(dplyr)
 
 # READ IN DATA ------------------------------------------------------------
 
-#sample metadata
-#sample_md<-read.csv('4_dada2/metadata_Time0-Time7-SJD_merged_2021.4stamp.csv') #old metadataset
-sample_md<-read.csv('4_dada2/metadata_Time0D-7D-4M_May2022.csv', sep='') #new metadataset
+#read in sample metadata
+sample_md<-read.csv('4_dada2/metadata_Time0D-7D-4M_May2022.csv', sep='')
 
 #read in geographical attributes (additional metadata)
 geog_attrib<-read.csv('1_raw/geographical_attributes.csv')
 geog_attrib$latlong<-paste(geog_attrib$Northings,'N',geog_attrib$Westings,'W')
 
+#get filenames of the 2843 sequence files
 filename_fullpaths<-list.files(c('3_filtered'), full.names = T, include.dirs = F, pattern = '.fastq.gz')
 filename<-gsub('3_filtered/','',filename_fullpaths)
 
@@ -31,13 +31,10 @@ wells_strings<-paste(wells,'.',sep='')
 #join them with an 'or' (|) operator
 wells_strings<-paste(wells_strings, collapse='|')
 
-# filename <-gsub(wells_strings,'.',filename)
-
-#sample title (e.g. community name)
-#run<-sapply(strsplit(filename, "_"), `[`, 2)
-#run<-gsub("SAM.*|Sam.*|-SAM.*|-Sam.*","",run)
+#generate a string for the run by matching run names
 run<-unlist(stringr::str_extract_all(filename, ("052214DR16s|021216DR515F")))
 
+#generate a string for the day by matching day names in filenames
 day<-unlist(stringr::str_extract_all(filename, ("day0|day7")))
 
 #create sample name column by removing file extension
@@ -46,14 +43,6 @@ sample_name<-gsub(".fastq.gz","",filename)
 #snip out the well names (everything before first period with sub)
 sample_name<-sub(".*?\\.", "", sample_name)
 sample_name
-
-#replace dashes with underscores
-#files <- sub("\\-.*", "", files)
-#remove the 
-#sample_name<-gsub("SAM.*|Sam.*|-SAM.*|-Sam.*","",sample_name)
-
-#remove well names from sample name
-#sample_name<-gsub(wells_strings,"",sample_name)
 
 #remove days from sample names
 sample_name<-gsub("day0_|day7_","",sample_name)
@@ -122,11 +111,6 @@ samples_scheuerlstudy<-grep(stringstofind_scheuerlstudy, NCBIdf_all$sample_name)
 samples_thisstudy<-samples_thisstudy[-which(samples_thisstudy%in%samples_scheuerlstudy)]
 samples_mombrikotbstudy<-grep(stringstofind_mombrikotbstudy,NCBIdf_all$sample_name)
 samples_misc<-grep(stringstonotfind_misc, NCBIdf_all$sample_name, invert = T)
-
-sum(length(samples_thisstudy),
-    length(samples_scheuerlstudy),
-    length(samples_mombrikotbstudy),
-    length(samples_misc))
 
 # ASSEMBLE NCBI DATAFRAMES FOR UPLOADING ----------------------------------
 #Here we assemble dataframes of just the treehole samples from this experiment, for uploading to NCBI. 

@@ -75,7 +75,7 @@ Metadata contain the following fields:
 
 Most scripts have a header describing their usage. All of them were coded considering the structure of the repository, so there is no need to modify the paths, hence are hard-coded relative to the root of the repository. Please note that to make the scripts portable,  R Projects and/or some functions to recover the user's path are used which, in the case of R scripts, require executing the script from RStudio. Some scripts have different options for the analysis, indicated in variables. The main scripts are:
 
-* `dada2_infer_ASVs.R` Runs the main parts of the DADA2 pipeline, to infer amplicon sequence variants (ASVs) and their taxonomies. 
+* `dada2_infer_ASVs.R` Runs the main parts of the DADA2 pipeline, to infer amplicon sequence variants (ASVs) and their taxonomies.
 * `main_find_classes.R` Computes the all-against-all JSD for all samples and looks for the optimal partition (output in `7.1_classes`).
 * `main_find_classes_exp-split.R` Same analysis for each experiment and replicate independently (output in `7.1_classes`).
 * `merge_metadata.R` Script to merge metadata tables obtained with the previous scripts (output in `7.1_classes`).
@@ -93,11 +93,11 @@ Most scripts have a header describing their usage. All of them were coded consid
 
 #### Preliminary processing steps
 
-Code for preliminary processing steps pre-ASV inference are **included in the repository for methodological transparency, but are not able to be run** because the necessary input files (sequence files at every stage of processing) have not been deposited in public repositories for practical reasons (it is standard to deposit filtered sequence files).
+Code for preliminary processing steps pre-ASV inference are **included in the repository for methodological transparency, but are not able to be run** because the necessary input files (sequence files at every stage of processing) have not been deposited in public repositories in order to avoid unnecessary use of data storage space (it is standard to deposit filtered sequence files for the purposes of reproducibility).
 
 ##### 1. Demultiplexing
 
-Sequences for the 2844 samples were generated in two sequencing jobs performed by the sequencing company. Day 0 samples were included in the first job (052214DR16s), and day 7 samples in the second (021216DR515F), alongside samples from other projects in the lab group. These sequences were received from the sequencing company in batched files containing multiple samples, and hence needed to be demultiplexed using custom scripts.
+Sequences for the 2844 samples were generated in two sequencing jobs performed by the sequencing company. Day 0 samples were included in the first job (052214DR16s), and day 7 samples in the second (021216DR515F), alongside samples from other projects in the lab group to which the 'day0' and 'day7' labels to not apply. These sequences were received from the sequencing company in batched files containing multiple samples, and hence needed to be demultiplexed using custom scripts.
 
 * **scripts**: `demultiplex_day0.sh`; `demultiplex_day7.sh` - Scripts to demultiplex files received from sequencing company into one file per  individual samples.
 
@@ -111,27 +111,27 @@ Sequences for the 2844 samples were generated in two sequencing jobs performed b
 
 #### 2. Removal of problematic reads
 
- A very small minority of the reads (i.e. 4 lines) in each of the demultiplexed FASTQ files had quality scores that were a different length to the sequences. This is odd but seems to be how the data arrived from the sequencing company. The problem seems restricted to day 0 data/first sequencing run. Online discussions suggest it is due to some file corruption (https://www.biostars.org/p/180310/; https://www.biostars.org/p/231090/; https://forum.qiime2.org/t/fastq-gz-and-quality-score-length-do-not-match-using-type-emppairedendsequences-from-miseq/14142/7), perhaps occurring at the sequencing center, and that these records can be removed. Therefore, we removed this very small minority of problematic reads from the demultiplexed FASTQs in order to enable downstream analysis with these FASTQs.
+ A very small minority of the reads (i.e. 4 lines) in each of the demultiplexed FASTQ files had quality scores that were a different length to the sequences, which is apparently how they arrived from the sequencing company. This minor problem was restricted to day 0 data/first sequencing run, and online discussions suggest it was probably due to some minor file corruption (https://www.biostars.org/p/180310/; https://www.biostars.org/p/231090/; https://forum.qiime2.org/t/fastq-gz-and-quality-score-length-do-not-match-using-type-emppairedendsequences-from-miseq/14142/7), perhaps occurring at the sequencing center, and that these records can be removed. Therefore, we removed this very small minority of problematic reads from the demultiplexed FASTQs in order to enable downstream analysis with these FASTQs.
 
  * **scripts**: `remove_problematicreads.R` - Reads in the FASTQ files, compares sequence and quality lengths, then removes those the reads for which they don't match for each of the files.
 
- * **inputs**: `2_demultiplexed/day0`;`2_demultiplexed/day7` - 2844 sequencing files for each sample (e.g. A01.AE49_052214DR16s-Sam476-550.fastq), deposited in two folders "day0" and "day7" (though note that files from other studies are included in each of these, to which this nomenclature does not apply).
+ * **inputs**: `2_demultiplexed/day0`;`2_demultiplexed/day7` - 2844 sequencing files for each sample (e.g. A01.AE49_052214DR16s-Sam476-550.fastq), deposited in two folders "day0" and "day7" (though note again that files from other studies are included in each of these, to which this nomenclature does not apply).
 
- * **outputs**: `2_demultiplexed/corrected/day0`;`2_demultiplexed/corrected/day7` - 2844 corrected sequencing files for each sample (e.g. A01.AE49_052214DR16s-Sam476-550.fastq), deposited in two folders "day0" and "day7" (though note that files from other studies are included in each of these, to which this nomenclature does not apply).
+ * **outputs**: `2_demultiplexed/corrected/day0`;`2_demultiplexed/corrected/day7` - 2844 corrected sequencing files for each sample (e.g. A01.AE49_052214DR16s-Sam476-550.fastq), deposited in two folders "day0" and "day7" (though note again that files from other studies are included in each of these, to which this nomenclature does not apply).
 
 ##### 3. Filtering using DADA2
 
-This script runs the preliminary processing step of the DADA2 pipeline, filtering and trimming the sequences in the demultiplexed sequence files to prepare them for downstream work. The filtered sequences that result from this script are the most raw sequence data we have made available via deposition at NCBI. The is standard practice, but also means that this script is not runnable since only its outputs but not its inputs are available to external users.
+This script runs the preliminary processing step of the DADA2 pipeline, filtering and trimming the sequences in the demultiplexed sequence files to prepare them for downstream work. The filtered sequences that result from this script are the most raw sequence data that we have made available via deposition at NCBI (BioProject accession number PRJNA989519). The is standard practice but also means that this script is not executable by external users, since only its outputs but not its inputs are available to external users.
 
 * **script**: `dada2_filter_sequences.R` - This script filters and trims the 2844 sequencing files using standard parameters of DADA2, truncating reads at the first instance of a quality score less than 11 and after a length of 240 bases.
 
 * **inputs**: `2_demultiplexed/corrected/day0`;`2_demultiplexed/corrected/day7` - 2844 corrected sequencing files for each sample (e.g. A01.AE49_052214DR16s-Sam476-550.fastq), deposited in two folders "day0" and "day7" (though note that files from other studies are included in each of these, to which this nomenclature does not apply).
 
-* **outputs**: `3_filtered` - 2843 filtered sequencing files (e.g. day0_A01.AE49_052214DR16s-Sam476-550_filt.fastq). There is no filtered file for one sample (H11.BWd08_052214DR16s-Sam321-400-pr.fastq.gz) because there were no reads after filtering (ttps://github.com/benjjneb/dada2/issues/1279).
+* **outputs**: `3_filtered` - 2843 filtered sequencing files (e.g. day0_A01.AE49_052214DR16s-Sam476-550_filt.fastq). There is no filtered file for one sample (H11.BWd08_052214DR16s-Sam321-400-pr.fastq.gz) because there were no reads after filtering (https://github.com/benjjneb/dada2/issues/1279).
 
 ##### 4. Organising the files
 
-The 2843 filtered sequence files were sorted based on study and (for this study) replicate within study, in order to facilitate their deposition at NCBI (given only 1000 files can be deposited in one submission) and potential users' future interaction with them. For reproducibility purposes, it was necessary to deposit all 2843 files (even those not specific to this study) because ASV inference was performed on all samples (see below). This process required the use of text processing in R, given there was no explicit label for study in the filenames.
+The 2843 filtered sequence files were sorted into separate folders based on study and (for this study) replicate within study, in order to facilitate their deposition at NCBI (given only 1000 files can be deposited in each submission) and potential users' future interaction with them. For reproducibility purposes, it was necessary to deposit all 2843 files (even those not specific to this study) because ASV inference was performed on all samples (see below). This process required the use of text processing in R, given there was no explicit label for study in the filenames.
 
 * **scripts**: `prepare_NCBIupload_filtered.R` - This complicated R script extracts sample names from the file names and then matches lists of strings specific to each known project to sort the files into studies.
 
@@ -139,17 +139,17 @@ The 2843 filtered sequence files were sorted based on study and (for this study)
 
  - `4_dada2/metadata_Time0D-7D-4M_May2022.csv` - This file contains the metadata of the samples, and is used to select/sort the samples Alberto used for analysis downstream of DADA2.
 
- - `1_raw/geographical_attributes.csv` - This contains the geographical information on the samples (particularly GPS locations) needed for NCBI upload.
+ - `1_raw/geographical_attributes.csv` - This contains the geographical information on the samples (particularly GPS locations) needed for the BioSample Attributes table needed as part of the NCBI deposit.
 
- - `3_filtered` - Filenames of all the 2843 filtered sequence files, which are unsorted in the `3_filtered` folder after DADA2 filtering.
+ - `3_filtered/` - Filenames of all the 2843 filtered sequence files, which are unsorted in the `3_filtered` folder after DADA2 filtering (step 3).
 
-* **outputs**: `3_filtered`
+* **outputs**: `3_filtered/`
 
   - **8 sub-folders**  pertaining to 5 groups of samples for this study (organised by sampling day/rep), 1 group of samples for the Scheuerl study, 1 group of samples for the Mombrikotb study, and 1 group of miscellaneous samples (duplicate files, 'core' communities, and samples from unknown studies)
-  - **8 NCBI dataframes** for each of the 8 groups of files, containing the basic metadata that feeds into the final BioSample Attributes/SRA metadata Excel files
+  - **8 NCBI dataframes** (e.g. NCBI_thisstudy_day0.csv) containing the basic metadata for each of the 8 groups of files that feeds into the final BioSample Attributes/SRA metadata Excel files needed for the NCBI deposit.
 
 
-  8 NCBI BioSample Attributes/SRA metadata Excel files  were then made based on the NCBI dataframes outputted from the code, to enable the sequences to be deposited at NCBI. These are in the 8 sub-folders in the directory.
+  8 NCBI BioSample Attributes/SRA metadata Excel files  were then manually made based on the NCBI dataframes outputted from the code, to enable the sequences to be deposited at NCBI. These are in the 8 sub-folders in the directory.
 
 #### Reproducible pipeline
 

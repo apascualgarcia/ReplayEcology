@@ -31,15 +31,14 @@ To keep the repository as light as possible, a number of files were excluded. Th
 ### Input data
 
 * Sequences associated with this study are deposited at NCBI under BioProject accession number PRJNA989519. This project contains the 16S rRNA amplicon sequencing data associated with each of the communities at day 0
-(SUB13586664), as well as at day 7 for the four replicate growth experiments (SUB13586665-8).
+(SUB13586664), as well as at day 7 for the four replicate growth experiments (SUB13586665-8). Additionally, the project contains samples associated with other projects and/or run on the same sequencing runs (SUB13586669-SUB13586671), which should also be downloaded and run through the DADA2 pipeline with the sequences related to this study, if one desires to reproduce this analysis exactly.
 
-* Users interested in reproducing the whole pipeline should download all the FASTQ files in NCBI to `2_demultiplexed`
+* Users interested in reproducing the whole pipeline should download all the FASTQ files deposited at NCBI to their respective folders in `3_filtered`
 
 * Users interested in the processed data will find:
-    * `seqtable_readyforanalysis.csv`: ASV vs samples table, found in directory `6_finalfiles`.
     * `metadata_Time0D-7D-4M_May2022.csv`: starting metadata table, found in directory `4_dada2`. During the analysis, this table will be extended. Therefore, other metadata tables can be found in subsequent folders.
+    * `seqtable_readyforanalysis.csv`: ASV vs samples table, found in directory `6_finalfiles`.
     * `taxa_wsp_readyforanalysis.csv`: Taxonomy, also found in directory `6_finalfiles`.
-
 
 #### Description metadata table
 

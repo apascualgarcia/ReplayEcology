@@ -75,7 +75,7 @@ Metadata contain the following fields:
 
 Most scripts have a header describing their usage. All of them were coded considering the structure of the repository, so there is no need to modify the paths, hence are hard-coded relative to the root of the repository. Please note that to make the scripts portable,  R Projects and/or some functions to recover the user's path are used which, in the case of R scripts, require executing the script from RStudio. Some scripts have different options for the analysis, indicated in variables. The main scripts are:
 
-* `dada2_convergence_pipeline_060522.R` Runs the DADA2 pipeline, processing the demultiplexed fastq files uploaded to NCBI into a table of ASVs and associated files
+* `dada2_infer_ASVs.R` Runs the main parts of the DADA2 pipeline, to infer amplicon sequence variants (ASVs) and their taxonomies. 
 * `main_find_classes.R` Computes the all-against-all JSD for all samples and looks for the optimal partition (output in `7.1_classes`).
 * `main_find_classes_exp-split.R` Same analysis for each experiment and replicate independently (output in `7.1_classes`).
 * `merge_metadata.R` Script to merge metadata tables obtained with the previous scripts (output in `7.1_classes`).
@@ -120,6 +120,8 @@ Sequences for the 2844 samples were generated in two sequencing jobs performed b
  * **outputs**: `2_demultiplexed/corrected/day0`;`2_demultiplexed/corrected/day7` - 2844 corrected sequencing files for each sample (e.g. A01.AE49_052214DR16s-Sam476-550.fastq), deposited in two folders "day0" and "day7" (though note that files from other studies are included in each of these, to which this nomenclature does not apply).
 
 ##### 3. Filtering using DADA2
+
+This script runs the preliminary processing step of the DADA2 pipeline, filtering and trimming the sequences in the demultiplexed sequence files to prepare them for downstream work. The filtered sequences that result from this script are the most raw sequence data we have made available via deposition at NCBI. The is standard practice, but also means that this script is not runnable since only its outputs but not its inputs are available to external users.
 
 * **script**: `dada2_filter_sequences.R` - This script filters and trims the 2844 sequencing files using standard parameters of DADA2, truncating reads at the first instance of a quality score less than 11 and after a length of 240 bases.
 

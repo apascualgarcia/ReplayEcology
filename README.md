@@ -159,72 +159,69 @@ The bioinformatic pipeline is reproducible from the post-filtering point, using 
 
 After the files have been downloaded, users should open `ReplayEcology.RProj` in the home directory to open the project in RStudio. Finally, users should check they are running R version 4.1 and DADA2 version 3.14 (if not, they may need to install and load them - this can be done for DADA2 v3.14 using the hashed-out lines of the script 5-8) before running ASV (amplicon sequence variant) inference as follows.
 
-* **scripts**: `dada2_infer_ASVs.R` - This is the script used to infer ASVs from the filtered sequences. Following the standard DADA2 pipeline, the script learns the error rate of the 2843 sequences, infers ASVS, construct a sequence table, removes chimeras, assigns taxonomy to the chimera-free ASVs, and then writes a metadata table for the samples.
+* **scripts**: `dada2_infer_ASVs.R` - This is the script used to infer ASVs from the filtered sequences. Following the standard DADA2 pipeline, the script learns the error rate of the 2843 sequences, infers ASVs, constructs a sequence table, removes chimeras, assigns taxonomy to the chimera-free ASVs, and then writes a metadata table for the samples.
 
 * **inputs**:
 
-- `3_filtered` - Filenames of all the 2843 downloaded filtered sequence files, which are organised into 8 sub-folders.
+  - `3_filtered` - Filenames of all the 2843 downloaded filtered sequence files, which are organised into 8 sub-folders.
 
-- `4_dada2/silva_nr99_v138.1_train_set.fa.gz` - SILVA database v138.1 of sequences aligned to taxonomy, used for assigning taxonomy to ASVs to genus level.
+  - `4_dada2/silva_nr99_v138.1_train_set.fa.gz` - SILVA database v138.1 of sequences aligned to taxonomy, used for assigning taxonomy to ASVs to genus level.
 
-- `4_dada2/silva_species_assignment_v138.1.fa.gz` - SILVA database v138.1 of sequences aligned to taxonomy at species level, used for assigning taxonomy to ASVs at species level.
+  - `4_dada2/silva_species_assignment_v138.1.fa.gz` - SILVA database v138.1 of sequences aligned to taxonomy at species level, used for assigning taxonomy to ASVs at species level.
 
 * **outputs**: `4_dada2/`
 
-- `err.RDS` - Error rate information needed as the input to dada2::dada(). This is the output of dada2::learnErrors().
+  - `err.RDS` - Error rate information needed as the input to dada2::dada(). This is the output of dada2::learnErrors().
 
-- `dada_output.RDS` - Output of the main dada2 ASV inference function dada2::dada().
+  - `dada_output.RDS` - Output of the main dada2 ASV inference function dada2::dada().
 
-- `seqtab.RDS/csv` - ASV vs samples table, the output of the dada2 function dada2::makeSequenceTable().
+  - `seqtab.RDS/csv` - ASV vs samples table, the output of the dada2 function dada2::makeSequenceTable().
 
-- `seqtab_nochim.RDS/csv` - ASV vs samples table, containing 75,035 ASVs from 2843 samples, the output of the dada2 function dada2::removeBimeraDenovo().
+  - `seqtab_nochim.RDS/csv` - ASV vs samples table, containing 75,035 ASVs from 2843 samples, the output of the dada2 function dada2::removeBimeraDenovo().
 
-- `taxa.RDS.csv` - Table containing inferred taxonomy of the ASVs, the output of the dada2 function dada2::assignTaxonomy().
+  - `taxa.RDS.csv` - Table containing inferred taxonomy of the ASVs, the output of the dada2 function dada2::assignTaxonomy().
 
-- `taxa_wsp.RDS/csv` - Table containing inferred species-level taxonomy of the 1480 ASVs, the output of the dada2 function dada2::assignTaxonomy().
-
-- `samdf.csv` - Table containing sample metadata of the 2843 samples.
+  - `taxa_wsp.RDS/csv` - Table containing inferred species-level taxonomy of the 1480 ASVs, the output of the dada2 function dada2::assignTaxonomy().
 
 ##### 2. Matching and filtering of samples for analysis in this study
 
-* **scripts**: `match_sets_and_filter.R` - This script performs an initial filtering of the sequence table down to those samples that contain the names of communities used in this study (see outputs note 2). It then filters out the least abundant ASVs (to reduce number of ASVs/spurious ASVs), and removes samples with less than 10K sequences, in line with our previous work.
+* **scripts**: `match_sets_and_filter.R` - This script performs an initial filtering of the sequence table down to those samples that contain the names of communities used in this study (see note in 'outputs' below). It then filters out the least abundant ASVs (to reduce number of ASVs/spurious ASVs), and removes samples with less than 10K sequences, in line with our previous work.
 
 * **inputs**:
 
-- `seqtab_nochim.RDS` - ASV vs samples table, containing 75,035 ASVs from 2843 samples, the output of the dada2 function dada2::removeBimeraDenovo().
+  - `seqtab_nochim.RDS` - ASV vs samples table, containing 75,035 ASVs from 2843 samples, the output of the dada2 function dada2::removeBimeraDenovo().
 
-- `taxa_wsp.RDS/csv` - Table containing inferred species-level taxonomy of the 1480 ASVs, the output of the dada2 function dada2::assignTaxonomy().
+  - `taxa_wsp.RDS/csv` - Table containing inferred species-level taxonomy of the 75,035 ASVs, the output of the dada2 function dada2::assignTaxonomy().
 
- - `4_dada2/metadata_Time0D-7D-4M_May2022.csv` - This file contains the metadata of the samples, and is used to select/sort the samples APG used for analysis downstream of DADA2.
+  - `4_dada2/metadata_Time0D-7D-4M_May2022.csv` - This file contains the metadata of the samples, and is used to select/sort the samples APG used for analysis downstream of DADA2.
 
 * **outputs**:
 
-- `seqtab_matchedandfiltered.RDS/csv` - ASV vs samples table, restricted to the 2156 treehole communities (rows) and 1480 ASVs remaining after matching and filtering. Please not that this is not the final set of communities upon which APG's analysis was performed, since this initial filtering also picked up some samples from the Scheuerl study (which used some of the same communities with the same IDs). APG therefore performed a further filtering step downstream.
+  - `seqtab_matchedandfiltered.RDS/csv` - ASV vs samples table, restricted to the 2156 treehole communities (rows) and 1480 ASVs remaining after matching and filtering. Please not that this is not the final set of communities upon which APG's analysis was performed, since this initial filtering also picked up some samples from the Scheuerl study (which used some of the same communities with the same IDs). APG therefore performed a further filtering step downstream.
 
-- `taxa_wsp_matchedandfiltered.RDS/csv` - Table containing inferred species-level taxonomy of the 1480 remaining ASVs, matched with ASVs in seqtable.
+  - `taxa_wsp_matchedandfiltered.RDS/csv` - Table containing inferred species-level taxonomy of the 1480 remaining ASVs, matched with ASVs in seqtable.
 
 ##### 3. Removal of chloroplasts
+
+After matching and filtering, some ASVs were identified that were taxonomically assigned to chloroplasts or mitochondria, and hence were removed before downstream analysis.
 
 * **scripts**: `remove_Chloroplasts.R` - This script removes chloroplast and mitochondrial ASVs before writing the final ASV tables.
 
 * **inputs**:
 
-- `seqtab_matchedandfiltered.RDS/csv` - ASV vs samples table, restricted to the 2156 treehole communities (rows) and 1480 ASVs remaining after matching and filtering. Please not that this is not the final set of communities upon which APG's analysis was performed, since this initial filtering also picked up some samples from the Scheuerl study (which used some of the same communities with the same IDs). APG therefore performed a further filtering step downstream.
+  - `seqtab_matchedandfiltered.RDS/csv` - ASV vs samples table, restricted to the 2156 treehole communities (rows) and 1480 ASVs remaining after matching and filtering.
 
-- `taxa_wsp_matchedandfiltered.RDS/csv` - Table containing inferred species-level taxonomy of the 1480 ASVs remaining after matching and filtering.
+  - `taxa_wsp_matchedandfiltered.RDS/csv` - Table containing inferred species-level taxonomy of the 1480 ASVs remaining after matching and filtering.
 
-- `ASVs_Chloroplasts.list` - List of chloroplast ASVS
-- `ASVs_Mitochondria.list` - List of mitochondrial ASVS
+  - `ASVs_Chloroplasts.list` - List of chloroplast ASVS
+  - `ASVs_Mitochondria.list` - List of mitochondrial ASVS
 
 * **outputs**:
 
-- `seqtable_readyforanalysis.RDS/csv` - ASV vs samples table of 1454 ASVs, after chloroplast and mitochondria removal communities (rows). Please not that this is not the final set of communities upon which APG's analysis was performed, since this initial filtering also picked up some samples from the Scheuerl study (which used some of the same communities with the same IDs). APG therefore performed a further filtering step downstream.
+  - `seqtable_readyforanalysis.RDS/csv` - ASV vs samples table of 1454 ASVs, after removal of 12 chloroplasts and 14 mitochondria ASVs. Please not that this is not the final set of communities upon which APG's analysis was performed, since this initial filtering also picked up some samples from the Scheuerl study (which used some of the same communities with the same IDs). APG therefore performed a further filtering step downstream.
 
-- `taxa_wsp_readyforanalysis.RDS/csv` - Table containing inferred species-level taxonomy of the 1454 ASVs remaining after chlroplast/mitochondria removal.
+  - `taxa_wsp_readyforanalysis.RDS/csv` - Table containing inferred species-level taxonomy of the 1454 ASVs remaining after chlroplast/mitochondria removal.
 
-
-
-
-
+## Notes
 
 1. Sequences associated with this paper are deposited at NCBI under BioProject accession number PRJNA989519. This project contains the 16S amplicon sequencing data associated with each of the communities at day 0 (SUB13586664), as well as at day 7 for the four replicate growth experiments (SUB13586665-SUB13586668). Additionally, the project contains samples associated with other projects and/or run on the same sequencing runs (SUB13586669-SUB13586671), which should also be downloaded and run through the DADA2 pipeline with the sequences related to this study, if one desires to reproduce this analysis exactly.

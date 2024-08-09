@@ -6,6 +6,14 @@
 # Zürich, August 2022
 # Theoretical Biology, ETH
 # apascualgarcia.github.io
+
+#This script was later edited by Matt Lloyd Jones to work 
+# with new 'matchedandfiltered.csv' output of match_sets_and_filter
+# and output the final _readyforanalysis suffixed files
+# without overwriting anything, to enable better tracking of reads
+# through objects in the pipeline
+
+
 ###################################################
 
 this.dir=strsplit(rstudioapi::getActiveDocumentContext()$path, "/src/")[[1]][1]

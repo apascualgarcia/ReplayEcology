@@ -1,3 +1,20 @@
+##################################################
+# dada2_filter_sequences.R
+##################################################
+
+# This script runs the preliminary processing step of the DADA2 pipeline, 
+# filtering and trimming the sequences in the demultiplexed sequence files 
+# to prepare them for downstream work. The filtered sequences that result from 
+# this script are the most raw sequence data that we have made available via 
+# deposition at NCBI (BioProject accession number PRJNA989519). The is standard 
+# practice but also means that this script is not executable by external users, 
+# since only its outputs but not its inputs are available to external users
+
+# Cardiff, July-August 2024
+# European Centre for the Environment & Human Health, University of Exeter
+# Matt Lloyd Jones
+# https://github.com/befriendabacterium/
+
 # INSTALL DADA2 -----------------------------------------------------------
 
 #NB TO USE DADA 3.14 AND REPRODUCE THE PIPELINE EXACTLY, YOU NEED TO FIRST INSTALL AND RUN R VERSION 4.1 

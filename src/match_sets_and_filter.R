@@ -1,3 +1,18 @@
+##################################################
+# match_sets_and_filter.R
+##################################################
+
+# This script performs an initial filtering of the sequence table down 
+# to those samples that contain the names of communities used in this study. 
+# It then filters out the least abundant ASVs 
+# (to reduce number of ASVs/spurious ASVs), and removes samples with less 
+# than 10K sequences, in line with our previous work.
+
+# Zürich/Cardiff, April 2023/August 2024
+# Theoretical Biology, ETH/E uropean Centre for the Environment & Human Health, University of Exeter
+# Alberto Pascual Garcia/ Matt Lloyd Jones
+# apascualgarcia.github.io / https://github.com/befriendabacterium/
+
 rm(list=ls())
 #setwd("/home/apascual/Nextcloud/Research/Projects/FunctionalGroups/Repositories/convergence/Partial_Matt_pipeline")
 library(stringi)

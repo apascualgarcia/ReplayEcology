@@ -1,3 +1,22 @@
+##################################################
+# prepare_NCBIupload_filtered.R
+##################################################
+
+# The 2843 filtered sequence files were sorted into separate folders 
+# based on study and (for this study) replicate within study, in order 
+# to facilitate their deposition at NCBI (given only 1000 files can be 
+# deposited in each submission) and potential users' future interaction 
+# with them. For reproducibility purposes, it was necessary to deposit all 
+# 2843 files (even those not specific to this study) because ASV inference 
+# was performed on all samples (see below). This process required the use of 
+# text processing in R, given there was no explicit label for study in the filenames.
+
+# Cardiff, July-August 2024
+# European Centre for the Environment & Human Health, University of Exeter
+# Matt Lloyd Jones
+# https://github.com/befriendabacterium/
+
+
 here::here()
 library(dplyr)
 

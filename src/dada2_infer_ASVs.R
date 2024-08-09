@@ -1,3 +1,20 @@
+##################################################
+# dada2_infer_ASVs.R
+##################################################
+
+# This script runs the preliminary processing step of the DADA2 pipeline, 
+# filtering and trimming the sequences in the demultiplexed sequence files 
+# to prepare them for downstream work. The filtered sequences that result from 
+# this script are the most raw sequence data that we have made available via 
+# deposition at NCBI (BioProject accession number PRJNA989519). The is standard 
+# practice but also means that this script is not executable by external users, 
+# since only its outputs but not its inputs are available to external users
+
+# Penryn, July-August 2024
+# European Centre for the Environment & Human Health, University of Exeter
+# Matt Lloyd Jones
+# https://github.com/befriendabacterium/
+
 #list the files in the 8 sub-folders
 filts<-list.files(c('3_filtered/thisstudy_day0', 
                   '3_filtered/thisstudy_day7r1',

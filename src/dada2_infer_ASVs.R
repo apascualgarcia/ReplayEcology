@@ -105,36 +105,3 @@ taxa.print <- taxa
 rownames(taxa.print) <- NULL
 #inspect the output
 head(taxa.print)
-
-# WRITE METADATA ----------------------------------------------------------
-# 
-# #get the final list of sample names for the samples after chimera removal (sample as lines 22-32)
-# samples.out <- rownames(seqtab.nochim)
-# samples.out <- gsub("\\.", "_", samples.out)
-# samples.out <- sub("\\-.*", "", samples.out)
-# 
-# #get the sampling days for each sample
-# day <- sapply(strsplit(samples.out, "_"), `[`, 1)
-# day <- as.numeric(gsub("day","",day))
-# 
-# #get the 96 well plate well for each sample
-# well <- sapply(strsplit(samples.out, "_"), `[`, 2)
-# 
-# #get the community name for each sample
-# community <- sapply(strsplit(samples.out, "_"), `[`, 3)
-# 
-# #get the experimental replicate (1-4) for each sample
-# rep <- as.numeric(sapply(strsplit(samples.out, "_"), `[`, 4))
-# 
-# #get the sequence run ID for each sample
-# seq.run<-c()
-# seq.run[grep('052214DR16s', samples.out)]<-'052214DR16s'
-# seq.run[grep('021216DR515F', samples.out)]<-'021216DR515F'
-# levels(as.factor(seq.run)) #check number of runs (should be 2)
-# 
-# #build the metadata dataframe based on above
-# samdf <- data.frame(community=community, day=day, rep=rep, seq.run=seq.run, well=well)
-# #save it as a CSV
-# write.csv(samdf,'4_dada2/samdf.csv')
-# #save it as a CSV
-# samdf<-read.csv('4_dada2/samdf.csv', row.names = 1)

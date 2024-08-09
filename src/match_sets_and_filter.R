@@ -7,8 +7,6 @@ setwd(dirSrc)
 
 # --- Load objects from Dada
 seqtab_treeholes <-readRDS('4_dada2/seqtab.nochim.RDS')
-#sample df table froM DADA2
-#samdf_treeholes <-read.csv('4_dada2/samdf.csv')
 taxa_wsp<-read.csv('4_dada2/taxa_wsp.csv')
 
 #  --- Load metadata
@@ -16,7 +14,6 @@ sample_md<-read.table('4_dada2/metadata_Time0D-7D-4M_May2022.csv',
                       sep="\t",header=TRUE)
 head(sample_md)[1:5,]
 nrow(seqtab_treeholes)
-#nrow(samdf_treeholes) # 2843
 nrow(sample_md) # 2188
 
 # MATCH, Remove undesired samples ----
@@ -33,7 +30,6 @@ id_4M=matched[!is.na(matched)]
 
 # .... we create 4M df
 seqtab_treeholes_4M=seqtab_treeholes[id_4M,]
-#samdf_treeholes_4M=samdf_treeholes[id_4M,]
 rownames(seqtab_treeholes_4M)[c(1:10,90:96)]
 
 # --- Now we keep the remainder for further transformation
@@ -48,15 +44,12 @@ id_rest=matched[!is.na(matched)]
 
 # .... we create the remainder df
 seqtab_treeholes_rest=seqtab_treeholes[id_rest,]
-#samdf_treeholes_rest=samdf_treeholes[id_rest,]
 rownames(seqtab_treeholes_rest)[c(1:10,1000:1010)]
 
 # --- Merge both 4M and remainder dfs
 seqtab_treeholes=rbind(seqtab_treeholes_4M,seqtab_treeholes_rest)
-#samdf_treholes=rbind(seqtab_treeholes_4M,seqtab_treeholes_rest)
 
 dim(seqtab_treeholes)
-#dim(samdf_treholes)
 
 # FILTER SEQUENCES --------------------------------------------------------
 
@@ -75,12 +68,7 @@ nrow(seqtab_treeholes)
 
 # FILTER THE SAMPLE METADATA AND TAXA TABLE ACCORDING TO REMAINING COMMUNITIES AND ASVS, respectively -------------------------------------------------------------------------
 
-#list communities in samdf which are still in seqtab_treeholes after filtering
-#samples_to_keep<-which(samdf_treeholes$filename%in%rownames(seqtab_treeholes))
-#filter them out
-#samdf_treeholes<-samdf_treeholes[samples_to_keep,]
-
-#list sequences/ASVs in samdf which are still in seqtab_treeholes after filtering
+#list sequences/ASVs in taxa_wsp which are still in seqtab_treeholes after filtering
 sequences_to_keep<-which(taxa_wsp$X%in%colnames(seqtab_treeholes))
 #filter them out
 taxa_wsp<-taxa_wsp[sequences_to_keep,]

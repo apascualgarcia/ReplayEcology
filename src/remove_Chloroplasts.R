@@ -71,6 +71,6 @@ matched=match(taxa.table$ASV_names, colnames(ASV.table.clean))
 taxa.table.clean=taxa.table[!is.na(matched),]
 
 filetaxa="taxa_wsp_readyforanalysis.csv"
-write.table(taxa.table.clean,file=filetaxa,quote=FALSE,sep="\t")
+write.table(taxa.table.clean,file=filetaxa,quote=FALSE,sep="\t", row.names = F)
 
 

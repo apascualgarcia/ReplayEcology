@@ -17,6 +17,8 @@ rm(list=ls())
 #setwd("/home/apascual/Nextcloud/Research/Projects/FunctionalGroups/Repositories/convergence/Partial_Matt_pipeline/src")
 library(stringi)
 library(stringr)
+library(seqinr)
+
 # --- Directories
 this.dir = strsplit(rstudioapi::getActiveDocumentContext()$path, "/src/")[[1]][1] # don't edit, just comment it if problems...
 dirSrc = paste(this.dir,"/src/",sep="") # Directory where the code is
@@ -27,7 +29,6 @@ setwd(dirSrc)
 # --- Define objects
 
 file.in.seq = 'seqtab.nochim.RDS'
-file.in.df = 'samdf.csv'
 file.in.taxa = 'taxa_wsp.csv'
 file.in.meta = 'metadata_Time0D-7D-4M_May2022.csv'
 file.out.taxa = 'taxa_wsp_matchedandfiltered.csv'
@@ -39,7 +40,6 @@ file.out.seqtable = 'seqtable_matchedandfiltered.csv'
 setwd(dirDada2)
 seqtab_treeholes <-readRDS(file.in.seq)
 #sample df table froM DADA2
-samdf_treeholes <-read.csv(file.in.df)
 taxa_wsp<-read.csv(file.in.taxa)
 
 #  --- Load metadata

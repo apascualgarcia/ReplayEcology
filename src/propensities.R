@@ -7,13 +7,12 @@
 # 
 # Date: 2024-04-17
 # Script Name: propensities.R   
-# Script Description: This script takes a set of ASVs
-# being candidates to have an important impact in the dynamical
-# behaviour of communities and estimate the propensity that a
-# community has for all its replicates being classified in
-# either final class, given that an ASV was observed in that class.
-# 
-#
+# Script Description: This script first classifies communities in different
+# trajectories, taking into account if each starting communities has 
+# its four replicates ending up in the  same final class (convergent trajectory) or not (divergent).
+# Then, for each ASV, it estimates the statistical propensity of being observed
+# in each type of trajectory. This estimation is made independently for
+# starting and final communities.
 
 rm(list = ls())
 # START EDITING ----------------

@@ -1,3 +1,18 @@
+##################################################
+# match_sets_and_filter.R
+##################################################
+
+# This script performs an initial filtering of the sequence table down 
+# to those samples that contain the names of communities used in this study. 
+# It then filters out the least abundant ASVs 
+# (to reduce number of ASVs/spurious ASVs), and removes samples with less 
+# than 10K sequences, in line with our previous work.
+
+# Zürich/Cardiff, April 2023/August 2024
+# Theoretical Biology, ETH/E uropean Centre for the Environment & Human Health, University of Exeter
+# Alberto Pascual Garcia/ Matt Lloyd Jones
+# apascualgarcia.github.io / https://github.com/befriendabacterium/
+
 rm(list=ls())
 #setwd("/home/apascual/Nextcloud/Research/Projects/FunctionalGroups/Repositories/convergence/Partial_Matt_pipeline/src")
 library(stringi)
@@ -15,11 +30,12 @@ file.in.seq = 'seqtab.nochim.RDS'
 file.in.df = 'samdf.csv'
 file.in.taxa = 'taxa_wsp.csv'
 file.in.meta = 'metadata_Time0D-7D-4M_May2022.csv'
-file.out.taxa = 'taxa_wsp_readyforanalysis.csv'
-file.out.fasta = 'seqtable_readyforanalysis.fasta'
-file.out.seqtable = 'seqtable_readyforanalysis.csv'
+file.out.taxa = 'taxa_wsp_matchedandfiltered.csv'
+file.out.fasta = 'seqtable_matchedandfiltered.fasta'
+file.out.seqtable = 'seqtable_matchedandfiltered.csv'
 
 # --- Load objects from Dada
+
 setwd(dirDada2)
 seqtab_treeholes <-readRDS(file.in.seq)
 #sample df table froM DADA2
@@ -30,7 +46,6 @@ taxa_wsp<-read.csv(file.in.taxa)
 sample_md<-read.table(file.in.meta,sep="\t",header=TRUE)
 head(sample_md)[1:5,]
 nrow(seqtab_treeholes)
-nrow(samdf_treeholes) # 2843
 nrow(sample_md) # 2188
 
 # MATCH, Remove undesired samples ----
@@ -47,7 +62,6 @@ id_4M=matched[!is.na(matched)]
 
 # .... we create 4M df
 seqtab_treeholes_4M=seqtab_treeholes[id_4M,]
-samdf_treeholes_4M=samdf_treeholes[id_4M,]
 rownames(seqtab_treeholes_4M)[c(1:10,90:96)]
 
 # --- Now we keep the remainder for further transformation
@@ -62,15 +76,11 @@ id_rest=matched[!is.na(matched)]
 
 # .... we create the remainder df
 seqtab_treeholes_rest=seqtab_treeholes[id_rest,]
-samdf_treeholes_rest=samdf_treeholes[id_rest,]
 rownames(seqtab_treeholes_rest)[c(1:10,1000:1010)]
 
 # --- Merge both 4M and remainder dfs
 seqtab_treeholes=rbind(seqtab_treeholes_4M,seqtab_treeholes_rest)
-samdf_treeholes=rbind(seqtab_treeholes_4M,seqtab_treeholes_rest)
-
 dim(seqtab_treeholes)
-dim(samdf_treeholes)
 
 # FILTER SEQUENCES --------------------------------------------------------
 
@@ -89,12 +99,7 @@ nrow(seqtab_treeholes)
 
 # FILTER THE SAMPLE METADATA AND TAXA TABLE ACCORDING TO REMAINING COMMUNITIES AND ASVS, respectively -------------------------------------------------------------------------
 
-#list communities in samdf which are still in seqtab_treeholes after filtering
-#samples_to_keep<-which(samdf_treeholes$filename%in%rownames(seqtab_treeholes))
-#filter them out
-#samdf_treeholes<-samdf_treeholes[samples_to_keep,]
-
-#list sequences/ASVs in samdf which are still in seqtab_treeholes after filtering
+#list sequences/ASVs in taxa_wsp which are still in seqtab_treeholes after filtering
 sequences_to_keep<-which(taxa_wsp$X%in%colnames(seqtab_treeholes))
 #filter them out
 taxa_wsp<-taxa_wsp[sequences_to_keep,]

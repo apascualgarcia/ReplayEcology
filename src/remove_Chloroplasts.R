@@ -6,6 +6,14 @@
 # Zürich, August 2022
 # Theoretical Biology, ETH
 # apascualgarcia.github.io
+
+#This script was later edited by Matt Lloyd Jones to work 
+# with new 'matchedandfiltered.csv' output of match_sets_and_filter
+# and output the final _readyforanalysis suffixed files
+# without overwriting anything, to enable better tracking of reads
+# through objects in the pipeline
+
+
 ###################################################
 
 this.dir=strsplit(rstudioapi::getActiveDocumentContext()$path, "/src/")[[1]][1]
@@ -13,10 +21,15 @@ dirSrc=paste(this.dir,"/src/",sep="") # Directory where the code is
 #dirSrc=here::here() # src of the repository
 setwd(dirSrc)
 
+setwd("../6_finalfiles")
+
+# --- Read taxa table
+filetaxa="taxa_wsp_matchedandfiltered.csv"
+taxa.table=read.table(filetaxa,sep="\t", header = 1)
 
 # --- Read ASVs table
-setwd("../6_finalfiles")
-fileOTU="seqtable_readyforanalysis.csv"
+
+fileOTU="seqtable_matchedandfiltered.csv"
 ASV.table=read.table(fileOTU,sep="\t")
 dim(ASV.table)
 ASV.table=as.matrix(ASV.table)
@@ -43,13 +56,21 @@ matched=match(colnames(ASV.table.clean),ASV.mito$V1)
 ASV.table.clean=ASV.table.clean[,is.na(matched)]
 dim(ASV.table.clean)
 
-
-# --- Write old OTU table renamed and the new one with the old name
-fileOTUold="seqtable_readyforanalysis_wChloroplasts.csv"
-write.table(ASV.table,file=fileOTUold,quote=FALSE,sep="\t")
-
+# --- Write final ASV table
+fileOTU="seqtable_readyforanalysis.csv"
 write.table(ASV.table.clean,file=fileOTU,quote=FALSE,sep="\t")
 
 fileOTUt="seqtable_readyforanalysis.t.csv"
 write.table(t(ASV.table.clean),file=fileOTUt,quote=FALSE,sep="\t")
+
+# --- Write final taxa table
+
+#match ASVs in final ASV table to those in taxa table
+matched=match(taxa.table$ASV_names, colnames(ASV.table.clean))
+#remove non-matches to get final taxa table
+taxa.table.clean=taxa.table[!is.na(matched),]
+
+filetaxa="taxa_wsp_readyforanalysis.csv"
+write.table(taxa.table.clean,file=filetaxa,quote=FALSE,sep="\t")
+
 

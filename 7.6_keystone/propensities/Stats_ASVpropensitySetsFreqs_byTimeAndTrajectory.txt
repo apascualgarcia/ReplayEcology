@@ -1,0 +1,954 @@
+
+> cat("# Quantiles of the ASVs frequencies sums of each ASV group, defined by their propensities \n ")
+# Quantiles of the ASVs frequencies sums of each ASV group, defined by their propensities 
+ 
+> cat("# ... across all communities belonging to specific time point  (starting/final) and trajectory. \n ")
+# ... across all communities belonging to specific time point  (starting/final) and trajectory. 
+ 
+> for(set in all_inters){
+...  cat(paste0("*** \n"))
+...  cat(paste0("*** Extracting mean frequencies quantiles for set: >>>",set,"<<< \n"))
+...  cat( .... [TRUNCATED] 
+*** 
+*** Extracting mean frequencies quantiles for set: >>>final_classmix<<< 
+*** 
+==== in ASV table: 0D
+====> Number of ASVs is: 25
+....... communities converging to class 1: 
+         0%         25%         50%         75%        100% 
+0.000000000 0.000000000 0.000000000 0.000000000 0.003531558 
+....... communities converging to class 2: 
+         0%          5%         25%         50%         75%         95%        100% 
+0.000000000 0.000000000 0.000000000 0.000000000 0.000000000 0.000590115 0.006871036 
+....... communities diverging: 
+         0%          5%         25%         50%         75%         95%        100% 
+0.000000000 0.000000000 0.000000000 0.000000000 0.000000000 0.009009818 0.028504958 
+==== in ASV table: 7D
+====> Number of ASVs is: 55
+....... communities converging to class 1: 
+         0%         25%         50%         75%        100% 
+0.000000000 0.000000000 0.000000000 0.000000000 0.006009568 
+....... communities converging to class 2: 
+        0%         5%        25%        50%        75%        95%       100% 
+0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.01235021 0.03944692 
+....... communities diverging: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0005470755 0.0226374831 0.2244088176 
+*** 
+*** Extracting mean frequencies quantiles for set: >>>final_class2<<< 
+*** 
+==== in ASV table: 0D
+====> Number of ASVs is: 18
+....... communities converging to class 1: 
+       0%       25%       50%       75%      100% 
+0.0000000 0.0000000 0.0000000 0.0000000 0.3935738 
+....... communities converging to class 2: 
+        0%         5%        25%        50%        75%        95%       100% 
+0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.05506764 0.23488532 
+....... communities diverging: 
+         0%          5%         25%         50%         75%         95%        100% 
+0.000000000 0.000000000 0.000000000 0.000000000 0.000000000 0.000417668 0.017809547 
+==== in ASV table: 7D
+====> Number of ASVs is: 25
+....... communities converging to class 1: 
+        0%        25%        50%        75%       100% 
+0.00000000 0.00000000 0.00000000 0.00000000 0.00802526 
+....... communities converging to class 2: 
+         0%          5%         25%         50%         75%         95%        100% 
+0.000000000 0.000000000 0.000000000 0.000000000 0.003440731 0.053808427 0.230685878 
+....... communities diverging: 
+         0%          5%         25%         50%         75%         95%        100% 
+0.000000000 0.000000000 0.000000000 0.000000000 0.000000000 0.001610111 0.025561761 
+*** 
+*** Extracting mean frequencies quantiles for set: >>>final_class2:final_classmix<<< 
+*** 
+==== in ASV table: 0D
+====> Number of ASVs is: 13
+....... communities converging to class 1: 
+         0%         25%         50%         75%        100% 
+0.000000000 0.000000000 0.000000000 0.000000000 0.007756984 
+....... communities converging to class 2: 
+         0%          5%         25%         50%         75%         95%        100% 
+0.000000000 0.000000000 0.000000000 0.000000000 0.000000000 0.001071794 0.061809186 
+....... communities diverging: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 4.864554e-05 2.517116e-04 
+==== in ASV table: 7D
+====> Number of ASVs is: 33
+....... communities converging to class 1: 
+         0%         25%         50%         75%        100% 
+0.000000000 0.000000000 0.000000000 0.000000000 0.007359165 
+....... communities converging to class 2: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0000000000 0.0000000000 0.0003554069 0.0094461503 0.0279657459 0.2166071256 
+....... communities diverging: 
+         0%          5%         25%         50%         75%         95%        100% 
+0.000000000 0.000000000 0.000000000 0.000000000 0.002940426 0.024909768 0.189484369 
+*** 
+*** Extracting mean frequencies quantiles for set: >>>final_class1<<< 
+*** 
+==== in ASV table: 0D
+====> Number of ASVs is: 92
+....... communities converging to class 1: 
+         0%         25%         50%         75%        100% 
+0.000000000 0.000000000 0.000000000 0.001253569 0.057571439 
+....... communities converging to class 2: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0002392559 0.0047160032 0.0368700371 
+....... communities diverging: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 9.644876e-05 7.622178e-03 4.248470e-02 
+==== in ASV table: 7D
+====> Number of ASVs is: 143
+....... communities converging to class 1: 
+          0%          25%          50%          75%         100% 
+0.0000000000 0.0002859841 0.0018246951 0.0062769394 0.1797941323 
+....... communities converging to class 2: 
+        0%         5%        25%        50%        75%        95%       100% 
+0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.01170792 0.04311972 
+....... communities diverging: 
+         0%          5%         25%         50%         75%         95%        100% 
+0.000000000 0.000000000 0.000000000 0.000000000 0.001995134 0.017605904 0.232499757 
+*** 
+*** Extracting mean frequencies quantiles for set: >>>final_class1:final_classmix<<< 
+*** 
+==== in ASV table: 0D
+====> Number of ASVs is: 68
+....... communities converging to class 1: 
+         0%         25%         50%         75%        100% 
+0.000000000 0.000000000 0.000000000 0.000135405 0.058475268 
+....... communities converging to class 2: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 7.816653e-05 5.399900e-03 3.856804e-02 
+....... communities diverging: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0007544323 0.0224054513 0.3573367211 
+==== in ASV table: 7D
+====> Number of ASVs is: 120
+....... communities converging to class 1: 
+          0%          25%          50%          75%         100% 
+0.0000000000 0.0008321353 0.0025416404 0.0066239477 0.3501080651 
+....... communities converging to class 2: 
+        0%         5%        25%        50%        75%        95%       100% 
+0.00000000 0.00000000 0.00000000 0.00000000 0.00350124 0.02107861 0.14189010 
+....... communities diverging: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0000000000 0.0009109467 0.0034196423 0.0135200133 0.1193211038 0.7210982659 
+*** 
+*** Extracting mean frequencies quantiles for set: >>>final_class1:final_class2<<< 
+*** 
+==== in ASV table: 0D
+====> Number of ASVs is: 7
+....... communities converging to class 1: 
+         0%         25%         50%         75%        100% 
+0.001666708 0.005844481 0.009888454 0.025241403 0.595067120 
+....... communities converging to class 2: 
+         0%          5%         25%         50%         75%         95%        100% 
+0.002474475 0.003415249 0.012771472 0.028309618 0.203337360 0.473535869 0.589759321 
+....... communities diverging: 
+         0%          5%         25%         50%         75%         95%        100% 
+0.003168757 0.004360368 0.008754790 0.018674782 0.061640569 0.354525525 0.556816272 
+==== in ASV table: 7D
+====> Number of ASVs is: 14
+....... communities converging to class 1: 
+         0%         25%         50%         75%        100% 
+0.000000000 0.002287452 0.004576193 0.008134490 0.698190464 
+....... communities converging to class 2: 
+         0%          5%         25%         50%         75%         95%        100% 
+0.000000000 0.000000000 0.002097127 0.009301699 0.021306269 0.074762781 0.389530799 
+....... communities diverging: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0000000000 0.0005833214 0.0032477868 0.0107420621 0.0422673911 0.6122146014 
+*** 
+*** Extracting mean frequencies quantiles for set: >>>final_class1:final_class2:final_classmix<<< 
+*** 
+==== in ASV table: 0D
+====> Number of ASVs is: 77
+....... communities converging to class 1: 
+          0%          25%          50%          75%         100% 
+0.0000000000 0.0000000000 0.0000000000 0.0002002323 0.0714863335 
+....... communities converging to class 2: 
+        0%         5%        25%        50%        75%        95%       100% 
+0.00000000 0.00000000 0.00000000 0.00000000 0.00112432 0.01172490 0.17805439 
+....... communities diverging: 
+         0%          5%         25%         50%         75%         95%        100% 
+0.000000000 0.000000000 0.000000000 0.000000000 0.000601365 0.005007543 0.014394288 
+==== in ASV table: 7D
+====> Number of ASVs is: 125
+....... communities converging to class 1: 
+          0%          25%          50%          75%         100% 
+0.0001032503 0.0018173701 0.0035971677 0.0071761111 0.2369186047 
+....... communities converging to class 2: 
+         0%          5%         25%         50%         75%         95%        100% 
+0.006170521 0.023045834 0.075157996 0.137727649 0.237807865 0.339969509 0.621774266 
+....... communities diverging: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0003376325 0.0015611964 0.0052650889 0.0289874713 0.1490537953 0.2771237753 0.9316167122 
+*** 
+*** Extracting mean frequencies quantiles for set: >>>starting_classmix<<< 
+*** 
+==== in ASV table: 0D
+====> Number of ASVs is: 8
+....... communities converging to class 1: 
+         0%         25%         50%         75%        100% 
+0.000000000 0.000000000 0.000000000 0.000000000 0.002285192 
+....... communities converging to class 2: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0001606671 0.0006309907 
+....... communities diverging: 
+         0%          5%         25%         50%         75%         95%        100% 
+0.000000000 0.000000000 0.000000000 0.000000000 0.000182332 0.002582233 0.006983850 
+==== in ASV table: 7D
+====> Number of ASVs is: 4
+....... communities converging to class 1: 
+          0%          25%          50%          75%         100% 
+0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0002754062 
+....... communities converging to class 2: 
+        0%         5%        25%        50%        75%        95%       100% 
+0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00451987 
+....... communities diverging: 
+        0%         5%        25%        50%        75%        95%       100% 
+0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.01921984 
+*** 
+*** Extracting mean frequencies quantiles for set: >>>starting_classmix:final_classmix<<< 
+*** 
+==== in ASV table: 0D
+====> Number of ASVs is: 3
+....... communities converging to class 1: 
+          0%          25%          50%          75%         100% 
+0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0002749708 
+....... communities converging to class 2: 
+        0%         5%        25%        50%        75%        95%       100% 
+0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00144446 
+....... communities diverging: 
+         0%          5%         25%         50%         75%         95%        100% 
+0.000000000 0.000000000 0.000000000 0.000000000 0.000000000 0.001778036 0.048005619 
+==== in ASV table: 7D
+====> Number of ASVs is: 3
+....... communities converging to class 1: 
+          0%          25%          50%          75%         100% 
+0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0009233097 
+....... communities converging to class 2: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0007172121 
+....... communities diverging: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 1.302468e-06 4.668272e-02 
+*** 
+*** Extracting mean frequencies quantiles for set: >>>starting_classmix:final_class1<<< 
+*** 
+==== in ASV table: 0D
+*** WARNING: Less than two elements found, skipping... 
+==== in ASV table: 7D
+*** WARNING: Less than two elements found, skipping... 
+*** 
+*** Extracting mean frequencies quantiles for set: >>>starting_classmix:final_class1:final_classmix<<< 
+*** 
+==== in ASV table: 0D
+*** WARNING: Less than two elements found, skipping... 
+==== in ASV table: 7D
+*** WARNING: Less than two elements found, skipping... 
+*** 
+*** Extracting mean frequencies quantiles for set: >>>starting_classmix:final_class1:final_class2<<< 
+*** 
+==== in ASV table: 0D
+*** WARNING: Less than two elements found, skipping... 
+==== in ASV table: 7D
+*** WARNING: Less than two elements found, skipping... 
+*** 
+*** Extracting mean frequencies quantiles for set: >>>starting_classmix:final_class1:final_class2:final_classmix<<< 
+*** 
+==== in ASV table: 0D
+====> Number of ASVs is: 9
+....... communities converging to class 1: 
+         0%         25%         50%         75%        100% 
+0.000000000 0.000000000 0.000000000 0.000000000 0.005332115 
+....... communities converging to class 2: 
+         0%          5%         25%         50%         75%         95%        100% 
+0.000000000 0.000000000 0.000000000 0.000000000 0.000000000 0.001941182 0.008088310 
+....... communities diverging: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0004492075 0.0090189233 0.0198660265 
+==== in ASV table: 7D
+====> Number of ASVs is: 9
+....... communities converging to class 1: 
+          0%          25%          50%          75%         100% 
+0.0000000000 0.0000000000 0.0000000000 0.0002478801 0.0278490421 
+....... communities converging to class 2: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0000000000 0.0000000000 0.0004220237 0.0067618093 0.0535243094 0.6451287864 
+....... communities diverging: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0000000000 0.0000000000 0.0002285878 0.0017451932 0.0162903452 0.0777498838 
+*** 
+*** Extracting mean frequencies quantiles for set: >>>starting_class2<<< 
+*** 
+==== in ASV table: 0D
+====> Number of ASVs is: 9
+....... communities converging to class 1: 
+         0%         25%         50%         75%        100% 
+0.000000000 0.000000000 0.000000000 0.000000000 0.001379683 
+....... communities converging to class 2: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0002691629 0.0019393734 0.0033129069 
+....... communities diverging: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0006314581 0.0028575280 
+==== in ASV table: 7D
+====> Number of ASVs is: 3
+....... communities converging to class 1: 
+          0%          25%          50%          75%         100% 
+0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0003839576 
+....... communities converging to class 2: 
+        0%         5%        25%        50%        75%        95%       100% 
+0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.01153548 
+....... communities diverging: 
+         0%          5%         25%         50%         75%         95%        100% 
+0.000000000 0.000000000 0.000000000 0.000000000 0.000000000 0.000000000 0.007014209 
+*** 
+*** Extracting mean frequencies quantiles for set: >>>starting_class2:final_class1<<< 
+*** 
+==== in ASV table: 0D
+*** WARNING: Less than two elements found, skipping... 
+==== in ASV table: 7D
+*** WARNING: Less than two elements found, skipping... 
+*** 
+*** Extracting mean frequencies quantiles for set: >>>starting_class2:final_class1:final_classmix<<< 
+*** 
+==== in ASV table: 0D
+*** WARNING: Less than two elements found, skipping... 
+==== in ASV table: 7D
+*** WARNING: Less than two elements found, skipping... 
+*** 
+*** Extracting mean frequencies quantiles for set: >>>starting_class2:final_class1:final_class2<<< 
+*** 
+==== in ASV table: 0D
+*** WARNING: Less than two elements found, skipping... 
+==== in ASV table: 7D
+*** WARNING: Less than two elements found, skipping... 
+*** 
+*** Extracting mean frequencies quantiles for set: >>>starting_class2:final_class1:final_class2:final_classmix<<< 
+*** 
+==== in ASV table: 0D
+====> Number of ASVs is: 4
+....... communities converging to class 1: 
+         0%         25%         50%         75%        100% 
+0.000000000 0.000000000 0.000000000 0.000000000 0.003176494 
+....... communities converging to class 2: 
+         0%          5%         25%         50%         75%         95%        100% 
+0.000000000 0.000000000 0.000000000 0.000000000 0.000000000 0.001646278 0.010739103 
+....... communities diverging: 
+         0%          5%         25%         50%         75%         95%        100% 
+0.000000000 0.000000000 0.000000000 0.000000000 0.000000000 0.000000000 0.001295453 
+==== in ASV table: 7D
+====> Number of ASVs is: 4
+....... communities converging to class 1: 
+       0%       25%       50%       75%      100% 
+0.0000000 0.0000000 0.0000000 0.0000000 0.0212472 
+....... communities converging to class 2: 
+         0%          5%         25%         50%         75%         95%        100% 
+0.000000000 0.000000000 0.000000000 0.000000000 0.001505374 0.015611474 0.068275154 
+....... communities diverging: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0003081846 0.0091152480 0.0418533214 
+*** 
+*** Extracting mean frequencies quantiles for set: >>>starting_class2:starting_classmix<<< 
+*** 
+==== in ASV table: 0D
+====> Number of ASVs is: 3
+....... communities converging to class 1: 
+          0%          25%          50%          75%         100% 
+0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0008550924 
+....... communities converging to class 2: 
+         0%          5%         25%         50%         75%         95%        100% 
+0.000000000 0.000000000 0.000000000 0.000000000 0.000000000 0.003212635 0.005493946 
+....... communities diverging: 
+         0%          5%         25%         50%         75%         95%        100% 
+0.000000000 0.000000000 0.000000000 0.000000000 0.000000000 0.001416490 0.005928737 
+==== in ASV table: 7D
+====> Number of ASVs is: 3
+....... communities converging to class 1: 
+         0%         25%         50%         75%        100% 
+0.000000000 0.000000000 0.000000000 0.000000000 0.001047242 
+....... communities converging to class 2: 
+        0%         5%        25%        50%        75%        95%       100% 
+0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.05741256 
+....... communities diverging: 
+         0%          5%         25%         50%         75%         95%        100% 
+0.000000000 0.000000000 0.000000000 0.000000000 0.000000000 0.000000000 0.008894773 
+*** 
+*** Extracting mean frequencies quantiles for set: >>>starting_class2:starting_classmix:final_class1<<< 
+*** 
+==== in ASV table: 0D
+*** WARNING: Less than two elements found, skipping... 
+==== in ASV table: 7D
+*** WARNING: Less than two elements found, skipping... 
+*** 
+*** Extracting mean frequencies quantiles for set: >>>starting_class2:starting_classmix:final_class1:final_class2:final_classmix<<< 
+*** 
+==== in ASV table: 0D
+====> Number of ASVs is: 2
+....... communities converging to class 1: 
+         0%         25%         50%         75%        100% 
+0.000000000 0.000000000 0.000000000 0.000000000 0.002929211 
+....... communities converging to class 2: 
+         0%          5%         25%         50%         75%         95%        100% 
+0.000000000 0.000000000 0.000000000 0.000000000 0.000000000 0.002724399 0.004782401 
+....... communities diverging: 
+         0%          5%         25%         50%         75%         95%        100% 
+0.000000000 0.000000000 0.000000000 0.000000000 0.000000000 0.002818848 0.010902702 
+==== in ASV table: 7D
+====> Number of ASVs is: 2
+....... communities converging to class 1: 
+        0%        25%        50%        75%       100% 
+0.00000000 0.00000000 0.00000000 0.00000000 0.01077703 
+....... communities converging to class 2: 
+        0%         5%        25%        50%        75%        95%       100% 
+0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.01108375 0.04124484 
+....... communities diverging: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0002196045 0.0048105513 0.0889966237 
+*** 
+*** Extracting mean frequencies quantiles for set: >>>starting_class1<<< 
+*** 
+==== in ASV table: 0D
+====> Number of ASVs is: 248
+....... communities converging to class 1: 
+         0%         25%         50%         75%        100% 
+0.000000000 0.000512157 0.001266318 0.005002670 0.680270145 
+....... communities converging to class 2: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0000000000 0.0001792811 0.0006939023 0.0041464334 0.0254045446 0.0530705080 
+....... communities diverging: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0000000000 0.0001257361 0.0008301954 0.0021366287 0.0340857934 0.6691502215 
+==== in ASV table: 7D
+====> Number of ASVs is: 73
+....... communities converging to class 1: 
+        0%        25%        50%        75%       100% 
+0.00000000 0.00000000 0.00000000 0.00000000 0.02708743 
+....... communities converging to class 2: 
+         0%          5%         25%         50%         75%         95%        100% 
+0.000000000 0.000000000 0.000000000 0.000000000 0.000000000 0.002204745 0.016081340 
+....... communities diverging: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0007014774 0.0223594875 
+*** 
+*** Extracting mean frequencies quantiles for set: >>>starting_class1:final_classmix<<< 
+*** 
+==== in ASV table: 0D
+====> Number of ASVs is: 9
+....... communities converging to class 1: 
+          0%          25%          50%          75%         100% 
+0.0000000000 0.0000000000 0.0000000000 0.0003800011 0.0068251066 
+....... communities converging to class 2: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0006601481 0.0013357451 
+....... communities diverging: 
+         0%          5%         25%         50%         75%         95%        100% 
+0.000000000 0.000000000 0.000000000 0.000000000 0.000000000 0.001148073 0.006506322 
+==== in ASV table: 7D
+====> Number of ASVs is: 9
+....... communities converging to class 1: 
+         0%         25%         50%         75%        100% 
+0.000000000 0.000000000 0.000000000 0.000000000 0.004259485 
+....... communities converging to class 2: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0001111628 0.0751107749 
+....... communities diverging: 
+         0%          5%         25%         50%         75%         95%        100% 
+0.000000000 0.000000000 0.000000000 0.000000000 0.000000000 0.003403357 0.033008029 
+*** 
+*** Extracting mean frequencies quantiles for set: >>>starting_class1:final_class1<<< 
+*** 
+==== in ASV table: 0D
+====> Number of ASVs is: 92
+....... communities converging to class 1: 
+         0%         25%         50%         75%        100% 
+0.002534066 0.309600950 0.549369915 0.691583927 0.972599434 
+....... communities converging to class 2: 
+         0%          5%         25%         50%         75%         95%        100% 
+0.001136283 0.001416181 0.004828396 0.011546921 0.037273554 0.741188282 0.933253795 
+....... communities diverging: 
+         0%          5%         25%         50%         75%         95%        100% 
+0.003489813 0.004858236 0.014720136 0.250949644 0.607060572 0.839310711 0.901922426 
+==== in ASV table: 7D
+====> Number of ASVs is: 92
+....... communities converging to class 1: 
+        0%        25%        50%        75%       100% 
+0.03253034 0.41363729 0.54918358 0.69860821 0.94054797 
+....... communities converging to class 2: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0005834218 0.0012407980 0.0112181069 0.0193929024 0.0552798346 0.2201172666 0.8355867609 
+....... communities diverging: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0007471468 0.0039033576 0.0514321928 0.2149564422 0.5546281226 0.7921647258 0.9068815046 
+*** 
+*** Extracting mean frequencies quantiles for set: >>>starting_class1:final_class1:final_classmix<<< 
+*** 
+==== in ASV table: 0D
+====> Number of ASVs is: 62
+....... communities converging to class 1: 
+          0%          25%          50%          75%         100% 
+0.0005464481 0.0097268212 0.0335677856 0.1201184013 0.4745519834 
+....... communities converging to class 2: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0004926815 0.0012593624 0.0025091151 0.0075413942 0.0297728034 0.3981008035 
+....... communities diverging: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0004842615 0.0020097336 0.0090064891 0.0432131495 0.3212306523 0.7012939528 
+==== in ASV table: 7D
+====> Number of ASVs is: 62
+....... communities converging to class 1: 
+          0%          25%          50%          75%         100% 
+0.0002311351 0.0454568825 0.0853215432 0.1942790030 0.8033155543 
+....... communities converging to class 2: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0000000000 0.0000000000 0.0004783574 0.0022953474 0.0264814226 0.5983394111 
+....... communities diverging: 
+        0%         5%        25%        50%        75%        95%       100% 
+0.00000000 0.00000000 0.00309857 0.03384421 0.09029335 0.34824104 0.85210207 
+*** 
+*** Extracting mean frequencies quantiles for set: >>>starting_class1:final_class1:final_class2<<< 
+*** 
+==== in ASV table: 0D
+====> Number of ASVs is: 3
+....... communities converging to class 1: 
+         0%         25%         50%         75%        100% 
+0.000000000 0.000000000 0.000000000 0.000000000 0.004764086 
+....... communities converging to class 2: 
+  0%   5%  25%  50%  75%  95% 100% 
+   0    0    0    0    0    0    0 
+....... communities diverging: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0008636573 
+==== in ASV table: 7D
+====> Number of ASVs is: 3
+....... communities converging to class 1: 
+         0%         25%         50%         75%        100% 
+0.000000000 0.000000000 0.000000000 0.000000000 0.009288866 
+....... communities converging to class 2: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 3.766620e-06 8.784457e-03 
+....... communities diverging: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0003568683 
+*** 
+*** Extracting mean frequencies quantiles for set: >>>starting_class1:final_class1:final_class2:final_classmix<<< 
+*** 
+==== in ASV table: 0D
+====> Number of ASVs is: 33
+....... communities converging to class 1: 
+          0%          25%          50%          75%         100% 
+0.0000000000 0.0000000000 0.0001210361 0.0009058166 0.0732615894 
+....... communities converging to class 2: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0004486048 0.0162777240 0.0403784611 
+....... communities diverging: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0003429094 0.0049353899 0.0390511180 
+==== in ASV table: 7D
+====> Number of ASVs is: 33
+....... communities converging to class 1: 
+         0%         25%         50%         75%        100% 
+0.000000000 0.002620920 0.004049084 0.006819899 0.482708894 
+....... communities converging to class 2: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0007320644 0.0051225359 0.0361798067 0.0638955118 0.1035989250 0.1597094180 0.2319818510 
+....... communities diverging: 
+         0%          5%         25%         50%         75%         95%        100% 
+0.000000000 0.001904891 0.004135260 0.011793837 0.056735293 0.158304777 0.476409060 
+*** 
+*** Extracting mean frequencies quantiles for set: >>>starting_class1:starting_classmix<<< 
+*** 
+==== in ASV table: 0D
+====> Number of ASVs is: 30
+....... communities converging to class 1: 
+          0%          25%          50%          75%         100% 
+0.000000e+00 9.161145e-05 2.982158e-04 8.016185e-04 5.310140e-01 
+....... communities converging to class 2: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.000000e+00 0.000000e+00 0.000000e+00 8.764703e-05 4.562564e-04 3.743292e-03 1.441813e-02 
+....... communities diverging: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0000000000 0.0001504834 0.0005187439 0.0024382705 0.0846124803 0.5944742153 
+==== in ASV table: 7D
+====> Number of ASVs is: 15
+....... communities converging to class 1: 
+          0%          25%          50%          75%         100% 
+0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0007649484 
+....... communities converging to class 2: 
+        0%         5%        25%        50%        75%        95%       100% 
+0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.01817997 
+....... communities diverging: 
+        0%         5%        25%        50%        75%        95%       100% 
+0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.03041624 
+*** 
+*** Extracting mean frequencies quantiles for set: >>>starting_class1:starting_classmix:final_classmix<<< 
+*** 
+==== in ASV table: 0D
+*** WARNING: Less than two elements found, skipping... 
+==== in ASV table: 7D
+*** WARNING: Less than two elements found, skipping... 
+*** 
+*** Extracting mean frequencies quantiles for set: >>>starting_class1:starting_classmix:final_class2<<< 
+*** 
+==== in ASV table: 0D
+*** WARNING: Less than two elements found, skipping... 
+==== in ASV table: 7D
+*** WARNING: Less than two elements found, skipping... 
+*** 
+*** Extracting mean frequencies quantiles for set: >>>starting_class1:starting_classmix:final_class1<<< 
+*** 
+==== in ASV table: 0D
+====> Number of ASVs is: 17
+....... communities converging to class 1: 
+         0%         25%         50%         75%        100% 
+0.000000000 0.001412529 0.005610187 0.019713096 0.457341300 
+....... communities converging to class 2: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0000000000 0.0000000000 0.0004183225 0.0013196481 0.0032015715 0.0401990600 
+....... communities diverging: 
+         0%          5%         25%         50%         75%         95%        100% 
+0.000000000 0.000000000 0.000433501 0.001561266 0.006787459 0.153680920 0.435849011 
+==== in ASV table: 7D
+====> Number of ASVs is: 17
+....... communities converging to class 1: 
+         0%         25%         50%         75%        100% 
+0.000000000 0.003642245 0.012942176 0.036100243 0.334464313 
+....... communities converging to class 2: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0000000000 0.0000000000 0.0004685433 0.0009131959 0.0098695194 0.0456296947 
+....... communities diverging: 
+         0%          5%         25%         50%         75%         95%        100% 
+0.000000000 0.000000000 0.000000000 0.001034708 0.005793588 0.054100298 0.344091061 
+*** 
+*** Extracting mean frequencies quantiles for set: >>>starting_class1:starting_classmix:final_class1:final_classmix<<< 
+*** 
+==== in ASV table: 0D
+====> Number of ASVs is: 23
+....... communities converging to class 1: 
+         0%         25%         50%         75%        100% 
+0.000000000 0.006229578 0.022817791 0.057790118 0.817789724 
+....... communities converging to class 2: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0000000000 0.0009642769 0.0019640394 0.0038289509 0.0242474345 0.1507312259 
+....... communities diverging: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0001445952 0.0003646261 0.0019990308 0.0053045408 0.0455587080 0.1588497919 0.7492756000 
+==== in ASV table: 7D
+====> Number of ASVs is: 23
+....... communities converging to class 1: 
+          0%          25%          50%          75%         100% 
+0.0004180964 0.0133568676 0.0253530250 0.0540140462 0.8004039860 
+....... communities converging to class 2: 
+         0%          5%         25%         50%         75%         95%        100% 
+0.000000000 0.000000000 0.001014220 0.006764387 0.021232335 0.046674216 0.101709755 
+....... communities diverging: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0004944862 0.0040656665 0.0168327481 0.0417614981 0.2136176702 0.7546493041 
+*** 
+*** Extracting mean frequencies quantiles for set: >>>starting_class1:starting_classmix:final_class1:final_class2<<< 
+*** 
+==== in ASV table: 0D
+*** WARNING: Less than two elements found, skipping... 
+==== in ASV table: 7D
+*** WARNING: Less than two elements found, skipping... 
+*** 
+*** Extracting mean frequencies quantiles for set: >>>starting_class1:starting_classmix:final_class1:final_class2:final_classmix<<< 
+*** 
+==== in ASV table: 0D
+====> Number of ASVs is: 32
+....... communities converging to class 1: 
+          0%          25%          50%          75%         100% 
+0.0001144034 0.0020962733 0.0036751194 0.0112729234 0.3311974425 
+....... communities converging to class 2: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0003361972 0.0007842348 0.0021210314 0.0066721961 0.0373395812 0.1695667770 0.4107019502 
+....... communities diverging: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0004295868 0.0016627790 0.0036105657 0.0106213791 0.0767172687 0.2714549266 0.4527356322 
+==== in ASV table: 7D
+====> Number of ASVs is: 32
+....... communities converging to class 1: 
+         0%         25%         50%         75%        100% 
+0.000000000 0.003069945 0.006207639 0.011531870 0.756888215 
+....... communities converging to class 2: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0008377339 0.0111328079 0.0402061540 0.0805694452 0.1374150864 0.2294534350 0.6398142737 
+....... communities diverging: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0006045308 0.0027485815 0.0074622931 0.0234761358 0.0899048449 0.2454187059 0.8628065360 
+*** 
+*** Extracting mean frequencies quantiles for set: >>>starting_class1:starting_class2<<< 
+*** 
+==== in ASV table: 0D
+====> Number of ASVs is: 12
+....... communities converging to class 1: 
+          0%          25%          50%          75%         100% 
+0.000000e+00 8.516678e-05 4.082867e-04 8.424600e-04 1.813327e-01 
+....... communities converging to class 2: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0000000000 0.0002952030 0.0008939997 0.0030021325 0.0225775469 0.0260380014 
+....... communities diverging: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0002309869 0.0054467631 0.0177204994 
+==== in ASV table: 7D
+====> Number of ASVs is: 6
+....... communities converging to class 1: 
+          0%          25%          50%          75%         100% 
+0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0004757648 
+....... communities converging to class 2: 
+         0%          5%         25%         50%         75%         95%        100% 
+0.000000000 0.000000000 0.000000000 0.000000000 0.000000000 0.000000000 0.009506017 
+....... communities diverging: 
+         0%          5%         25%         50%         75%         95%        100% 
+0.000000000 0.000000000 0.000000000 0.000000000 0.000000000 0.000000000 0.006534669 
+*** 
+*** Extracting mean frequencies quantiles for set: >>>starting_class1:starting_class2:final_classmix<<< 
+*** 
+==== in ASV table: 0D
+*** WARNING: Less than two elements found, skipping... 
+==== in ASV table: 7D
+*** WARNING: Less than two elements found, skipping... 
+*** 
+*** Extracting mean frequencies quantiles for set: >>>starting_class1:starting_class2:final_class1<<< 
+*** 
+==== in ASV table: 0D
+====> Number of ASVs is: 11
+....... communities converging to class 1: 
+         0%         25%         50%         75%        100% 
+0.000000000 0.001245244 0.002980278 0.016333878 0.476235502 
+....... communities converging to class 2: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.000000e+00 8.986562e-05 5.782519e-04 1.742736e-03 3.164557e-03 7.489598e-02 2.898884e-01 
+....... communities diverging: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0000000000 0.0002445356 0.0014307289 0.0031162867 0.0379296051 0.4365773647 
+==== in ASV table: 7D
+====> Number of ASVs is: 11
+....... communities converging to class 1: 
+         0%         25%         50%         75%        100% 
+0.000000000 0.005546799 0.008777427 0.013998878 0.645583681 
+....... communities converging to class 2: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0000000000 0.0000000000 0.0002872284 0.0007708463 0.0041747194 0.0619651815 
+....... communities diverging: 
+         0%          5%         25%         50%         75%         95%        100% 
+0.000000000 0.000000000 0.000000000 0.002030590 0.008640435 0.028897450 0.118292466 
+*** 
+*** Extracting mean frequencies quantiles for set: >>>starting_class1:starting_class2:final_class1:final_classmix<<< 
+*** 
+==== in ASV table: 0D
+====> Number of ASVs is: 11
+....... communities converging to class 1: 
+          0%          25%          50%          75%         100% 
+0.0000000000 0.0004375547 0.0017894513 0.0039251905 0.6379626862 
+....... communities converging to class 2: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0000000000 0.0003363757 0.0008869874 0.0016102304 0.0084499775 0.0251434612 
+....... communities diverging: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0000000000 0.0000000000 0.0005384177 0.0013094938 0.0228933621 0.2661109868 
+==== in ASV table: 7D
+====> Number of ASVs is: 11
+....... communities converging to class 1: 
+         0%         25%         50%         75%        100% 
+0.000000000 0.004693091 0.009843501 0.018144142 0.623502780 
+....... communities converging to class 2: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0007226207 0.0123636399 0.0735097405 
+....... communities diverging: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0000000000 0.0004772073 0.0031910219 0.0056234455 0.0642916185 0.1833051894 
+*** 
+*** Extracting mean frequencies quantiles for set: >>>starting_class1:starting_class2:final_class1:final_class2<<< 
+*** 
+==== in ASV table: 0D
+*** WARNING: Less than two elements found, skipping... 
+==== in ASV table: 7D
+*** WARNING: Less than two elements found, skipping... 
+*** 
+*** Extracting mean frequencies quantiles for set: >>>starting_class1:starting_class2:final_class1:final_class2:final_classmix<<< 
+*** 
+==== in ASV table: 0D
+====> Number of ASVs is: 11
+....... communities converging to class 1: 
+         0%         25%         50%         75%        100% 
+0.000000000 0.001895707 0.003522606 0.014701816 0.510279704 
+....... communities converging to class 2: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0006332415 0.0019110439 0.0082799563 0.0456085660 0.2609198637 0.8598960396 0.9314157639 
+....... communities diverging: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0000000000 0.0009724375 0.0034341839 0.0630896354 0.7538849897 0.9293843578 
+==== in ASV table: 7D
+====> Number of ASVs is: 11
+....... communities converging to class 1: 
+          0%          25%          50%          75%         100% 
+0.0000000000 0.0002011106 0.0012859798 0.0039144218 0.2766918724 
+....... communities converging to class 2: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0000693144 0.0008814252 0.0116536070 0.0847209062 0.6102011673 0.7780833054 
+....... communities diverging: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0000000000 0.0008201413 0.0035239493 0.0087723772 0.4211155746 0.7645747053 
+*** 
+*** Extracting mean frequencies quantiles for set: >>>starting_class1:starting_class2:starting_classmix<<< 
+*** 
+==== in ASV table: 0D
+====> Number of ASVs is: 27
+....... communities converging to class 1: 
+          0%          25%          50%          75%         100% 
+0.0000000000 0.0002125624 0.0006093713 0.0015728057 0.0885109149 
+....... communities converging to class 2: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0001230460 0.0009287403 0.0019051177 0.0119966302 0.0361275269 0.0539293249 
+....... communities diverging: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.000000e+00 1.383317e-05 5.586592e-04 1.122834e-03 3.161037e-03 2.718692e-02 1.811377e-01 
+==== in ASV table: 7D
+====> Number of ASVs is: 11
+....... communities converging to class 1: 
+        0%        25%        50%        75%       100% 
+0.00000000 0.00000000 0.00000000 0.00000000 0.02299087 
+....... communities converging to class 2: 
+        0%         5%        25%        50%        75%        95%       100% 
+0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.02163062 
+....... communities diverging: 
+         0%          5%         25%         50%         75%         95%        100% 
+0.000000000 0.000000000 0.000000000 0.000000000 0.000000000 0.000000000 0.002426152 
+*** 
+*** Extracting mean frequencies quantiles for set: >>>starting_class1:starting_class2:starting_classmix:final_class2<<< 
+*** 
+==== in ASV table: 0D
+*** WARNING: Less than two elements found, skipping... 
+==== in ASV table: 7D
+*** WARNING: Less than two elements found, skipping... 
+*** 
+*** Extracting mean frequencies quantiles for set: >>>starting_class1:starting_class2:starting_classmix:final_class2:final_classmix<<< 
+*** 
+==== in ASV table: 0D
+====> Number of ASVs is: 4
+....... communities converging to class 1: 
+          0%          25%          50%          75%         100% 
+0.0000000000 0.0003540539 0.0008625802 0.0021574973 0.0452755906 
+....... communities converging to class 2: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0001802830 0.0005053995 0.0024382738 0.0044115164 0.0110686918 0.0700116587 0.1177792342 
+....... communities diverging: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0000000000 0.0005836527 0.0017170919 0.0047319760 0.0480011552 0.1529668852 
+==== in ASV table: 7D
+====> Number of ASVs is: 4
+....... communities converging to class 1: 
+         0%         25%         50%         75%        100% 
+0.000000000 0.001686842 0.002350642 0.003395044 0.081950061 
+....... communities converging to class 2: 
+         0%          5%         25%         50%         75%         95%        100% 
+0.001391014 0.005224303 0.036432019 0.075868647 0.137208145 0.216546334 0.296238245 
+....... communities diverging: 
+         0%          5%         25%         50%         75%         95%        100% 
+0.000000000 0.001595258 0.003396222 0.008366000 0.049521938 0.149628969 0.299214755 
+*** 
+*** Extracting mean frequencies quantiles for set: >>>starting_class1:starting_class2:starting_classmix:final_class1<<< 
+*** 
+==== in ASV table: 0D
+====> Number of ASVs is: 20
+....... communities converging to class 1: 
+          0%          25%          50%          75%         100% 
+0.0000000000 0.0006216229 0.0022592097 0.0074643090 0.1967390716 
+....... communities converging to class 2: 
+          0%           5%          25%          50%          75%          95%         100% 
+9.014152e-05 2.776401e-04 1.529813e-03 3.436601e-03 1.312862e-02 4.456799e-02 8.078136e-02 
+....... communities diverging: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0001833675 0.0008474113 0.0029191432 0.0120122280 0.0318940526 0.1188227618 
+==== in ASV table: 7D
+====> Number of ASVs is: 20
+....... communities converging to class 1: 
+         0%         25%         50%         75%        100% 
+0.000000000 0.000284152 0.001187985 0.005668807 0.207261076 
+....... communities converging to class 2: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0001435381 0.0006320593 0.0285132383 
+....... communities diverging: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.000000e+00 0.000000e+00 0.000000e+00 4.538472e-05 5.333276e-04 1.075928e-02 4.941730e-01 
+*** 
+*** Extracting mean frequencies quantiles for set: >>>starting_class1:starting_class2:starting_classmix:final_class1:final_classmix<<< 
+*** 
+==== in ASV table: 0D
+====> Number of ASVs is: 18
+....... communities converging to class 1: 
+         0%         25%         50%         75%        100% 
+0.000000000 0.001160712 0.002630530 0.011259195 0.342442062 
+....... communities converging to class 2: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0003976934 0.0005459197 0.0017178817 0.0042182969 0.0233068597 0.0481161047 0.0867428143 
+....... communities diverging: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0001685900 0.0003602262 0.0014678558 0.0045074050 0.0222624059 0.0553734950 0.1184550400 
+==== in ASV table: 7D
+====> Number of ASVs is: 18
+....... communities converging to class 1: 
+          0%          25%          50%          75%         100% 
+0.0000000000 0.0009713942 0.0025952412 0.0046798348 0.2082263182 
+....... communities converging to class 2: 
+         0%          5%         25%         50%         75%         95%        100% 
+0.000000000 0.000000000 0.000000000 0.000000000 0.000000000 0.007339408 0.034887264 
+....... communities diverging: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0000000000 0.0000000000 0.0009437345 0.0038885000 0.0369640254 0.5225592112 
+*** 
+*** Extracting mean frequencies quantiles for set: >>>starting_class1:starting_class2:starting_classmix:final_class1:final_class2<<< 
+*** 
+==== in ASV table: 0D
+====> Number of ASVs is: 6
+....... communities converging to class 1: 
+          0%          25%          50%          75%         100% 
+0.000000e+00 8.152395e-05 3.858972e-04 2.224254e-03 1.201838e-01 
+....... communities converging to class 2: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.000000e+00 0.000000e+00 0.000000e+00 9.014152e-05 7.634920e-04 2.416124e-02 2.074139e-01 
+....... communities diverging: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0000000000 0.0000000000 0.0001562134 0.0007114484 0.0134062448 0.0704740241 
+==== in ASV table: 7D
+====> Number of ASVs is: 6
+....... communities converging to class 1: 
+         0%         25%         50%         75%        100% 
+0.000000000 0.001971514 0.004341385 0.011281139 0.403580951 
+....... communities converging to class 2: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.0000000000 0.0000000000 0.0001117107 0.0014519374 0.0024708331 0.0126234702 0.1947520289 
+....... communities diverging: 
+          0%           5%          25%          50%          75%          95%         100% 
+0.000000e+00 0.000000e+00 1.590871e-05 1.161873e-03 3.285809e-03 3.178373e-02 1.221663e-01 
+*** 
+*** Extracting mean frequencies quantiles for set: >>>starting_class1:starting_class2:starting_classmix:final_class1:final_class2:final_classmix<<< 
+*** 
+==== in ASV table: 0D
+====> Number of ASVs is: 74
+....... communities converging to class 1: 
+         0%         25%         50%         75%        100% 
+0.001491784 0.006287018 0.020419048 0.057746130 0.461435183 
+....... communities converging to class 2: 
+         0%          5%         25%         50%         75%         95%        100% 
+0.004396721 0.016451007 0.087478371 0.164425105 0.769490860 0.972720175 0.977105533 
+....... communities diverging: 
+         0%          5%         25%         50%         75%         95%        100% 
+0.002854003 0.005535140 0.016089187 0.054378887 0.224678944 0.846288802 0.941024733 
+==== in ASV table: 7D
+====> Number of ASVs is: 74
+....... communities converging to class 1: 
+          0%          25%          50%          75%         100% 
+0.0007663763 0.0056032829 0.0089068756 0.0163455444 0.2085688082 
+....... communities converging to class 2: 
+        0%         5%        25%        50%        75%        95%       100% 
+0.02428500 0.03464404 0.12424455 0.20799521 0.37948413 0.71278450 0.82894013 
+....... communities diverging: 
+         0%          5%         25%         50%         75%         95%        100% 
+0.001451187 0.005914571 0.014013339 0.063893973 0.200542381 0.637660723 0.881487980 
+
+> sink()

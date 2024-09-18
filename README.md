@@ -9,6 +9,8 @@ This repository contains scripts and data to reproduce results of the [article](
 Pascual-García, A., Rivett, D., Jones, M. L., & Bell, T. (2023). Replaying the tape of ecology to domesticate wild microbiomes. bioRxiv, 2023-07. (https://doi.org/10.1101/2023.07.07.548163)
 ```
 
+First release was permanently stored in [![DOI](https://zenodo.org/badge/627513792.svg)](https://zenodo.org/doi/10.5281/zenodo.13785758).
+
 ### Organization of the repository
 
 #### Folders

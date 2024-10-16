@@ -34,7 +34,7 @@ file.in.meta = 'metadata_Time0D-7D-4M_May2022.csv'
 file.out.taxa = 'taxa_wsp_matchedandfiltered.csv'
 file.out.fasta = 'seqtable_matchedandfiltered.fasta'
 file.out.seqtable = 'seqtable_matchedandfiltered.csv'
-
+file.out.seqtable.allsam = 'seqtable_matchedandfiltered.allsam.csv'
 # --- Load objects from Dada
 
 setwd(dirDada2)
@@ -93,7 +93,8 @@ seqtab_treeholes<-seqtab_treeholes[,-which(colSums(seqtab_treeholes>0)<10)]
 ncol(seqtab_treeholes)
 
 #remove communities with less than 10,000 sequences
-seqtab_treeholes<-seqtab_treeholes[which(rowSums(seqtab_treeholes[,-1])>10000),]
+seqtab_treeholes_allsam <- seqtab_treeholes
+seqtab_treeholes<-seqtab_treeholes[which(rowSums(seqtab_treeholes)>10000),]
 ncol(seqtab_treeholes)
 nrow(seqtab_treeholes)
 
@@ -118,7 +119,12 @@ seqinr::write.fasta(sequences=ASV_sequences, names=ASV_names,file.out.fasta, ope
 
 #rename the sequence colnames in the seqtab to shorthand ASV names
 colnames(seqtab_treeholes)<-ASV_names
+colnames(seqtab_treeholes_allsam)<-ASV_names
+
 # rename the samples to match the metadata
 rownames(seqtab_treeholes)[1:10]
 write.table(seqtab_treeholes,file.out.seqtable,sep="\t",quote=FALSE)
+
+write.table(seqtab_treeholes_allsam,file.out.seqtable.allsam,sep="\t",quote=FALSE)
+
 

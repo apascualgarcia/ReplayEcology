@@ -36,6 +36,13 @@ ASV.table=as.matrix(ASV.table)
 colnames(ASV.table)[1:5]
 rownames(ASV.table)[1:5]
 
+fileOTU="seqtable_matchedandfiltered.allsam.csv"
+ASV.table.all=read.table(fileOTU,sep="\t")
+dim(ASV.table.all)
+ASV.table.all=as.matrix(ASV.table.all)
+colnames(ASV.table.all)[1:5]
+rownames(ASV.table.all)[1:5]
+
 # --- Read list  of Chloroplasts
 fileChloro="ASVs_Chloroplasts.list"
 ASV.chloro=read.table(fileChloro)
@@ -44,6 +51,7 @@ dim(ASV.chloro)
 # --- Remove them from the table
 matched=match(colnames(ASV.table),ASV.chloro$V1)
 ASV.table.clean=ASV.table[,is.na(matched)]
+ASV.table.clean.all = ASV.table.all[,is.na(matched)]
 dim(ASV.table.clean)
 
 # --- Read list  of Mitochondria
@@ -54,6 +62,7 @@ dim(ASV.mito)
 # --- Remove them from the table
 matched=match(colnames(ASV.table.clean),ASV.mito$V1)
 ASV.table.clean=ASV.table.clean[,is.na(matched)]
+ASV.table.clean.all = ASV.table.all[,is.na(matched)]
 dim(ASV.table.clean)
 
 # --- Write final ASV table
@@ -62,6 +71,12 @@ write.table(ASV.table.clean,file=fileOTU,quote=FALSE,sep="\t")
 
 fileOTUt="seqtable_readyforanalysis.t.csv"
 write.table(t(ASV.table.clean),file=fileOTUt,quote=FALSE,sep="\t")
+
+fileOTU="seqtable_readyforanalysis.allsam.csv"
+write.table(ASV.table.clean.all,file=fileOTU,quote=FALSE,sep="\t")
+
+fileOTUt="seqtable_readyforanalysis.allsam.t.csv"
+write.table(t(ASV.table.clean.all),file=fileOTUt,quote=FALSE,sep="\t")
 
 # --- Write final taxa table
 

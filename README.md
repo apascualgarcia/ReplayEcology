@@ -121,7 +121,7 @@ The 2843 filtered sequence files were sorted into separate folders based on stud
 
 * **inputs**:
 
- - `4_dada2/metadata_Time0D-7D-4M_May2022.csv` - This file contains the metadata of the samples, and is used to select/sort the samples Alberto used for analysis downstream of DADA2.
+ - `4_dada2/metadata_Time0D-7D-4M_May2022.csv` - This file contains the metadata of the samples, and is used to select/sort the samples used for analysis downstream of DADA2.
 
  - `1_raw/geographical_attributes.csv` - This contains the geographical information on the samples (particularly GPS locations) needed for the BioSample Attributes table needed as part of the NCBI deposit.
 
@@ -177,11 +177,12 @@ After the files have been downloaded, users should open `ReplayEcology.RProj` in
 
   - `taxa_wsp.RDS/csv` - Table containing inferred species-level taxonomy of the 75,035 ASVs, the output of the dada2 function dada2::assignTaxonomy().
 
-  - `4_dada2/metadata_Time0D-7D-4M_May2022.csv` - This file contains the metadata of the samples, and is used to select/sort the samples APG used for analysis downstream of DADA2.
+  - `4_dada2/metadata_Time0D-7D-4M_May2022.csv` - This file contains the metadata of the samples, and is used to select/sort the samples used for analysis downstream of DADA2.
 
 * **outputs**:
 
-  - `seqtab_matchedandfiltered.RDS/csv` - ASV vs samples table, restricted to the 2156 treehole communities (rows) and 1480 ASVs remaining after matching and filtering. Please not that this is not the final set of communities upon which APG's analysis was performed, since this initial filtering also picked up some samples from the Scheuerl study (which used some of the same communities with the same IDs). APG therefore performed a further filtering step downstream.
+  - `seqtab_matchedandfiltered.RDS/csv` - ASV vs samples table, restricted to the 2156 treehole communities (rows) and 1480 ASVs remaining after matching and filtering. Please note that this is not the final set of communities upon which downstream analysis was performed, since this initial filtering also picked up some samples from the Scheuerl study (which used some of the same communities with the same IDs). It was therefore performed a further filtering step downstream.
+  - `seqtab_matchedandfiltered_allsam.RDS/csv` - The same table without removing samples lower than 10K. 
 
   - `taxa_wsp_matchedandfiltered.RDS/csv` - Table containing inferred species-level taxonomy of the 1480 remaining ASVs, matched with ASVs in seqtable.
 
@@ -194,6 +195,7 @@ After matching and filtering, some ASVs were identified that were taxonomically 
 * **inputs**:
 
   - `seqtab_matchedandfiltered.RDS/csv` - ASV vs samples table, restricted to the 2156 treehole communities (rows) and 1480 ASVs remaining after matching and filtering.
+  - `seqtab_matchedandfiltered_allsam.RDS/csv` - The same table without removing samples lower than 10K. 
 
   - `taxa_wsp_matchedandfiltered.RDS/csv` - Table containing inferred species-level taxonomy of the 1480 ASVs remaining after matching and filtering.
 
@@ -202,7 +204,8 @@ After matching and filtering, some ASVs were identified that were taxonomically 
 
 * **outputs**:
 
-  - `seqtable_readyforanalysis.RDS/csv` - ASV vs samples table of 1454 ASVs, after removal of 12 chloroplasts and 14 mitochondria ASVs. Please not that this is not the final set of communities upon which APG's analysis was performed, since this initial filtering also picked up some samples from the Scheuerl study (which used some of the same communities with the same IDs). APG therefore performed a further filtering step downstream.
+  - `seqtable_readyforanalysis.RDS/csv` - ASV vs samples table of 1454 ASVs, after removal of 12 chloroplasts and 14 mitochondria ASVs. Please note that this is not the final set of communities upon which downstream analysis was performed, since this initial filtering also picked up some samples from the Scheuerl study (which used some of the same communities with the same IDs). It was therefore performed a further filtering step downstream.
+  - `seqtab_readyforanalysis_allsam.RDS/csv` - The same table without removing samples lower than 10K. 
 
   - `taxa_wsp_readyforanalysis.RDS/csv` - Table containing inferred species-level taxonomy of the 1454 ASVs remaining after chlroplast/mitochondria removal.
 

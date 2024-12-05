@@ -9,8 +9,6 @@ This repository contains scripts and data to reproduce results of the [article](
 Pascual-García, A., Rivett, D., Jones, M. L., & Bell, T. (2023). Replaying the tape of ecology to domesticate wild microbiomes. bioRxiv, 2023-07. (https://doi.org/10.1101/2023.07.07.548163)
 ```
 
-First release was permanently stored in [![DOI](https://zenodo.org/badge/627513792.svg)](https://zenodo.org/doi/10.5281/zenodo.13785758).
-
 ### Organization of the repository
 
 #### Folders
@@ -32,8 +30,7 @@ To keep the repository as light as possible, a number of files were excluded. Th
 
 ### Input data
 
-* Sequences associated with this study are deposited at NCBI under **BioProject accession number PRJNA989519**. This project contains the 16S rRNA amplicon sequencing data associated with each of the communities at day 0
-**(SUB13586664)**, as well as at day 7 for the four replicate growth experiments **(SUB13586665-8)**. Additionally, the project contains samples associated with other projects and/or run on the same sequencing runs **(SUB13586669-SUB13586671)**, which should also be downloaded and run through the DADA2 pipeline with the sequences related to this study, if one desires to reproduce this analysis exactly.
+* Sequences associated with this paper are deposited at NCBI under BioProject accession number PRJNA989519. This project contains the 2180 16S amplicon sequence (and metadata) files associated with each of the communities at day 0 (759 sequences), as well as at day 7 for the four replicate growth experiments (356+356+355+354). Additionally, anyone wishing to reproduce the results exactly should download the 663 sequences associated with three other BioProjects (96 from PRJNA1154604, 66 from PRJNA1154603 and 501 PRJNA1152936). These projects contain sequences that were run on the same sequencing runs and hence processed through the same DADA2 pipeline as the sequences related to this study, and should therefore be downloaded and processed if one wishes to reproduce the results exactly.
 
 * Users interested in reproducing the whole pipeline should download all the FASTQ files deposited at NCBI to their respective folders in `3_filtered`
 
@@ -71,11 +68,29 @@ Metadata contain the following fields:
 * `exp.partition`: Combination of `ExpCompact`, and `partition`
 
 
+
+
+### Scripts
+
+Most scripts have a header describing their usage. All of them were coded considering the structure of the repository, so there is no need to modify the paths, hence are hard-coded relative to the root of the repository. Please note that to make the scripts portable,  R Projects and/or some functions to recover the user's path are used which, in the case of R scripts, require executing the script from RStudio. Some scripts have different options for the analysis, indicated in variables. The main scripts are:
+
+* `dada2_infer_ASVs.R` Runs the main parts of the DADA2 pipeline, to infer amplicon sequence variants (ASVs) and their taxonomies.
+* `main_find_classes.R` Computes the all-against-all JSD for all samples and looks for the optimal partition (output in `7.1_classes`).
+* `main_find_classes_exp-split.R` Same analysis for each experiment and replicate independently (output in `7.1_classes`).
+* `merge_metadata.R` Script to merge metadata tables obtained with the previous scripts (output in `7.1_classes`).
+* `compare_classes.R` Generates a heatmap of the mean beta-diversity of each class and cluster classes (output in `7.1_classes`).
+* `match_classes.R` and `TraceSamples_fromPartTime0toPartTime7.pl` Performs statistics between starting and final classes (output in `7.2_match`).
+* `match_clusters_time0to7_V2.R` Represent the above statistics (output in `7.2_match`).
+* `phyloseq_analysis.R` Creates bar plots and some ordinations (output in `7.3_phyloseq`).
+* `anosimlike_analysis.R` Provides a quantitative estimation of samples' similarity between the different categorical groups through the ANOSIM statistics (output in `7.4_variance`)
+* `distance_to_attractor.R` Provides a quantitative estimation for the probability of having all replicates in the same class as a function of the distance to the nearest attractor of the final classes (output in `7.5_attractors`).
+* `represent_attractors.R` Some visualizations of the results obtained with `distance_to_attractor.R` (output in `7.5_attractors`).
+* `pathways_to_heatmap.R` Creates some plots of PICRUSt results (output in `8_PICRUSt`).
+* `community_superposition.R` Looks for the optimal superposition between starting communities and one of the replicates, performs a prediction and compares with the remaining replicates (output in `9_predictions`).
+
 ### Bioinformatic pipeline
 
-Most scripts have a header describing their usage. All of them were coded considering the structure of the repository, so there is no need to modify the paths, hence are hard-coded relative to the root of the repository. Please note that to make the scripts portable,  R Projects and/or some functions to recover the user's path are used which, in the case of R scripts, require executing the script from RStudio. Some scripts have different options for the analysis, indicated in variables. 
-
-#### _Preliminary processing steps_
+#### Preliminary processing steps
 
 Code for preliminary processing steps pre-ASV inference are **included in the repository for methodological transparency, but are not able to be run** because the necessary input files (sequence files at every stage of processing) have not been deposited in public repositories in order to avoid unnecessary use of data storage space (it is standard to deposit filtered sequence files for the purposes of reproducibility).
 
@@ -93,7 +108,7 @@ Sequences for the 2844 samples were generated in two sequencing jobs performed b
 
 * **outputs**: `2_demultiplexed/day0`;`2_demultiplexed/day7` - 2844 sequencing files for each sample (e.g. A01.AE49_052214DR16s-Sam476-550.fastq), deposited in two folders "day0" and "day7" (though note that files from other studies are included in each of these, to which this nomenclature does not apply).
 
-##### 2. Removal of problematic reads
+#### 2. Removal of problematic reads
 
  A very small minority of the reads (i.e. 4 lines) in each of the demultiplexed FASTQ files had quality scores that were a different length to the sequences, which is apparently how they arrived from the sequencing company. This minor problem was restricted to day 0 data/first sequencing run, and online discussions suggest it was probably due to some minor file corruption (https://www.biostars.org/p/180310/; https://www.biostars.org/p/231090/; https://forum.qiime2.org/t/fastq-gz-and-quality-score-length-do-not-match-using-type-emppairedendsequences-from-miseq/14142/7), perhaps occurring at the sequencing center, and that these records can be removed. Therefore, we removed this very small minority of problematic reads from the demultiplexed FASTQs in order to enable downstream analysis with these FASTQs.
 
@@ -121,7 +136,7 @@ The 2843 filtered sequence files were sorted into separate folders based on stud
 
 * **inputs**:
 
- - `4_dada2/metadata_Time0D-7D-4M_May2022.csv` - This file contains the metadata of the samples, and is used to select/sort the samples used for analysis downstream of DADA2.
+ - `4_dada2/metadata_Time0D-7D-4M_May2022.csv` - This file contains the metadata of the samples, and is used to select/sort the samples Alberto used for analysis downstream of DADA2.
 
  - `1_raw/geographical_attributes.csv` - This contains the geographical information on the samples (particularly GPS locations) needed for the BioSample Attributes table needed as part of the NCBI deposit.
 
@@ -135,7 +150,7 @@ The 2843 filtered sequence files were sorted into separate folders based on stud
 
   8 NCBI BioSample Attributes/SRA metadata Excel files  were then manually made based on the NCBI dataframes outputted from the code, to enable the sequences to be deposited at NCBI. These are in the 8 sub-folders in the directory.
 
-#### _Reproducible pipeline_
+#### Reproducible pipeline
 
 ##### 1. ASV inference
 
@@ -177,12 +192,11 @@ After the files have been downloaded, users should open `ReplayEcology.RProj` in
 
   - `taxa_wsp.RDS/csv` - Table containing inferred species-level taxonomy of the 75,035 ASVs, the output of the dada2 function dada2::assignTaxonomy().
 
-  - `4_dada2/metadata_Time0D-7D-4M_May2022.csv` - This file contains the metadata of the samples, and is used to select/sort the samples used for analysis downstream of DADA2.
+  - `4_dada2/metadata_Time0D-7D-4M_May2022.csv` - This file contains the metadata of the samples, and is used to select/sort the samples APG used for analysis downstream of DADA2.
 
 * **outputs**:
 
-  - `seqtab_matchedandfiltered.RDS/csv` - ASV vs samples table, restricted to the 2156 treehole communities (rows) and 1480 ASVs remaining after matching and filtering. Please note that this is not the final set of communities upon which downstream analysis was performed, since this initial filtering also picked up some samples from the Scheuerl study (which used some of the same communities with the same IDs). It was therefore performed a further filtering step downstream.
-  - `seqtab_matchedandfiltered_allsam.RDS/csv` - The same table without removing samples lower than 10K. 
+  - `seqtab_matchedandfiltered.RDS/csv` - ASV vs samples table, restricted to the 2156 treehole communities (rows) and 1480 ASVs remaining after matching and filtering. Please not that this is not the final set of communities upon which APG's analysis was performed, since this initial filtering also picked up some samples from the Scheuerl study (which used some of the same communities with the same IDs). APG therefore performed a further filtering step downstream.
 
   - `taxa_wsp_matchedandfiltered.RDS/csv` - Table containing inferred species-level taxonomy of the 1480 remaining ASVs, matched with ASVs in seqtable.
 
@@ -195,7 +209,6 @@ After matching and filtering, some ASVs were identified that were taxonomically 
 * **inputs**:
 
   - `seqtab_matchedandfiltered.RDS/csv` - ASV vs samples table, restricted to the 2156 treehole communities (rows) and 1480 ASVs remaining after matching and filtering.
-  - `seqtab_matchedandfiltered_allsam.RDS/csv` - The same table without removing samples lower than 10K. 
 
   - `taxa_wsp_matchedandfiltered.RDS/csv` - Table containing inferred species-level taxonomy of the 1480 ASVs remaining after matching and filtering.
 
@@ -204,43 +217,14 @@ After matching and filtering, some ASVs were identified that were taxonomically 
 
 * **outputs**:
 
-  - `seqtable_readyforanalysis.RDS/csv` - ASV vs samples table of 1454 ASVs, after removal of 12 chloroplasts and 14 mitochondria ASVs. Please note that this is not the final set of communities upon which downstream analysis was performed, since this initial filtering also picked up some samples from the Scheuerl study (which used some of the same communities with the same IDs). It was therefore performed a further filtering step downstream.
-  - `seqtab_readyforanalysis_allsam.RDS/csv` - The same table without removing samples lower than 10K. 
+  - `seqtable_readyforanalysis.RDS/csv` - ASV vs samples table of 1454 ASVs, after removal of 12 chloroplasts and 14 mitochondria ASVs. Please not that this is not the final set of communities upon which APG's analysis was performed, since this initial filtering also picked up some samples from the Scheuerl study (which used some of the same communities with the same IDs). APG therefore performed a further filtering step downstream.
 
   - `taxa_wsp_readyforanalysis.RDS/csv` - Table containing inferred species-level taxonomy of the 1454 ASVs remaining after chlroplast/mitochondria removal.
 
-### Data analysis pipeline
+### Statistical analysis pipeline
 
-The data analysis pipeline is not as linear as the bioinformatic one. Therefore, the structure of directories is not linear and each main script presented here may have auxiliary scripts, with most outputs being figures. Please consider the explanations available in scripts' headers, including inputs, outputs and dependencies. Scripts were coded considering the structure of the repository, so there is no need to modify the paths, hence are hard-coded relative to the root of the repository. Please note that to make the scripts portable,  R Projects and/or some functions to recover the user's path are used which, in the case of R scripts, require executing the script from RStudio. Some scripts have different options for the analysis, indicated in variables. 
-
-#### Determination of classes
-* `main_find_classes.R` Computes the all-against-all JSD for all samples and looks for the optimal partition (output in `7.1_classes`).
-* `main_find_classes_exp-split.R` Same analysis for each experiment and replicate independently (output in `7.1_classes`).
-* `merge_metadata.R` Script to merge metadata tables obtained with the previous scripts (output in `7.1_classes`).
-* `compare_classes.R` Generates a heatmap of the mean beta-diversity of each class and cluster classes (output in `7.1_classes`).
-
-#### Comparison of classes 
-* `match_classes.R` and `TraceSamples_fromPartTime0toPartTime7.pl` Performs statistics between starting and final classes (output in `7.2_match`).
-* `match_clusters_time0to7_V2.R` Represent the above statistics (output in `7.2_match`).
-
-#### Representation of classes, statistical significance and dimensionality reduction
-* `phyloseq_analysis.R` Creates bar plots for the different classes and some ordinations (output in `7.3_phyloseq`).
-* `anosimlike_analysis.R` Provides a quantitative estimation of samples' similarity between the different categorical groups through the ANOSIM statistics (output in `7.4_variance`)
-
-#### Analysis of the compositional landscape
-* `distance_to_attractor.R` Provides a quantitative estimation for the probability of having all replicates in the same class as a function of the distance to the nearest attractor of the final classes (output in `7.5_attractors`).
-* `represent_attractors.R` Some visualizations of the results obtained with `distance_to_attractor.R` (output in `7.5_attractors`).
-
-#### Propensities analysis
-* `propensities.R` This script first classifies communities in different trajectories, taking into account if each starting communities has its four replicates ending up in the  same final class (convergent trajectory) or not (divergent). Then, for each ASV, it estimates the statistical propensity of being observed in each type of trajectory. This estimation is made independently for starting and final communities. (output in `7.6_keystone/propensities`)
-
-#### Analysis of PiCRUST
-Please note that metagenomes predictions were obtained with PiCRUST 2 following a standard pipeline.
-* `pathways_to_heatmap.R` Creates some plots of PICRUSt results (output in `8_PICRUSt`).
-
-#### Communities superposition
-* `community_superposition.R` Looks for the optimal superposition between starting communities and one of the replicates, performs a prediction and compares with the remaining replicates (output in `9_predictions`).
+To be completed by APG. Note that the Bioinformatic pipeline all works based on the R Project. If the statistical analysis pipeline is incompatible with this, please make this clear.
 
 ### Notes
 
-1. Sequences associated with this paper are deposited at NCBI under BioProject accession number PRJNA989519. This project contains the 16S amplicon sequencing data associated with each of the communities at day 0 (SUB13586664), as well as at day 7 for the four replicate growth experiments (SUB13586665-SUB13586668). Additionally, the project contains samples associated with other projects and/or run on the same sequencing runs (SUB13586669-SUB13586671), which should also be downloaded and run through the DADA2 pipeline with the sequences related to this study, if one desires to reproduce this analysis exactly.
+1. Sequences associated with this paper are deposited at NCBI under BioProject accession number PRJNA989519. This project contains the 2180 16S amplicon sequence (and metadata) files associated with each of the communities at day 0 (759 sequences), as well as at day 7 for the four replicate growth experiments (356+356+355+354). Additionally, anyone wishing to reproduce the results exactly should download the 663 sequences associated with three other BioProjects (96 from PRJNA1154604, 66 from PRJNA1154603 and 501 PRJNA1152936). These projects contain sequences that were run on the same sequencing runs and hence processed through the same DADA2 pipeline as the sequences related to this study, and should therefore be downloaded and processed if one wishes to reproduce the results exactly.

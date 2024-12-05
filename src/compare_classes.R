@@ -18,7 +18,7 @@ library(gplots) # needed for heatmap.2
 
 # START EDITING -----------
 # --- Set the files needed
-file.meta="metadata_Time0D-7D-4M_May2022_wJSDpart.csv" # metadata with partitions
+file.meta="metadata_Time0D-7D-4M_May2022_wJSDpart-merged.csv" # metadata with partitions
 fileDist="Dist_JSD_Time0D-7D-4M.RDS" # beta diversity distance
 # --- Select category to classify the distances and prepare structures
 category="replicate.partition" #"experiment.location" #"replicate.partition"

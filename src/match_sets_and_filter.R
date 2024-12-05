@@ -97,7 +97,10 @@ seqtab_treeholes_allsam <- seqtab_treeholes
 seqtab_treeholes<-seqtab_treeholes[which(rowSums(seqtab_treeholes)>10000),]
 ncol(seqtab_treeholes)
 nrow(seqtab_treeholes)
-
+id1 = which(rowSums(seqtab_treeholes[,-1])>10000)
+id2 = which(rowSums(seqtab_treeholes)>10000)
+matched = match(id2, id1)
+rownames(seqtab_treeholes)[id2[is.na(matched)]]
 # FILTER THE SAMPLE METADATA AND TAXA TABLE ACCORDING TO REMAINING COMMUNITIES AND ASVS, respectively -------------------------------------------------------------------------
 
 #list sequences/ASVs in taxa_wsp which are still in seqtab_treeholes after filtering

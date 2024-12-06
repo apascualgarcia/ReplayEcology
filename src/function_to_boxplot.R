@@ -161,7 +161,7 @@ colnames(dd)=FunMean
 # ---- Identify communities with missing functions and reshape
 matched = match(sample_meta.final$sampleid, rownames(dd))
 not.found.final = unique(as.character(sample_meta.final$sampleid[is.na(matched)]))
-#length(not.found.final) # 16 missed at least one replicate
+#length(not.found.final) # 16 missed at least one replicate --> **fixed, labeling error in the plate reader**
 #[1] "RDM01.2"  "WYC15.2"  "WYC41.2"  "WYC42.2"  "WYD09.2"  "WYM02.2" 
 #[7] "WYM21.2"  "WYM25.2"  "WYM27.2"  "WYM29.2"  "WYM33.2"  "WYM39.2" 
 #[13] "WYT116.2" "WYT63.2"  "WYT87.2"  "WYT94.2" 
@@ -177,7 +177,7 @@ Part  = as.character(sample_meta.final.matched$partition)
 names(Part) = sample_meta.final.matched$sampleid
 # table(Part)
 # Class1 Class2 
-# 778    306 
+# 794    306 
 
 # Plot results -----------------
 

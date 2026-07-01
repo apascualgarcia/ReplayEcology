@@ -6,7 +6,7 @@
 This repository contains scripts and data to reproduce results of the [article](https://doi.org/10.1101/2023.07.07.548163):
 
 ```
-Pascual-García, A., Rivett, D., Jones, M. L., & Bell, T. (2024). Replaying the tape of ecology reveals how initial composition shapes the functional outcomes of bacterial communities. _Nature commun_
+Pascual-García, A., Rivett, D., Jones, M. L., & Bell, T. (2025). Replicating community dynamics reveals how initial composition shapes the functional outcomes of bacterial communities. _Nature commun_
 ```
 
 First release was permanently stored in [![DOI](https://zenodo.org/badge/627513792.svg)](https://zenodo.org/doi/10.5281/zenodo.13785758).
